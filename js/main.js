@@ -91,10 +91,12 @@ let similarListOfPins = document.querySelector('.map__pins');
 for (let i = 0; i < advertisementArray.length; i++) {
   let objItem = advertisementArray[i];
   let pinElement = similarPinTemplate.cloneNode(true);
-  /*
-  style="left: {{location.x +(-25) смещение по X}}px; top: {{location.y + (-70)смещение по Y}}px;"
-  */
+
   pinElement.style = `left: ${objItem.location.x - PIN_WIDTH*0.5}px; top: ${objItem.location.y - PIN_HEIGHT}px`;
+
+  pinElement.querySelector('img').src = `${objItem.author.avatar}`;
+  pinElement.querySelector('img').alt = `${objItem.offer.title}`;
+
   similarListOfPins.appendChild(pinElement);
 }
 
