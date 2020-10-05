@@ -27,7 +27,10 @@ let getRandomAdvs = function (numberOfAdvs) {
       offer: {
         title: `generate`,
         address: `${getRandomFromInterval(0, MAX_X_VALUE)}, ${getRandomFromInterval(0, MAX_Y_VALUE)}`,
-        prise: getRandomFromInterval(0, Math.floor(MAX_PRICE*0.00000000001)),
+        prise: (() => {
+          let rawPrice = getRandomFromInterval(0, Math.floor(MAX_PRICE*0.00000000001));
+          return rawPrice - (rawPrice % 100);
+        })(),
       }
     });
   }
