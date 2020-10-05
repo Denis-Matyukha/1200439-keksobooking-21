@@ -73,3 +73,76 @@ let getRandomAdvs = function (numberOfAdvs) {
 let getEightRandomAdvs = function() {
   return getRandomAdvs(8);
 };
+
+//remove .map--faded class
+document.querySelector('.map').classList.remove('map--faded');
+
+
+
+// Найдём шаблон, который мы будем копировать.
+// var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+// var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+let similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+
+
+// И найдём элемент, в который мы будем вставлять похожие метки.
+// var similarListElement = document.querySelector('.setup-similar-list');
+// var similarListElement = document.querySelector('.setup-similar-list');
+let similarListOfPins = document.querySelector('.map__pins');
+// Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.
+
+for (let i = 0; i < 8; i++) {
+  let pinElement = similarPinTemplate.cloneNode(true);
+  similarListOfPins.appendChild(pinElement);
+}
+
+
+
+/*
+  <!-- Метка объявления -->
+  <template id="pin">
+    <button type="button" class="map__pin" style="left: 200px; top: 400px;"><img src="img/avatars/user07.png" width="40" height="40" draggable="false" alt="Метка объявления"></button>
+  </template>
+*/
+
+/*
+      <!-- Метки объявлений -->
+      <div class="map__pins">
+        <div class="map__overlay">
+          <h2 class="map__title">И снова Токио!</h2>
+        </div>
+        <button class="map__pin map__pin--main" style="left: 570px; top: 375px;">
+          <img src="img/muffin-red.svg" width="40" height="44" draggable="false" alt="Метка объявления">
+          <svg viewBox="0 0 70 70" width="156" height="156" aria-label="Метка для поиска жилья">
+            <defs>
+              <path d="M35,35m-23,0a23,23 0 1,1 46,0a23,23 0 1,1 -46,0" id="tophalf" />
+            </defs>
+            <ellipse cx="35" cy="35" rx="35" ry="35" fill="rgba(255, 86, 53, 0.7)" />
+            <text><textPath xlink:href="#tophalf" startOffset="0">Поставь меня куда-нибудь</textPath></text>
+          </svg>
+        </button>
+      </div>
+*/
+
+/*
+[ ] задача 3
+На основе данных, созданных в первом пункте, создайте DOM-элементы, соответствующие меткам на карте, и заполните их данными из массива. Итоговую разметку метки .map__pin можно взять из шаблона #pin.
+
+У метки укажите:
+
+Координаты: style="left: {{location.x + смещение по X}}px; top: {{location.y + смещение по Y}}px;"
+Обратите внимание. Координаты X и Y, которые вы вставите в разметку, это не координаты левого верхнего угла блока метки, а координаты, на которые указывает метка своим острым концом. Чтобы найти эту координату нужно учесть размеры элемента с меткой.
+
+У изображения метки укажите:
+
+Аватар: src="{{author.avatar}}"
+Альтернативный текст: alt="{{заголовок объявления}}"
+
+[ ] задача 4
+Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.
+
+Требования к коду
+Код должен быть разделён на отдельные функции. Стоит отдельно объявить функцию генерации случайных данных, функцию создания DOM-элемента на основе JS-объекта, функцию заполнения блока DOM-элементами на основе массива JS-объектов. Пункты задания примерно соответствуют функциям, которые вы должны создать.
+
+Имена файлов, функций и пр. в заданиях имеют рекомендательный характер. При выполнении задания необязательно создавать файлы, названия которых указаны в названии. Вы можете самостоятельно формировать любую структуру проекта по своему усмотрению, главное, чтобы проект выполнял ТЗ и соответствовал критериям.
+*/
