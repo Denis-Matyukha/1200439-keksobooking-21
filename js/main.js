@@ -69,6 +69,7 @@ let getRandomAdvs = function (numberOfAdvs) {
   }
   return advsArray;
 };
+
 let getEightRandomAdvs = function() {
   return getRandomAdvs(8);
 };
