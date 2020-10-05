@@ -70,14 +70,11 @@ let getRandomAdvs = function (numberOfAdvs) {
   return advsArray;
 };
 
-let getEightRandomAdvs = function() {
-  return getRandomAdvs(8);
-};
+//create array with 8 objects in array
+let advertisementArray = getRandomAdvs(8);
 
 //remove .map--faded class
 document.querySelector('.map').classList.remove('map--faded');
-
-
 
 // Найдём шаблон, который мы будем копировать.
 // var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
@@ -96,7 +93,16 @@ for (let i = 0; i < 8; i++) {
   similarListOfPins.appendChild(pinElement);
 }
 
+/*
+var WIZARD_NAMES = ['Дамблдор', 'Волдеморт', 'Доктор Стрендж', 'Гарри Поттер'];
 
+for (var i = 0; i < WIZARD_NAMES.length; i++) {
+  var wizardElement = similarWizardTemplate.cloneNode(true);
+
+  wizardElement.querySelector('.setup-similar-label').textContent = WIZARD_NAMES[i];
+
+  similarListElement.appendChild(wizardElement);
+*/
 
 /*
   <!-- Метка объявления -->
