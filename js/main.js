@@ -31,6 +31,10 @@ let getRandomAdvs = function (numberOfAdvs) {
           let rawPrice = getRandomFromInterval(0, Math.floor(MAX_PRICE*0.00000000001));
           return rawPrice - (rawPrice % 100);
         })(),
+        type: (() => {
+          let aptIndex = getRandomFromInterval(0, APARTMENT_TYPE.length - 1);
+          return  `${APARTMENT_TYPE[aptIndex]}`;
+        })(),
       }
     });
   }
