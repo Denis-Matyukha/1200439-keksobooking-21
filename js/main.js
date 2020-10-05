@@ -1,8 +1,16 @@
+"use strict";
 // arrays with initial dates:
-const APARTMENT_TYPE = ["palace", "flat", "house", "bungalow"],
-      CHECK_TIMES = ["12:00", "13:00", "14:00"],
-      FACILITIES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner", {description: "строка с описанием"}],
-      PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"],
+const APARTMENT_TYPE = [`palace`, `flat`, `house`, `bungalow`];
+const CHECK_TIMES = [`12:00`, `13:00`, `14:00`];
+const FACILITIES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`, {description: `строка с описанием`}];
+const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
+
+// generator of random values function
+let getRandomFromInterval = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+
 /*
 [*] В директории js личного проекта расположен пустой файл main.js. В нем вы будете выполнять первые задания. Подключите его в файле index.html.
 
