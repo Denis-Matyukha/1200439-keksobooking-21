@@ -10,6 +10,18 @@ let getRandomFromInterval = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
+// generator of array of objects function
+let getRandomAdvertisements = function (numberOfAdvertisements) {
+
+  let advertisementsArray = [];
+
+  //circle with quantity of advertisements
+  for(let i = 0; i < numberOfAdvertisements; i++) {
+    advertisementsArray.push(i);
+  }
+
+  return advertisementsArray;
+};
 
 /*
 [*] В директории js личного проекта расположен пустой файл main.js. В нем вы будете выполнять первые задания. Подключите его в файле index.html.
