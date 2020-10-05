@@ -9,6 +9,13 @@ const MAX_Y_VALUE = 350;
 const MAX_PRICE = 1000000000000000;
 const MAX_ROOMS_QUANTITY = 10;
 const MAX_GUEST_QUANTITY = 10;
+const INITIAL_Y_CORD = 130;
+const FINAL_Y_CORD = 630;
+
+// INITIAL_X_CORDS with FINAL_X_CORD must be determined by functions
+let getXCords = function() {
+
+};
 
 // generating random values functions
 let getRandomFromInterval = function(min, max) {
@@ -34,14 +41,13 @@ let getRandomAdvs = function (numberOfAdvs) {
 
   let advsArray = [];
 
-  //circle with quantity of advertisements
   for(let i = 0; i < numberOfAdvs; i++) {
     advsArray.push({
       author: {
         avatar: `img/avatars/user0${i+1}.png`
       },
       offer: {
-        title: `generate`,
+        title: `Описание квартиры скоро будет здесь`,
         address: `${getRandomFromInterval(0, MAX_X_VALUE)}, ${getRandomFromInterval(0, MAX_Y_VALUE)}`,
         prise: (() => {
           let rawPrice = getRandomFromInterval(0, Math.floor(MAX_PRICE*0.00000000001));
@@ -54,12 +60,16 @@ let getRandomAdvs = function (numberOfAdvs) {
         checkout: `${getRandomFromArray(CHECK_TIMES)}`,
         features: getSetFromArrayItems(FACILITIES),
         photos: getSetFromArrayItems(PHOTOS),
-
-      }
+      },
+      location: {
+        x: getRandomFromInterval(INITIAL_Y_CORD, FINAL_Y_CORD),
+        y: getRandomFromInterval(INITIAL_Y_CORD, FINAL_Y_CORD),
+      },
     });
   }
   return advsArray;
 };
+
 
 /*
 [*] В директории js личного проекта расположен пустой файл main.js. В нем вы будете выполнять первые задания. Подключите его в файле index.html.
