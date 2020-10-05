@@ -6,6 +6,7 @@ const FACILITIES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `cond
 const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
 const MAX_X_VALUE = 600;
 const MAX_Y_VALUE = 350;
+const MAX_PRICE = 1000000000000000;
 
 // generator of random values function
 let getRandomFromInterval = function(min, max) {
@@ -25,8 +26,8 @@ let getRandomAdvs = function (numberOfAdvs) {
       },
       offer: {
         title: `generate`,
-        // address: "{{location.x}}, {{location.y}}",
         address: `${getRandomFromInterval(0, MAX_X_VALUE)}, ${getRandomFromInterval(0, MAX_Y_VALUE)}`,
+        prise: getRandomFromInterval(0, Math.floor(MAX_PRICE*0.00000000001)),
       }
     });
   }
