@@ -17,17 +17,17 @@ let getRandomFromInterval = function(min, max) {
 let getRandomFromArray = function(dataArr) {
   return dataArr[getRandomFromInterval(0, dataArr.length - 1)];
 };
-let getSetFromArrayItems = function(initialArray) {
-  let arrSetOld = initialArray;
-  let arrSetNew = [];
-  let valuesQuantity = getRandomFromInterval(1, initialArray.length);
-  for(let i = 0; i <= valuesQuantity; i++) {
-    if(arrSetOld[i] === undefined) break;
-    arrSetNew.push(arrSetOld[i]);
-    arrSetOld.splice(i,i);
-  };
-  return arrSetNew;
+
+let getSetFromArrayItems = function(arr) {
+  let oldArr = arr;
+  let newArr = [];
+  let quantityVar = getRandomFromInterval(1, arr.length);
+  for (let i = 0; i < quantityVar; i++) {
+      newArr.push(oldArr[i]);
+  }
+  return newArr;
 };
+
 let getRandomSetOfArrayItems = function(initialArray) {
   let arrSetOld = initialArray;
   let arrSetNew = [];
