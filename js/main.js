@@ -9,8 +9,13 @@ const MAX_Y_VALUE = 350;
 const MAX_PRICE = 1000000000000000;
 const MAX_ROOMS_QUANTITY = 10;
 const MAX_GUEST_QUANTITY = 10;
-const INITIAL_Y_CORD = 130;
+// const INITIAL_Y_CORD = 130;
+const INITIAL_Y_CORD = 180;
 const FINAL_Y_CORD = 630;
+const INITIAL_X_CORD = 50;
+const FINAL_X_CORD = 1150;
+const PIN_WIDTH = 50;
+const PIN_HEIGHT = 70;
 
 // INITIAL_X_CORDS with FINAL_X_CORD must be determined by functions
 let getXCords = function() {
@@ -62,7 +67,7 @@ let getRandomAdvs = function (numberOfAdvs) {
         photos: getSetFromArrayItems(PHOTOS),
       },
       location: {
-        x: getRandomFromInterval(INITIAL_Y_CORD, FINAL_Y_CORD),
+        x: getRandomFromInterval(INITIAL_X_CORD, FINAL_X_CORD),
         y: getRandomFromInterval(INITIAL_Y_CORD, FINAL_Y_CORD),
       },
     });
@@ -87,9 +92,9 @@ for (let i = 0; i < advertisementArray.length; i++) {
   let objItem = advertisementArray[i];
   let pinElement = similarPinTemplate.cloneNode(true);
   /*
-  style="left: {{location.x + смещение по X}}px; top: {{location.y + смещение по Y}}px;"
+  style="left: {{location.x +(-25) смещение по X}}px; top: {{location.y + (-70)смещение по Y}}px;"
   */
-  pinElement.style = `left: ${objItem.location.x}px; top: ${objItem.location.y}px`;
+  pinElement.style = `left: ${objItem.location.x - PIN_WIDTH*0.5}px; top: ${objItem.location.y - PIN_HEIGHT}px`;
   similarListOfPins.appendChild(pinElement);
 }
 
