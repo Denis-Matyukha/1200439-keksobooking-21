@@ -4,23 +4,34 @@ const APARTMENT_TYPE = [`palace`, `flat`, `house`, `bungalow`];
 const CHECK_TIMES = [`12:00`, `13:00`, `14:00`];
 const FACILITIES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`, {description: `строка с описанием`}];
 const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
+const MAX_X_VALUE = 600;
+const MAX_Y_VALUE = 350;
 
 // generator of random values function
 let getRandomFromInterval = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-// generator of array of objects function
-let getRandomAdvertisements = function (numberOfAdvertisements) {
+// generator of array of objects function where Adv mean Advertisement
+let getRandomAdvs = function (numberOfAdvs) {
 
-  let advertisementsArray = [];
+  let advsArray = [];
 
   //circle with quantity of advertisements
-  for(let i = 0; i < numberOfAdvertisements; i++) {
-    advertisementsArray.push(i);
+  for(let i = 0; i < numberOfAdvs; i++) {
+    advsArray.push({
+      author: {
+        avatar: `img/avatars/user0${i+1}.png`
+      },
+      offer: {
+        title: `generate`,
+        // address: "{{location.x}}, {{location.y}}",
+        address: `${getRandomFromInterval(0, MAX_X_VALUE)}, ${getRandomFromInterval(0, MAX_Y_VALUE)}`,
+      }
+    });
   }
 
-  return advertisementsArray;
+  return advsArray;
 };
 
 /*
