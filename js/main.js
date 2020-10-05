@@ -14,6 +14,7 @@ const MAX_GUEST_QUANTITY = 10;
 let getRandomFromInterval = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
+
 let getRandomFromArray = function(dataArr) {
   return dataArr[getRandomFromInterval(0, dataArr.length - 1)];
 };
@@ -26,19 +27,6 @@ let getSetFromArrayItems = function(arr) {
       newArr.push(oldArr[i]);
   }
   return newArr;
-};
-
-let getRandomSetOfArrayItems = function(initialArray) {
-  let arrSetOld = initialArray;
-  let arrSetNew = [];
-  let valuesQuantity = getRandomFromInterval(1, initialArray.length);
-  for(let i = 0; i <= valuesQuantity; i++) {
-    let randomValue = getRandomFromInterval(0, initialArray.length-1);
-    if(arrSetOld[randomValue] === undefined || arrSetNew.includes(arrSetOld[randomValue])) break;
-    arrSetNew.push(arrSetOld[randomValue]);
-    arrSetOld.splice(randomValue,randomValue);
-  };
-  return arrSetNew;
 };
 
 // generator of array of objects function where Adv mean Advertisement
