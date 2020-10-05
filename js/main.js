@@ -10,12 +10,23 @@ const MAX_PRICE = 1000000000000000;
 const MAX_ROOMS_QUANTITY = 10;
 const MAX_GUEST_QUANTITY = 10;
 
-// generator of random values function
+// generating random values functions
 let getRandomFromInterval = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 let getRandomFromArray = function(dataArr) {
   return dataArr[getRandomFromInterval(0, dataArr.length - 1)];
+};
+let getSetFromArrayItems = function(initialArray) {
+  let arrSetOld = initialArray;
+  let arrSetNew = [];
+  let valuesQuantity = getRandomFromInterval(1, initialArray.length);
+  for(let i = 0; i <= valuesQuantity; i++) {
+    if(arrSetOld[i] === undefined) break;
+    arrSetNew.push(arrSetOld[i]);
+    arrSetOld.splice(i,i);
+  };
+  return arrSetNew;
 };
 
 // generator of array of objects function where Adv mean Advertisement
@@ -36,19 +47,15 @@ let getRandomAdvs = function (numberOfAdvs) {
           let rawPrice = getRandomFromInterval(0, Math.floor(MAX_PRICE*0.00000000001));
           return rawPrice - (rawPrice % 100);
         })(),
-        // type: (() => {
-        //   let aptIndex = getRandomFromInterval(0, APARTMENT_TYPE.length - 1);
-        //   return  `${APARTMENT_TYPE[aptIndex]}`;
-        // })(),
         type: `${getRandomFromArray(APARTMENT_TYPE)}`,
         rooms: getRandomFromInterval(1, MAX_ROOMS_QUANTITY),
         guests: getRandomFromInterval(1, MAX_GUEST_QUANTITY),
         checkin: `${getRandomFromArray(CHECK_TIMES)}`,
         checkout: `${getRandomFromArray(CHECK_TIMES)}`,
+        "features": getSetFromArrayItems(FACILITIES),
       }
     });
   }
-
   return advsArray;
 };
 
