@@ -76,39 +76,41 @@ let advertisementArray = getRandomAdvs(8);
 //remove .map--faded class
 document.querySelector('.map').classList.remove('map--faded');
 
-// Найдём шаблон, который мы будем копировать.
-// var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-// var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+
+// Шаблон, который мы будем копировать.
 let similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
-
-// И найдём элемент, в который мы будем вставлять похожие метки.
-// var similarListElement = document.querySelector('.setup-similar-list');
-// var similarListElement = document.querySelector('.setup-similar-list');
+// Элемент, в который мы будем вставлять похожие метки.
 let similarListOfPins = document.querySelector('.map__pins');
-// Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.
 
-for (let i = 0; i < 8; i++) {
+for (let i = 0; i < advertisementArray.length; i++) {
+  let objItem = advertisementArray[i];
   let pinElement = similarPinTemplate.cloneNode(true);
+  /*
+  style="left: {{location.x + смещение по X}}px; top: {{location.y + смещение по Y}}px;"
+  */
+  pinElement.style = `left: ${objItem.location.x}px; top: ${objItem.location.y}px`;
   similarListOfPins.appendChild(pinElement);
 }
 
 /*
 var WIZARD_NAMES = ['Дамблдор', 'Волдеморт', 'Доктор Стрендж', 'Гарри Поттер'];
-
 for (var i = 0; i < WIZARD_NAMES.length; i++) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
-
   wizardElement.querySelector('.setup-similar-label').textContent = WIZARD_NAMES[i];
-
   similarListElement.appendChild(wizardElement);
 */
-
 /*
   <!-- Метка объявления -->
+
   <template id="pin">
-    <button type="button" class="map__pin" style="left: 200px; top: 400px;"><img src="img/avatars/user07.png" width="40" height="40" draggable="false" alt="Метка объявления"></button>
+
+    <button type="button" class="map__pin" style="left: 200px; top: 400px;">
+      <img src="img/avatars/user07.png" width="40" height="40" draggable="false" alt="Метка объявления">
+    </button>
+
   </template>
+
 */
 
 /*
