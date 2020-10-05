@@ -28,6 +28,18 @@ let getSetFromArrayItems = function(initialArray) {
   };
   return arrSetNew;
 };
+let getRandomSetOfArrayItems = function(initialArray) {
+  let arrSetOld = initialArray;
+  let arrSetNew = [];
+  let valuesQuantity = getRandomFromInterval(1, initialArray.length);
+  for(let i = 0; i <= valuesQuantity; i++) {
+    let randomValue = getRandomFromInterval(0, initialArray.length-1);
+    if(arrSetOld[randomValue] === undefined || arrSetNew.includes(arrSetOld[randomValue])) break;
+    arrSetNew.push(arrSetOld[randomValue]);
+    arrSetOld.splice(randomValue,randomValue);
+  };
+  return arrSetNew;
+};
 
 // generator of array of objects function where Adv mean Advertisement
 let getRandomAdvs = function (numberOfAdvs) {
@@ -52,7 +64,9 @@ let getRandomAdvs = function (numberOfAdvs) {
         guests: getRandomFromInterval(1, MAX_GUEST_QUANTITY),
         checkin: `${getRandomFromArray(CHECK_TIMES)}`,
         checkout: `${getRandomFromArray(CHECK_TIMES)}`,
-        "features": getSetFromArrayItems(FACILITIES),
+        features: getSetFromArrayItems(FACILITIES),
+        photos: getSetFromArrayItems(PHOTOS),
+
       }
     });
   }
