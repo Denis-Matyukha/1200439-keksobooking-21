@@ -69,6 +69,7 @@ let getRandomAdvs = function (numberOfAdvs) {
   return advsArray;
 };
 
+//create mook data array
 let advertisementArray = getRandomAdvs(8);
 
 document.querySelector('.map').classList.remove('map--faded');
@@ -76,6 +77,12 @@ document.querySelector('.map').classList.remove('map--faded');
 let similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 let similarListOfPins = document.querySelector('.map__pins');
+
+//new code starts here
+// let renderPins = function() {
+
+// }
+//new code end here
 
 for (let i = 0; i < advertisementArray.length; i++) {
 
@@ -91,3 +98,9 @@ for (let i = 0; i < advertisementArray.length; i++) {
 
   similarListOfPins.appendChild(pinElement);
 };
+
+//1 выполнить требование критерия, отрисовывать через document Fragment
+
+//2 вернуть иходное состояние страницы
+
+//3 скопировать дз из папки draft и приступить к выполнению
