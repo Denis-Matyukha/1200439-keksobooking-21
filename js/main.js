@@ -69,8 +69,6 @@ let getRandomAdvs = function (numberOfAdvs) {
   return advsArray;
 };
 
-//create mook data array
-let advertisementArray = getRandomAdvs(8);
 
 document.querySelector('.map').classList.remove('map--faded');
 
@@ -78,28 +76,29 @@ let similarPinTemplate = document.querySelector('#pin').content.querySelector('.
 
 let similarListOfPins = document.querySelector('.map__pins');
 
-//new code starts here
-// let renderPins = function() {
+let fragmentWithPins = document.createDocumentFragment();
 
-// }
-//new code end here
+//create mook data array
+let advertisementArray = getRandomAdvs(8);
 
-for (let i = 0; i < advertisementArray.length; i++) {
-
-  let objItem = advertisementArray[i];
-
+let renderPins = function(singleAdvertisement) {
   let pinElement = similarPinTemplate.cloneNode(true);
-
-  pinElement.style = `left: ${objItem.location.x - PIN_WIDTH*0.5}px; top: ${objItem.location.y - PIN_HEIGHT}px`;
-
-  pinElement.querySelector('img').src = `${objItem.author.avatar}`;
-
-  pinElement.querySelector('img').alt = `${objItem.offer.title}`;
-
-  similarListOfPins.appendChild(pinElement);
+  pinElement.style.left = singleAdvertisement.location.x - PIN_WIDTH * 0.5 +`px`;
+  pinElement.style.top = singleAdvertisement.location.y - PIN_HEIGHT +`px`;
+  pinElement.querySelector('img').src = singleAdvertisement.author.avatar;
+  pinElement.querySelector('img').alt = singleAdvertisement.offer.title;
+  return pinElement;
 };
 
-//1 выполнить требование критерия, отрисовывать через document Fragment
+for (let i = 0; i < advertisementArray.length; i++) {
+  fragmentWithPins.appendChild(renderPins(advertisementArray[i]));
+};
+
+//render full document fragment
+similarListOfPins.appendChild(fragmentWithPins);
+
+
+//[*] 1 выполнить требование критерия, отрисовывать через document Fragment
 
 //2 вернуть иходное состояние страницы
 
