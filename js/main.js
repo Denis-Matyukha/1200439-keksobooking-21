@@ -98,25 +98,26 @@ for (let i = 0; i < advertisementArray.length; i++) {
 // similarListOfPins.appendChild(fragmentWithPins);
 
 //module 4 task 1
-let mainPin = document.querySelector(`.map__pin--main`);
-let mainFormElement = document.querySelector(`.ad-form`);
-let formInputs = mainFormElement.querySelectorAll(`fieldset`);
-let mapFilterForm = document.querySelector(`.map__filters`);
-let mapSelects = mapFilterForm.querySelectorAll(`select`);
+const mainPin = document.querySelector(`.map__pin--main`);
+const mainFormElement = document.querySelector(`.ad-form`);
+const formInputs = mainFormElement.querySelectorAll(`fieldset`);
+const mapFilterForm = document.querySelector(`.map__filters`);
+const mapSelects = mapFilterForm.querySelectorAll(`select`);
 
-let toggleDisableAttr = function (collectedElements) {
+const toggleDisableAttr = function (collectedElements) {
     for (let i = 0; i < collectedElements.length; i++) {
       collectedElements[i].toggleAttribute(`disabled`);
     }
 };
 
-let activateBloks = function (evt) {
-  if (evt.button === 0) {
+const activateBloks = function (evt) {
+  if (evt.button === 0 || evt.code === `Enter`) {
     document.querySelector(`.map`).classList.remove(`map--faded`);
     mainFormElement.classList.remove(`ad-form--disabled`);
     toggleDisableAttr(mapSelects);
     toggleDisableAttr(formInputs);
     mainPin.removeEventListener(`mousedown`, activateBloks);
+    mainPin.removeEventListener(`keydown`, activateBloks);
   }
 };
 
@@ -124,3 +125,4 @@ toggleDisableAttr(mapSelects);
 toggleDisableAttr(formInputs);
 
 mainPin.addEventListener(`mousedown`, activateBloks);
+mainPin.addEventListener(`keydown`, activateBloks);
