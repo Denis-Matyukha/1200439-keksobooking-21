@@ -92,9 +92,8 @@ for (let i = 0; i < advertisementArray.length; i++) {
 };
 
 
-//!!!
 //must be closed during execution module4-task1
-//render full document fragment
+//render mook full document fragment
 // similarListOfPins.appendChild(fragmentWithPins);
 
 //module 4 task 1
@@ -104,7 +103,6 @@ const MIN_PRICE_AVAILABLE = 1000;
       width: 65,
       height: 87
     };
-
 const mapBlock = document.querySelector(`.map`);
 const mainPin = document.querySelector(`.map__pin--main`);
 const mainFormElement = document.querySelector(`.ad-form`);
@@ -125,7 +123,7 @@ const toggleDisableAttr = function (collectedElements) {
     }
 };
 
-const activateBloks = function (evt) {
+const activatePage = function (evt) {
   if (!activateFlag) {
     toggleDisableAttr(mapSelects);
     toggleDisableAttr(formInputs);
@@ -152,14 +150,6 @@ const checkValidity = function () {
     },3500);
   };
 
-
-  if (titleElem.value === `` || titleElem.value.length < 30 || titleElem.value.length > 100) {
-    setBorderErrorStyle(titleElem);
-    titleElem.setCustomValidity(`  Пожалуйта, укажите описание от 30 до 100 символов =^_^=  Сейчас их ${titleElem.value.length}`);
-  } else {
-    titleElem.setCustomValidity(``);
-  };
-
   if (priceElem.value < MIN_PRICE_AVAILABLE || priceElem.value > MAX_PRICE_AVAILABLE) {
     setBorderErrorStyle(priceElem);
     priceElem.setCustomValidity(`  Пожалуйста, укажите сумму от 1000 до миллиона =^_^=  `);
@@ -182,13 +172,13 @@ toggleDisableAttr(formInputs);
 setMainPinCords();
 
 mainPin.addEventListener(`mousedown`, function (evt) {
-  activateBloks(evt);
+  activatePage(evt);
   setMainPinCords(evt);
 });
 
-mainPin.addEventListener(`keydown`, activateBloks);
+mainPin.addEventListener(`keydown`, activatePage);
 
 publishButton.addEventListener(`click`, checkValidity);
 
-//remove event listeners not included
-
+//remove event listeners still not included
+//check it out
