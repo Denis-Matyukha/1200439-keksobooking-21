@@ -108,7 +108,12 @@ const mainFormElement = document.querySelector(`.ad-form`);
 const formInputs = mainFormElement.querySelectorAll(`fieldset`);
 const mapFilterForm = document.querySelector(`.map__filters`);
 const mapSelects = mapFilterForm.querySelectorAll(`select`);
-const adressInput = mainFormElement.querySelector('#address');
+const adressInput = mainFormElement.querySelector(`#address`);
+const roomsQuantity = mainFormElement.querySelector(`#room_number`);
+const titleElem = mainFormElement.querySelector(`#title`);
+const priceElem = mainFormElement.querySelector(`#price`);
+const guestsQuantity = mainFormElement.querySelector(`#capacity`);
+const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
 
 const toggleDisableAttr = function (collectedElements) {
     for (let i = 0; i < collectedElements.length; i++) {
@@ -128,8 +133,41 @@ const activateBloks = function (evt) {
   }
 };
 
-let setMainPinCords = function () {
+const setMainPinCords = function () {
   adressInput.value = `${Math.floor(parseInt(mainPin.style.left) + MAIN_PIN_SIZE.width * 0.5)} , ${Math.floor(parseInt(mainPin.style.top) + MAIN_PIN_SIZE.height)}`;
+};
+
+const checkValidity = function () {
+
+  let setBorderStyle = function (elem) {
+    elem.style.border = `4px solid #ff7a60`;
+    elem.style.transition = `0.5s`;
+    setTimeout( function () {
+      elem.style.border = ``;
+    },3500);
+  };
+
+  if (roomsQuantity.value !== guestsQuantity.value) {
+    setBorderStyle(roomsQuantity);
+    setBorderStyle(guestsQuantity);
+    roomsQuantity.setCustomValidity(`  Количество комнат и количество мест должны совпадать =^_^=  `);
+  } else {
+    roomsQuantity.setCustomValidity(``);
+  }
+  if (titleElem.validity.tooShort) {
+    setBorderStyle(titleElem);
+    titleElem.setCustomValidity(` =^_^= Пожалуйста, напишите не менее 30-ти символов. `);
+  } else if (titleElem.validity.tooLong) {
+    setBorderStyle(titleElem);
+    titleElem.setCustomValidity(` =^_^= Постарайтесь уложиться в 100 символов. `);
+  } else if (titleElem.validity.ValueMissing) {
+    setBorderStyle(titleElem);
+    titleElem.setCustomValidity(` =^_^= Заполните это поле, пожалуйста. `);
+  } else {
+    titleElem.setCustomValidity(``);
+  }
+
+  // if (priceElem.value) {}
 };
 
 toggleDisableAttr(mapSelects);
@@ -139,4 +177,8 @@ setMainPinCords();
 mainPin.addEventListener(`mousedown`, activateBloks);
 mainPin.addEventListener(`mousedown`, setMainPinCords);
 mainPin.addEventListener(`keydown`, activateBloks);
+
+publishButton.addEventListener(`click`, checkValidity);
+
+//valueMissing
 
