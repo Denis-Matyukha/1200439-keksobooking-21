@@ -98,10 +98,13 @@ for (let i = 0; i < advertisementArray.length; i++) {
 // similarListOfPins.appendChild(fragmentWithPins);
 
 //module 4 task 1
-const MAIN_PIN_SIZE = {
-  width: 65,
-  height: 87
-};
+const MAX_PRICE_AVAILABLE = 1000000;
+const MIN_PRICE_AVAILABLE = 1000;
+    const MAIN_PIN_SIZE = {
+      width: 65,
+      height: 87
+    };
+
 const mapBlock = document.querySelector(`.map`);
 const mainPin = document.querySelector(`.map__pin--main`);
 const mainFormElement = document.querySelector(`.ad-form`);
@@ -114,6 +117,7 @@ const titleElem = mainFormElement.querySelector(`#title`);
 const priceElem = mainFormElement.querySelector(`#price`);
 const guestsQuantity = mainFormElement.querySelector(`#capacity`);
 const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
+let activateFlag = false;
 
 const toggleDisableAttr = function (collectedElements) {
     for (let i = 0; i < collectedElements.length; i++) {
@@ -122,13 +126,14 @@ const toggleDisableAttr = function (collectedElements) {
 };
 
 const activateBloks = function (evt) {
+  if (!activateFlag) {
+    toggleDisableAttr(mapSelects);
+    toggleDisableAttr(formInputs);
+    activateFlag = true;
+  };
   if (evt.button === 0 || evt.code === `Enter`) {
     mapBlock.classList.remove(`map--faded`);
     mainFormElement.classList.remove(`ad-form--disabled`);
-    toggleDisableAttr(mapSelects);
-    toggleDisableAttr(formInputs);
-    mainPin.removeEventListener(`mousedown`, activateBloks);
-    mainPin.removeEventListener(`keydown`, activateBloks);
     setMainPinCords(evt);
   }
 };
@@ -139,7 +144,7 @@ const setMainPinCords = function () {
 
 const checkValidity = function () {
 
-  let setBorderStyle = function (elem) {
+  let setBorderErrorStyle = function (elem) {
     elem.style.border = `4px solid #ff7a60`;
     elem.style.transition = `0.5s`;
     setTimeout( function () {
@@ -147,38 +152,43 @@ const checkValidity = function () {
     },3500);
   };
 
+
+  if (titleElem.value === `` || titleElem.value.length < 30 || titleElem.value.length > 100) {
+    setBorderErrorStyle(titleElem);
+    titleElem.setCustomValidity(`  Пожалуйта, укажите описание от 30 до 100 символов =^_^=  Сейчас их ${titleElem.value.length}`);
+  } else {
+    titleElem.setCustomValidity(``);
+  };
+
+  if (priceElem.value < MIN_PRICE_AVAILABLE || priceElem.value > MAX_PRICE_AVAILABLE) {
+    setBorderErrorStyle(priceElem);
+    priceElem.setCustomValidity(`  Пожалуйста, укажите сумму от 1000 до миллиона =^_^=  `);
+  } else {
+    priceElem.setCustomValidity(``);
+  };
+
   if (roomsQuantity.value !== guestsQuantity.value) {
-    setBorderStyle(roomsQuantity);
-    setBorderStyle(guestsQuantity);
+    setBorderErrorStyle(roomsQuantity);
+    setBorderErrorStyle(guestsQuantity);
     roomsQuantity.setCustomValidity(`  Количество комнат и количество мест должны совпадать =^_^=  `);
   } else {
     roomsQuantity.setCustomValidity(``);
-  }
-  if (titleElem.validity.tooShort) {
-    setBorderStyle(titleElem);
-    titleElem.setCustomValidity(` =^_^= Пожалуйста, напишите не менее 30-ти символов. `);
-  } else if (titleElem.validity.tooLong) {
-    setBorderStyle(titleElem);
-    titleElem.setCustomValidity(` =^_^= Постарайтесь уложиться в 100 символов. `);
-  } else if (titleElem.validity.ValueMissing) {
-    setBorderStyle(titleElem);
-    titleElem.setCustomValidity(` =^_^= Заполните это поле, пожалуйста. `);
-  } else {
-    titleElem.setCustomValidity(``);
-  }
+  };
 
-  // if (priceElem.value) {}
 };
 
 toggleDisableAttr(mapSelects);
 toggleDisableAttr(formInputs);
 setMainPinCords();
 
-mainPin.addEventListener(`mousedown`, activateBloks);
-mainPin.addEventListener(`mousedown`, setMainPinCords);
+mainPin.addEventListener(`mousedown`, function (evt) {
+  activateBloks(evt);
+  setMainPinCords(evt);
+});
+
 mainPin.addEventListener(`keydown`, activateBloks);
 
 publishButton.addEventListener(`click`, checkValidity);
 
-//valueMissing
+//remove event listeners not included
 
