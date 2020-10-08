@@ -98,11 +98,17 @@ for (let i = 0; i < advertisementArray.length; i++) {
 // similarListOfPins.appendChild(fragmentWithPins);
 
 //module 4 task 1
+const MAIN_PIN_SIZE = {
+  width: 65,
+  height: 87
+};
+const mapBlock = document.querySelector(`.map`);
 const mainPin = document.querySelector(`.map__pin--main`);
 const mainFormElement = document.querySelector(`.ad-form`);
 const formInputs = mainFormElement.querySelectorAll(`fieldset`);
 const mapFilterForm = document.querySelector(`.map__filters`);
 const mapSelects = mapFilterForm.querySelectorAll(`select`);
+const adressInput = mainFormElement.querySelector('#address');
 
 const toggleDisableAttr = function (collectedElements) {
     for (let i = 0; i < collectedElements.length; i++) {
@@ -112,17 +118,25 @@ const toggleDisableAttr = function (collectedElements) {
 
 const activateBloks = function (evt) {
   if (evt.button === 0 || evt.code === `Enter`) {
-    document.querySelector(`.map`).classList.remove(`map--faded`);
+    mapBlock.classList.remove(`map--faded`);
     mainFormElement.classList.remove(`ad-form--disabled`);
     toggleDisableAttr(mapSelects);
     toggleDisableAttr(formInputs);
     mainPin.removeEventListener(`mousedown`, activateBloks);
     mainPin.removeEventListener(`keydown`, activateBloks);
+    setMainPinCords(evt);
   }
+};
+
+let setMainPinCords = function () {
+  adressInput.value = `${Math.floor(parseInt(mainPin.style.left) + MAIN_PIN_SIZE.width * 0.5)} , ${Math.floor(parseInt(mainPin.style.top) + MAIN_PIN_SIZE.height)}`;
 };
 
 toggleDisableAttr(mapSelects);
 toggleDisableAttr(formInputs);
+setMainPinCords();
 
 mainPin.addEventListener(`mousedown`, activateBloks);
+mainPin.addEventListener(`mousedown`, setMainPinCords);
 mainPin.addEventListener(`keydown`, activateBloks);
+
