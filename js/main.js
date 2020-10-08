@@ -91,10 +91,10 @@ for (let i = 0; i < advertisementArray.length; i++) {
   fragmentWithPins.appendChild(renderPins(advertisementArray[i]));
 };
 
-
 //must be closed during execution module4-task1
 //render mook full document fragment
 // similarListOfPins.appendChild(fragmentWithPins);
+
 
 //module 4 task 1
 const MAX_PRICE_AVAILABLE = 1000000;
@@ -111,7 +111,6 @@ const mapFilterForm = document.querySelector(`.map__filters`);
 const mapSelects = mapFilterForm.querySelectorAll(`select`);
 const adressInput = mainFormElement.querySelector(`#address`);
 const roomsQuantity = mainFormElement.querySelector(`#room_number`);
-const titleElem = mainFormElement.querySelector(`#title`);
 const priceElem = mainFormElement.querySelector(`#price`);
 const guestsQuantity = mainFormElement.querySelector(`#capacity`);
 const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
@@ -137,26 +136,26 @@ const activatePage = function (evt) {
 };
 
 const setMainPinCords = function () {
-  adressInput.value = `${Math.floor(parseInt(mainPin.style.left) + MAIN_PIN_SIZE.width * 0.5)} , ${Math.floor(parseInt(mainPin.style.top) + MAIN_PIN_SIZE.height)}`;
+  adressInput.value =
+`${Math.floor(parseInt(mainPin.style.left) + MAIN_PIN_SIZE.width * 0.5)} ,
+ ${Math.floor(parseInt(mainPin.style.top) + MAIN_PIN_SIZE.height)}`;
+};
+
+const setBorderErrorStyle = function (elem) {
+  elem.style.border = `4px solid #ff7a60`;
+  elem.style.transition = `0.5s`;
+  setTimeout( function () {
+    elem.style.border = ``;
+  },3500);
 };
 
 const checkValidity = function () {
-
-  let setBorderErrorStyle = function (elem) {
-    elem.style.border = `4px solid #ff7a60`;
-    elem.style.transition = `0.5s`;
-    setTimeout( function () {
-      elem.style.border = ``;
-    },3500);
-  };
-
   if (priceElem.value < MIN_PRICE_AVAILABLE || priceElem.value > MAX_PRICE_AVAILABLE) {
     setBorderErrorStyle(priceElem);
     priceElem.setCustomValidity(`  Пожалуйста, укажите сумму от 1000 до миллиона =^_^=  `);
   } else {
     priceElem.setCustomValidity(``);
   };
-
   if (roomsQuantity.value !== guestsQuantity.value) {
     setBorderErrorStyle(roomsQuantity);
     setBorderErrorStyle(guestsQuantity);
@@ -164,7 +163,6 @@ const checkValidity = function () {
   } else {
     roomsQuantity.setCustomValidity(``);
   };
-
 };
 
 toggleDisableAttr(mapSelects);
@@ -179,6 +177,3 @@ mainPin.addEventListener(`mousedown`, function (evt) {
 mainPin.addEventListener(`keydown`, activatePage);
 
 publishButton.addEventListener(`click`, checkValidity);
-
-//remove event listeners still not included
-//check it out
