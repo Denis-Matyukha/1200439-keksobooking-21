@@ -69,9 +69,6 @@ let getRandomAdvs = function (numberOfAdvs) {
   return advsArray;
 };
 
-
-document.querySelector('.map').classList.remove('map--faded');
-
 let similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 let similarListOfPins = document.querySelector('.map__pins');
@@ -94,12 +91,18 @@ for (let i = 0; i < advertisementArray.length; i++) {
   fragmentWithPins.appendChild(renderPins(advertisementArray[i]));
 };
 
+
+//!!!
+//must be closed during execution module4-task1
 //render full document fragment
-similarListOfPins.appendChild(fragmentWithPins);
+// similarListOfPins.appendChild(fragmentWithPins);
 
+let mainPin = document.querySelector('.map__pin--main');
 
-//[*] 1 выполнить требование критерия, отрисовывать через document Fragment
+mainPin.addEventListener('mousedown', function(evt) {
+  if (evt.button === 0) {
+    document.querySelector('.map').classList.remove('map--faded');
+    document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+  }
+});
 
-//2 вернуть иходное состояние страницы
-
-//3 скопировать дз из папки draft и приступить к выполнению
