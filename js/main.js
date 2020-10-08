@@ -97,34 +97,30 @@ for (let i = 0; i < advertisementArray.length; i++) {
 //render full document fragment
 // similarListOfPins.appendChild(fragmentWithPins);
 
-//make all page not active
+//module 4 task 1
 let mainPin = document.querySelector(`.map__pin--main`);
 let mainFormElement = document.querySelector(`.ad-form`);
 let formInputs = mainFormElement.querySelectorAll(`fieldset`);
 let mapFilterForm = document.querySelector(`.map__filters`);
 let mapSelects = mapFilterForm.querySelectorAll(`select`);
 
-
-for (let mapSelect of mapSelects) {
-  mapSelect.setAttribute(`disabled`, ``);
+let toggleDisableAttr = function (collectedElements) {
+    for (let i = 0; i < collectedElements.length; i++) {
+      collectedElements[i].toggleAttribute(`disabled`);
+    }
 };
 
-for (let formInput of formInputs) {
-  formInput.setAttribute(`disabled`, ``);
-}
-
-
-mainPin.addEventListener(`mousedown`, function(evt) {
+let activateBloks = function (evt) {
   if (evt.button === 0) {
     document.querySelector(`.map`).classList.remove(`map--faded`);
     mainFormElement.classList.remove(`ad-form--disabled`);
-    for (let formInput of formInputs) {
-      formInput.removeAttribute(`disabled`, ``);
-    }
-    for (let mapSelect of mapSelects) {
-      mapSelect.removeAttribute(`disabled`, ``);
-    };
+    toggleDisableAttr(mapSelects);
+    toggleDisableAttr(formInputs);
+    mainPin.removeEventListener(`mousedown`, activateBloks);
   }
-});
-//DRY function add-removeAttr of elem collection
+};
 
+toggleDisableAttr(mapSelects);
+toggleDisableAttr(formInputs);
+
+mainPin.addEventListener(`mousedown`, activateBloks);
