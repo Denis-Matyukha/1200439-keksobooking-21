@@ -99,8 +99,15 @@ for (let i = 0; i < advertisementArray.length; i++) {
 
 //make all page not active
 let mainPin = document.querySelector(`.map__pin--main`);
-let formElent = document.querySelector(`.ad-form`);
-let formInputs = formElent.querySelectorAll(`fieldset`);
+let mainFormElement = document.querySelector(`.ad-form`);
+let formInputs = mainFormElement.querySelectorAll(`fieldset`);
+let mapFilterForm = document.querySelector(`.map__filters`);
+let mapSelects = mapFilterForm.querySelectorAll(`select`);
+
+
+for (let mapSelect of mapSelects) {
+  mapSelect.setAttribute(`disabled`, ``);
+};
 
 for (let formInput of formInputs) {
   formInput.setAttribute(`disabled`, ``);
@@ -110,10 +117,14 @@ for (let formInput of formInputs) {
 mainPin.addEventListener(`mousedown`, function(evt) {
   if (evt.button === 0) {
     document.querySelector(`.map`).classList.remove(`map--faded`);
-    formElent.classList.remove(`ad-form--disabled`);
+    mainFormElement.classList.remove(`ad-form--disabled`);
     for (let formInput of formInputs) {
       formInput.removeAttribute(`disabled`, ``);
     }
+    for (let mapSelect of mapSelects) {
+      mapSelect.removeAttribute(`disabled`, ``);
+    };
   }
 });
+//DRY function add-removeAttr of elem collection
 
