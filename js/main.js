@@ -97,12 +97,23 @@ for (let i = 0; i < advertisementArray.length; i++) {
 //render full document fragment
 // similarListOfPins.appendChild(fragmentWithPins);
 
-let mainPin = document.querySelector('.map__pin--main');
+//make all page not active
+let mainPin = document.querySelector(`.map__pin--main`);
+let formElent = document.querySelector(`.ad-form`);
+let formInputs = formElent.querySelectorAll(`fieldset`);
 
-mainPin.addEventListener('mousedown', function(evt) {
+for (let formInput of formInputs) {
+  formInput.setAttribute(`disabled`, ``);
+}
+
+
+mainPin.addEventListener(`mousedown`, function(evt) {
   if (evt.button === 0) {
-    document.querySelector('.map').classList.remove('map--faded');
-    document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+    document.querySelector(`.map`).classList.remove(`map--faded`);
+    formElent.classList.remove(`ad-form--disabled`);
+    for (let formInput of formInputs) {
+      formInput.removeAttribute(`disabled`, ``);
+    }
   }
 });
 
