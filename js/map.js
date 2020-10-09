@@ -34,7 +34,7 @@
           title: `Описание квартиры скоро будет здесь`,
           address: `${getRandomFromInterval(0, window.dataUtil.MAX_X_VALUE)}, ${getRandomFromInterval(0, window.dataUtil.MAX_Y_VALUE)}`,
           prise: (() => {
-            let rawPrice = getRandomFromInterval(0, Math.floor(window.dataUtil.MAX_PRICE*0.00000000001));
+            let rawPrice = getRandomFromInterval(0, Math.floor(window.dataUtil.MAX_PRICE_AVAILABLE));
             return rawPrice - (rawPrice % 100);
           })(),
           type: `${getRandomFromArray(window.dataUtil.APARTMENT_TYPE)}`,
@@ -51,6 +51,7 @@
         },
       });
     }
+    console.log(advsArray);
     return advsArray;
   };
 
@@ -65,8 +66,8 @@
 
   let renderPins = function(singleAdvertisement) {
     let pinElement = similarPinTemplate.cloneNode(true);
-    pinElement.style.left = singleAdvertisement.location.x - window.dataUtil.PIN_WIDTH * 0.5 +`px`;
-    pinElement.style.top = singleAdvertisement.location.y - window.dataUtil.PIN_HEIGHT +`px`;
+    pinElement.style.left = singleAdvertisement.location.x - window.dataUtil.ADV_PIN_WIDTH * 0.5 +`px`;
+    pinElement.style.top = singleAdvertisement.location.y - window.dataUtil.ADV_PIN_HEIGHT +`px`;
     pinElement.querySelector('img').src = singleAdvertisement.author.avatar;
     pinElement.querySelector('img').alt = singleAdvertisement.offer.title;
     return pinElement;
