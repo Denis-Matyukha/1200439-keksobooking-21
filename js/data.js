@@ -1,6 +1,6 @@
 `use strict`;
 
-(function() {
+(function () {
 
   window.dataUtil = {
 
@@ -27,6 +27,6 @@
       height: 87
     },
 
-  }
+  };
 
 })();
