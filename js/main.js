@@ -1,20 +1,20 @@
 "use strict";
 
-const APARTMENT_TYPE = [`palace`, `flat`, `house`, `bungalow`];
-const CHECK_TIMES = [`12:00`, `13:00`, `14:00`];
-const FACILITIES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`, {description: `строка с описанием`}];
-const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
-const MAX_X_VALUE = 600;
-const MAX_Y_VALUE = 350;
-const MAX_PRICE = 1000000000000000;
-const MAX_ROOMS_QUANTITY = 10;
-const MAX_GUEST_QUANTITY = 10;
-const INITIAL_Y_CORD = 180;
-const FINAL_Y_CORD = 630;
-const INITIAL_X_CORD = 50;
-const FINAL_X_CORD = 1150;
-const PIN_WIDTH = 50;
-const PIN_HEIGHT = 70;
+// const APARTMENT_TYPE = [`palace`, `flat`, `house`, `bungalow`];
+// const CHECK_TIMES = [`12:00`, `13:00`, `14:00`];
+// const FACILITIES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`, {description: `строка с описанием`}];
+// const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
+// const MAX_X_VALUE = 600;
+// const MAX_Y_VALUE = 350;
+// const MAX_PRICE = 1000000000000000;
+// const MAX_ROOMS_QUANTITY = 10;
+// const MAX_GUEST_QUANTITY = 10;
+// const INITIAL_Y_CORD = 180;
+// const FINAL_Y_CORD = 630;
+// const INITIAL_X_CORD = 50;
+// const FINAL_X_CORD = 1150;
+// const PIN_WIDTH = 50;
+// const PIN_HEIGHT = 70;
 
 
 let getRandomFromInterval = function(min, max) {
@@ -47,22 +47,22 @@ let getRandomAdvs = function (numberOfAdvs) {
       },
       offer: {
         title: `Описание квартиры скоро будет здесь`,
-        address: `${getRandomFromInterval(0, MAX_X_VALUE)}, ${getRandomFromInterval(0, MAX_Y_VALUE)}`,
+        address: `${getRandomFromInterval(0, window.dataUtil.MAX_X_VALUE)}, ${getRandomFromInterval(0, window.dataUtil.MAX_Y_VALUE)}`,
         prise: (() => {
-          let rawPrice = getRandomFromInterval(0, Math.floor(MAX_PRICE*0.00000000001));
+          let rawPrice = getRandomFromInterval(0, Math.floor(window.dataUtil.MAX_PRICE*0.00000000001));
           return rawPrice - (rawPrice % 100);
         })(),
-        type: `${getRandomFromArray(APARTMENT_TYPE)}`,
-        rooms: getRandomFromInterval(1, MAX_ROOMS_QUANTITY),
-        guests: getRandomFromInterval(1, MAX_GUEST_QUANTITY),
-        checkin: `${getRandomFromArray(CHECK_TIMES)}`,
-        checkout: `${getRandomFromArray(CHECK_TIMES)}`,
-        features: getSetFromArrayItems(FACILITIES),
-        photos: getSetFromArrayItems(PHOTOS),
+        type: `${getRandomFromArray(window.dataUtil.APARTMENT_TYPE)}`,
+        rooms: getRandomFromInterval(1, window.dataUtil.MAX_ROOMS_QUANTITY),
+        guests: getRandomFromInterval(1, window.dataUtil.MAX_GUEST_QUANTITY),
+        checkin: `${getRandomFromArray(window.dataUtil.CHECK_TIMES)}`,
+        checkout: `${getRandomFromArray(window.dataUtil.CHECK_TIMES)}`,
+        features: getSetFromArrayItems(window.dataUtil.FACILITIES),
+        photos: getSetFromArrayItems(window.dataUtil.PHOTOS),
       },
       location: {
-        x: getRandomFromInterval(INITIAL_X_CORD, FINAL_X_CORD),
-        y: getRandomFromInterval(INITIAL_Y_CORD, FINAL_Y_CORD),
+        x: getRandomFromInterval(window.dataUtil.INITIAL_X_CORD, window.dataUtil.FINAL_X_CORD),
+        y: getRandomFromInterval(window.dataUtil.INITIAL_Y_CORD, window.dataUtil.FINAL_Y_CORD),
       },
     });
   }
@@ -80,8 +80,8 @@ let advertisementArray = getRandomAdvs(8);
 
 let renderPins = function(singleAdvertisement) {
   let pinElement = similarPinTemplate.cloneNode(true);
-  pinElement.style.left = singleAdvertisement.location.x - PIN_WIDTH * 0.5 +`px`;
-  pinElement.style.top = singleAdvertisement.location.y - PIN_HEIGHT +`px`;
+  pinElement.style.left = singleAdvertisement.location.x - window.dataUtil.PIN_WIDTH * 0.5 +`px`;
+  pinElement.style.top = singleAdvertisement.location.y - window.dataUtil.PIN_HEIGHT +`px`;
   pinElement.querySelector('img').src = singleAdvertisement.author.avatar;
   pinElement.querySelector('img').alt = singleAdvertisement.offer.title;
   return pinElement;
@@ -124,6 +124,9 @@ const toggleDisableAttr = function (collectedElements) {
 
 const activatePage = function (evt) {
   if (!activateFlag) {
+    //rendering mook data document fragment from another module
+    similarListOfPins.appendChild(fragmentWithPins);
+
     toggleDisableAttr(mapSelects);
     toggleDisableAttr(formInputs);
     activateFlag = true;
