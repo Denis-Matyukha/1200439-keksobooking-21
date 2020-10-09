@@ -97,12 +97,12 @@ for (let i = 0; i < advertisementArray.length; i++) {
 
 
 //module 4 task 1
-const MAX_PRICE_AVAILABLE = 1000000;
-const MIN_PRICE_AVAILABLE = 1000;
-    const MAIN_PIN_SIZE = {
-      width: 65,
-      height: 87
-    };
+// const MAX_PRICE_AVAILABLE = 1000000;
+// const MIN_PRICE_AVAILABLE = 1000;
+//     const MAIN_PIN_SIZE = {
+//       width: 65,
+//       height: 87
+//     };
 const mapBlock = document.querySelector(`.map`);
 const mainPin = document.querySelector(`.map__pin--main`);
 const mainFormElement = document.querySelector(`.ad-form`);
@@ -137,8 +137,8 @@ const activatePage = function (evt) {
 
 const setMainPinCords = function () {
   adressInput.value =
-`${Math.floor(parseInt(mainPin.style.left) + MAIN_PIN_SIZE.width * 0.5)} ,
- ${Math.floor(parseInt(mainPin.style.top) + MAIN_PIN_SIZE.height)}`;
+`${Math.floor(parseInt(mainPin.style.left) + window.dataUtil.MAIN_PIN_SIZE.width * 0.5)} ,
+ ${Math.floor(parseInt(mainPin.style.top) + window.dataUtil.MAIN_PIN_SIZE.height)}`;
 };
 
 const setBorderErrorStyle = function (elem) {
@@ -150,7 +150,7 @@ const setBorderErrorStyle = function (elem) {
 };
 
 const checkValidity = function () {
-  if (priceElem.value < MIN_PRICE_AVAILABLE || priceElem.value > MAX_PRICE_AVAILABLE) {
+  if (priceElem.value < window.dataUtil.MIN_PRICE_AVAILABLE || priceElem.value > window.dataUtil.MAX_PRICE_AVAILABLE) {
     setBorderErrorStyle(priceElem);
     priceElem.setCustomValidity(`  Пожалуйста, укажите сумму от 1000 до миллиона =^_^=  `);
   } else {
