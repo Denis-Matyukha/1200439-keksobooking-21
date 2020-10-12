@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 "use strict";
 
 (function () {
@@ -45,8 +46,6 @@
           },
         });
       }
-      console.log(`it_works!`);
-      console.log(advsArray);
       return advsArray;
     },
     renderPins: function (singleAdvertisement, contentElem) {
@@ -62,12 +61,9 @@
       let advsArray = window.utilityGenerateMockup.getRandomAdvs(numberOfAdvs);
       for (let i = 0; i < advsArray.length; i++) {
         targetTemplate.appendChild(window.utilityGenerateMockup.renderPins(advsArray[i], contentElem));
-      };
+      }
       return targetTemplate;
     },
-    // renderMap: function (listElem, fragmentElem) {
-    //   return listElem.appendChild(fragmentElem);
-    // },
   };
 
 })();

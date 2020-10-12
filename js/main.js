@@ -22,7 +22,6 @@ const checkForm = function () {
 
 const activatePage = function (evt) {
   if (!activateFlag) {
-    // window.utilityGenerateMockup.renderMap(similarListOfPins, fragmentWithPins);
     window.utilityMap.renderFragment(similarListOfPins, fragmentWithPins);
     window.utilityForm.toggleDisableAttr(mapSelects);
     window.utilityForm.toggleDisableAttr(formInputs);
@@ -38,9 +37,7 @@ const activatePage = function (evt) {
 
 // initializing primary disabled condition
 window.utilityForm.toggleDisableAttr(mapSelects);
-
 window.utilityForm.toggleDisableAttr(formInputs);
-
 window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 
 mainPin.addEventListener(`mousedown`, function (evt) {
@@ -51,5 +48,3 @@ mainPin.addEventListener(`mousedown`, function (evt) {
 mainPin.addEventListener(`keydown`, activatePage);
 
 publishButton.addEventListener(`click`, checkForm);
-
-// ОТКЛЮЧИТЬ АВТОЗАПОЛНЕНИЕ ПОЛЕЙ
