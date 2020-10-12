@@ -1,9 +1,11 @@
 "use strict";
 // data.js
 // `use strict`;
+// MODULE
 (function () {
   // data.js
   window.utilityData = {
+
     APARTMENT_TYPE: [`palace`, `flat`, `house`, `bungalow`],
     CHECK_TIMES: [`12:00`, `13:00`, `14:00`],
     FACILITIES: [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`, {description: `строка с описанием`}],
@@ -21,7 +23,9 @@
     MAX_PRICE_AVAILABLE: 1000000,
     MIN_PRICE_AVAILABLE: 1000,
     PIN_BOTTOM_HEIGHT: 22,
+
   };
+
 })();
 // (function () {
 // })();
@@ -40,6 +44,9 @@ const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
 let activateFlag = false;
 
 
+
+
+// MODULE
 (function () {
 // form.js
   window.utilityForm = {
@@ -71,7 +78,7 @@ let activateFlag = false;
 
 
 // get random advs start
-
+// MODULE
 (function () {
   // mockupgenerator.js
   // generate mock data
@@ -122,6 +129,25 @@ let activateFlag = false;
       console.log(`it_works!`);
       console.log(advsArray);
       return advsArray;
+    },
+    renderPins: function (singleAdvertisement, contentElem) {
+      let singleElement = contentElem.cloneNode(true);
+      singleElement.style.left = singleAdvertisement.location.x - window.utilityData.ADV_PIN_WIDTH * 0.5 + `px`;
+      singleElement.style.top = singleAdvertisement.location.y - window.utilityData.ADV_PIN_HEIGHT + `px`;
+      singleElement.querySelector(`img`).src = singleAdvertisement.author.avatar;
+      singleElement.querySelector(`img`).alt = singleAdvertisement.offer.title;
+      return singleElement;
+    },
+    getRandomAdvsInFragment: function (numberOfAdvs, contentElem) {
+      let targetTemplate = document.createDocumentFragment();
+      let advsArray = window.utilityGenerateMockup.getRandomAdvs(numberOfAdvs);
+      for (let i = 0; i < advsArray.length; i++) {
+        targetTemplate.appendChild(window.utilityGenerateMockup.renderPins(advsArray[i], contentElem));
+      };
+      return targetTemplate;
+    },
+    renderMap: function (listElem, fragmentElem) {
+      return listElem.appendChild(fragmentElem);
     },
   };
 })();
@@ -186,23 +212,63 @@ let similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.
 
 let similarListOfPins = document.querySelector(`.map__pins`);
 
-let fragmentWithPins = document.createDocumentFragment();
+// let fragmentWithPins = document.createDocumentFragment();
 
 // create mook data array
-let advertisementArray = window.utilityGenerateMockup.getRandomAdvs(8);
+// !!!!!!!!!!!
+// let advertisementArray = window.utilityGenerateMockup.getRandomAdvs(8);
+// !!!!!!!!!!!
+// let advertisementArray =
 
-let renderPins = function (singleAdvertisement) {
-  let pinElement = similarPinTemplate.cloneNode(true);
-  pinElement.style.left = singleAdvertisement.location.x - window.utilityData.ADV_PIN_WIDTH * 0.5 + `px`;
-  pinElement.style.top = singleAdvertisement.location.y - window.utilityData.ADV_PIN_HEIGHT + `px`;
-  pinElement.querySelector(`img`).src = singleAdvertisement.author.avatar;
-  pinElement.querySelector(`img`).alt = singleAdvertisement.offer.title;
-  return pinElement;
-};
+// window.utilityGenerateMockup.getRandomAdvsInFragment(8, fragmentWithPins, similarPinTemplate);
+// return targetTemplate with Pins
 
-for (let i = 0; i < advertisementArray.length; i++) {
-  fragmentWithPins.appendChild(renderPins(advertisementArray[i]));
-}
+let fragmentWithPins = window.utilityGenerateMockup.getRandomAdvsInFragment(8, similarPinTemplate);
+
+// MODULE
+// window.utilMapFunction = function (listElem, fragmentElem) {
+//   return listElem.appendChild(fragmentElem);
+// };
+
+// window.utilMapFunction(similarListOfPins, fragmentWithPinsUpdated);
+
+// !!!!!!!!!!!
+// window.utilMapFunction = function () {
+//   return similarListOfPins.appendChild(fragmentWithPins);
+// };
+// !!!!!!!!!!!
+// (function () {
+
+// let renderPins = function (singleAdvertisement) {
+//   let singleElement = similarPinTemplate.cloneNode(true);
+//   singleElement.style.left = singleAdvertisement.location.x - window.utilityData.ADV_PIN_WIDTH * 0.5 + `px`;
+//   singleElement.style.top = singleAdvertisement.location.y - window.utilityData.ADV_PIN_HEIGHT + `px`;
+//   singleElement.querySelector(`img`).src = singleAdvertisement.author.avatar;
+//   singleElement.querySelector(`img`).alt = singleAdvertisement.offer.title;
+//   return singleElement;
+// };
+
+// for (let i = 0; i < advertisementArray.length; i++) {
+//   fragmentWithPins.appendChild(renderPins(advertisementArray[i]));
+// }
+
+// })();
+
+
+// !!!!!!!!!!!
+// let renderPins = function (singleAdvertisement) {
+//   let pinElement = similarPinTemplate.cloneNode(true);
+//   pinElement.style.left = singleAdvertisement.location.x - window.utilityData.ADV_PIN_WIDTH * 0.5 + `px`;
+//   pinElement.style.top = singleAdvertisement.location.y - window.utilityData.ADV_PIN_HEIGHT + `px`;
+//   pinElement.querySelector(`img`).src = singleAdvertisement.author.avatar;
+//   pinElement.querySelector(`img`).alt = singleAdvertisement.offer.title;
+//   return pinElement;
+// };
+
+// for (let i = 0; i < advertisementArray.length; i++) {
+//   fragmentWithPins.appendChild(renderPins(advertisementArray[i]));
+// }
+// !!!!!!!!!!!
 
 // must be closed during execution module4-task1
 // render mook full document fragment
@@ -211,9 +277,9 @@ for (let i = 0; i < advertisementArray.length; i++) {
 // rendering mook data document fragment from another module
 // similarListOfPins.appendChild(fragmentWithPins);
 
-window.utilMapFunction = function () {
-  return similarListOfPins.appendChild(fragmentWithPins);
-};
+// window.utilMapFunction = function () {
+//   return similarListOfPins.appendChild(fragmentWithPins);
+// };
 // get random advs end
 
 const setBorderErrorStyle = function (elem) {
@@ -246,7 +312,8 @@ const checkValidity = function () {
 const activatePage = function (evt) {
   if (!activateFlag) {
 
-    window.utilMapFunction();
+    // window.utilMapFunction(similarListOfPins, fragmentWithPinsUpdated);
+    window.utilityGenerateMockup.renderMap(similarListOfPins, fragmentWithPins);
 
     window.utilityForm.toggleDisableAttr(mapSelects);
     window.utilityForm.toggleDisableAttr(formInputs);
@@ -258,6 +325,7 @@ const activatePage = function (evt) {
     mainFormElement.classList.remove(`ad-form--disabled`);
     // setMainPinCords();
     window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
+
   }
 
 };
@@ -388,3 +456,7 @@ publishButton.addEventListener(`click`, checkValidity);
 // })();
 
 
+
+
+
+// ОТКЛЮЧИТЬ АВТОЗАПОЛНЕНИЕ ПОЛЕЙ
