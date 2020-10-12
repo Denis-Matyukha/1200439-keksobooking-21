@@ -4,12 +4,15 @@
 (function () {
 
   window.utilityGenerateMockup = {
+
     getRandomFromInterval: function (min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
+
     getRandomFromArray: function (dataArr) {
       return dataArr[window.utilityGenerateMockup.getRandomFromInterval(0, dataArr.length - 1)];
     },
+
     getSetFromArrayItems: function (arr) {
       let newArr = [];
       let quantityVar = window.utilityGenerateMockup.getRandomFromInterval(1, arr.length);
@@ -26,21 +29,19 @@
         newArr.push(arr[i]);
       }
 
-      // arr.forEach(function(arrElement) {
+      // arr.forEach(function(arrElement, index) {
+      //   index = window.utilityGenerateMockup.getRandomFromInterval(1, arr.length);
+      //   console.log(index + ` index`);
       //   newArr.push(arrElement);
       // })
 
-      // console.log(newArr);
+      // console.log({newArr});
 
       return newArr;
     },
+
     getRandomAdvs: function (numberOfAdvs) {
       let advsArray = [];
-
-      // numberOfAdvs задается в main.js аргументом строка (16)
-      // это будет исправлено в следующем модуле после получния ответа от сервера
-      // определяет колличество генерируемых объявлений
-      // forEach не поможет реализовать метод, т.к. дале будет нужна переменная итератор i
       for (let i = 0; i < numberOfAdvs; i++) {
         advsArray.push({
           author: {
@@ -70,6 +71,7 @@
       // console.log(advsArray);
       return advsArray;
     },
+
     renderPins: function (singleAdvertisement, contentElem) {
       let singleElement = contentElem.cloneNode(true);
       singleElement.style.left = singleAdvertisement.location.x - window.utilityData.ADV_PIN_WIDTH * 0.5 + `px`;
@@ -78,6 +80,7 @@
       singleElement.querySelector(`img`).alt = singleAdvertisement.offer.title;
       return singleElement;
     },
+
     getRandomAdvsInFragment: function (numberOfAdvs, contentElem) {
       let targetTemplate = document.createDocumentFragment();
       let advsArray = window.utilityGenerateMockup.getRandomAdvs(numberOfAdvs);
@@ -86,6 +89,7 @@
       });
       return targetTemplate;
     },
+
   };
 
 })();
