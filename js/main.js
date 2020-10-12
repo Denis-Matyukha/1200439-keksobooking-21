@@ -30,20 +30,7 @@
 // (function () {
 // })();
 
-const mapBlock = document.querySelector(`.map`);
-const mainPin = document.querySelector(`.map__pin--main`);
-const mainFormElement = document.querySelector(`.ad-form`);
-const formInputs = mainFormElement.querySelectorAll(`fieldset`);
-const mapFilterForm = document.querySelector(`.map__filters`);
-const mapSelects = mapFilterForm.querySelectorAll(`select`);
-const adressInput = mainFormElement.querySelector(`#address`);
-const roomsQuantity = mainFormElement.querySelector(`#room_number`);
-const priceElem = mainFormElement.querySelector(`#price`);
-const guestsQuantity = mainFormElement.querySelector(`#capacity`);
-const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
-const similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-const similarListOfPins = document.querySelector(`.map__pins`);
-let activateFlag = false;
+
 
 
 
@@ -247,7 +234,23 @@ let activateFlag = false;
 // let advertisementArray =
 
 // window.utilityGenerateMockup.getRandomAdvsInFragment(8, fragmentWithPins, similarPinTemplate);
+
 // return targetTemplate with Pins
+
+const mapBlock = document.querySelector(`.map`);
+const mainPin = document.querySelector(`.map__pin--main`);
+const mainFormElement = document.querySelector(`.ad-form`);
+const formInputs = mainFormElement.querySelectorAll(`fieldset`);
+const mapFilterForm = document.querySelector(`.map__filters`);
+const mapSelects = mapFilterForm.querySelectorAll(`select`);
+const adressInput = mainFormElement.querySelector(`#address`);
+const roomsQuantity = mainFormElement.querySelector(`#room_number`);
+const priceElem = mainFormElement.querySelector(`#price`);
+const guestsQuantity = mainFormElement.querySelector(`#capacity`);
+const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
+const similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
+const similarListOfPins = document.querySelector(`.map__pins`);
+let activateFlag = false;
 
 let fragmentWithPins = window.utilityGenerateMockup.getRandomAdvsInFragment(8, similarPinTemplate);
 
