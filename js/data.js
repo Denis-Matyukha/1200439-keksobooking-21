@@ -21,7 +21,15 @@
     MAX_PRICE_AVAILABLE: 1000000,
     MIN_PRICE_AVAILABLE: 1000,
     PIN_BOTTOM_HEIGHT: 22,
-
+    EVENT_CODE: {
+      MOUSE_LEFT_BTN: 0,
+      MOUSE_MIDDLE_BTN: 1,
+      MOUSE_RIGHT_BTN: 2,
+      KEYBOARD_ESCAPE: `Escape`,
+      KEYBOARD_SPACE: `Space`,
+      KEYBOARD_ENTER: `Enter`,
+      KEYBOARD_NUMPAD_ENTER: `NumpadEnter`,
+    },
   };
 
 })();

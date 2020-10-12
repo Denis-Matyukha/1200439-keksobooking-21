@@ -21,14 +21,18 @@ const checkForm = function () {
 };
 
 const activatePage = function (evt) {
-  if (!activateFlag) {
-    window.utilityMap.renderFragment(similarListOfPins, fragmentWithPins);
-    window.utilityForm.toggleDisableAttr(mapSelects);
-    window.utilityForm.toggleDisableAttr(formInputs);
-    activateFlag = true;
-  }
 
-  if (evt.button === 0 || evt.code === `Enter`) {
+  if (evt.button === window.utilityData.EVENT_CODE.MOUSE_LEFT_BTN ||
+      evt.code === window.utilityData.EVENT_CODE.KEYBOARD_ENTER ||
+      evt.code === window.utilityData.EVENT_CODE.KEYBOARD_NUMPAD_ENTER) {
+
+    if (!activateFlag) {
+      window.utilityMap.renderFragment(similarListOfPins, fragmentWithPins);
+      window.utilityForm.toggleDisableAttr(mapSelects);
+      window.utilityForm.toggleDisableAttr(formInputs);
+      activateFlag = true;
+    }
+
     mapBlock.classList.remove(`map--faded`);
     mainFormElement.classList.remove(`ad-form--disabled`);
     window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
@@ -38,6 +42,7 @@ const activatePage = function (evt) {
 // initializing primary disabled condition
 window.utilityForm.toggleDisableAttr(mapSelects);
 window.utilityForm.toggleDisableAttr(formInputs);
+
 window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 
 mainPin.addEventListener(`mousedown`, function (evt) {
