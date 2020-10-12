@@ -49,7 +49,8 @@ let activateFlag = false;
       }
     },
     setTargetCords: function(elemPlaceholder, elemTarget, correctionValue = 0) {
-      elemPlaceholder.value = `${Math.floor(parseInt(elemTarget.style.left) + elemTarget.clientWidth * 0.5)} , ${Math.floor(parseInt(elemTarget.style.top) + elemTarget.clientHeight + correctionValue)}`;
+      elemPlaceholder.value = `${Math.floor(parseInt(elemTarget.style.left) + elemTarget.clientWidth * 0.5)} ,
+ ${Math.floor(parseInt(elemTarget.style.top) + elemTarget.clientHeight + correctionValue)}`;
     },
   };
 })();
@@ -68,59 +69,117 @@ let activateFlag = false;
 // };
 
 
+
 // get random advs start
-let getRandomFromInterval = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
 
-let getRandomFromArray = function (dataArr) {
-  return dataArr[getRandomFromInterval(0, dataArr.length - 1)];
-};
+(function () {
+  // mockupgenerator.js
+  // generate mock data
+  // window.utilityGenerateMockup.
+  window.utilityGenerateMockup = {
+    getRandomFromInterval: function (min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    },
+    getRandomFromArray: function (dataArr) {
+      return dataArr[window.utilityGenerateMockup.getRandomFromInterval(0, dataArr.length - 1)];
+    },
+    getSetFromArrayItems: function (arr) {
+      let newArr = [];
+      let quantityVar = window.utilityGenerateMockup.getRandomFromInterval(1, arr.length);
+      for (let i = 0; i < quantityVar; i++) {
+        newArr.push(arr[i]);
+      }
+      return newArr;
+    },
+    getRandomAdvs: function (numberOfAdvs) {
+      let advsArray = [];
+      for (let i = 0; i < numberOfAdvs; i++) {
+        advsArray.push({
+          author: {
+            avatar: `img/avatars/user0${i + 1}.png`
+          },
+          offer: {
+            title: `Описание квартиры скоро будет здесь`,
+            address: `${window.utilityGenerateMockup.getRandomFromInterval(0, window.utilityData.MAX_X_VALUE)}, ${window.utilityGenerateMockup.getRandomFromInterval(0, window.utilityData.MAX_Y_VALUE)}`,
+            prise: (() => {
+              let rawPrice = window.utilityGenerateMockup.getRandomFromInterval(0, Math.floor(window.utilityData.MAX_PRICE_AVAILABLE));
+              return rawPrice - (rawPrice % 100);
+            })(),
+            type: `${window.utilityGenerateMockup.getRandomFromArray(window.utilityData.APARTMENT_TYPE)}`,
+            rooms: window.utilityGenerateMockup.getRandomFromInterval(1, window.utilityData.MAX_ROOMS_QUANTITY),
+            guests: window.utilityGenerateMockup.getRandomFromInterval(1, window.utilityData.MAX_GUEST_QUANTITY),
+            checkin: `${window.utilityGenerateMockup.getRandomFromArray(window.utilityData.CHECK_TIMES)}`,
+            checkout: `${window.utilityGenerateMockup.getRandomFromArray(window.utilityData.CHECK_TIMES)}`,
+            features: window.utilityGenerateMockup.getSetFromArrayItems(window.utilityData.FACILITIES),
+            photos: window.utilityGenerateMockup.getSetFromArrayItems(window.utilityData.PHOTOS),
+          },
+          location: {
+            x: window.utilityGenerateMockup.getRandomFromInterval(window.utilityData.INITIAL_X_CORD, window.utilityData.FINAL_X_CORD),
+            y: window.utilityGenerateMockup.getRandomFromInterval(window.utilityData.INITIAL_Y_CORD, window.utilityData.FINAL_Y_CORD),
+          },
+        });
+      }
+      console.log(`it_works!`);
+      console.log(advsArray);
+      return advsArray;
+    },
+  };
+})();
 
-let getSetFromArrayItems = function (arr) {
-  let oldArr = arr;
-  let newArr = [];
-  let quantityVar = getRandomFromInterval(1, arr.length);
-  for (let i = 0; i < quantityVar; i++) {
-    newArr.push(oldArr[i]);
-  }
-  return newArr;
-};
+// let getRandomFromInterval = function (min, max) {
+//   return Math.floor(Math.random() * (max - min + 1) + min);
+// };
 
-let getRandomAdvs = function (numberOfAdvs) {
+// let getRandomFromArray = function (dataArr) {
+//   return dataArr[getRandomFromInterval(0, dataArr.length - 1)];
+// };
 
-  let advsArray = [];
+// let getSetFromArrayItems = function (arr) {
+//   let oldArr = arr;
+//   let newArr = [];
+//   let quantityVar = getRandomFromInterval(1, arr.length);
+//   for (let i = 0; i < quantityVar; i++) {
+//     newArr.push(oldArr[i]);
+//   }
+//   return newArr;
+// };
 
-  for (let i = 0; i < numberOfAdvs; i++) {
+// let getRandomAdvs = function (numberOfAdvs) {
 
-    advsArray.push({
-      author: {
-        avatar: `img/avatars/user0${i + 1}.png`
-      },
-      offer: {
-        title: `Описание квартиры скоро будет здесь`,
-        address: `${getRandomFromInterval(0, window.utilityData.MAX_X_VALUE)}, ${getRandomFromInterval(0, window.utilityData.MAX_Y_VALUE)}`,
-        prise: (() => {
-          let rawPrice = getRandomFromInterval(0, Math.floor(window.utilityData.MAX_PRICE_AVAILABLE));
-          return rawPrice - (rawPrice % 100);
-        })(),
-        type: `${getRandomFromArray(window.utilityData.APARTMENT_TYPE)}`,
-        rooms: getRandomFromInterval(1, window.utilityData.MAX_ROOMS_QUANTITY),
-        guests: getRandomFromInterval(1, window.utilityData.MAX_GUEST_QUANTITY),
-        checkin: `${getRandomFromArray(window.utilityData.CHECK_TIMES)}`,
-        checkout: `${getRandomFromArray(window.utilityData.CHECK_TIMES)}`,
-        features: getSetFromArrayItems(window.utilityData.FACILITIES),
-        photos: getSetFromArrayItems(window.utilityData.PHOTOS),
-      },
-      location: {
-        x: getRandomFromInterval(window.utilityData.INITIAL_X_CORD, window.utilityData.FINAL_X_CORD),
-        y: getRandomFromInterval(window.utilityData.INITIAL_Y_CORD, window.utilityData.FINAL_Y_CORD),
-      },
-    });
-  }
-  console.log(advsArray);
-  return advsArray;
-};
+//   let advsArray = [];
+
+//   for (let i = 0; i < numberOfAdvs; i++) {
+
+//     advsArray.push({
+//       author: {
+//         avatar: `img/avatars/user0${i + 1}.png`
+//       },
+//       offer: {
+//         title: `Описание квартиры скоро будет здесь`,
+//         address: `${getRandomFromInterval(0, window.utilityData.MAX_X_VALUE)}, ${getRandomFromInterval(0, window.utilityData.MAX_Y_VALUE)}`,
+//         prise: (() => {
+//           let rawPrice = getRandomFromInterval(0, Math.floor(window.utilityData.MAX_PRICE_AVAILABLE));
+//           return rawPrice - (rawPrice % 100);
+//         })(),
+//         type: `${getRandomFromArray(window.utilityData.APARTMENT_TYPE)}`,
+//         rooms: getRandomFromInterval(1, window.utilityData.MAX_ROOMS_QUANTITY),
+//         guests: getRandomFromInterval(1, window.utilityData.MAX_GUEST_QUANTITY),
+//         checkin: `${getRandomFromArray(window.utilityData.CHECK_TIMES)}`,
+//         checkout: `${getRandomFromArray(window.utilityData.CHECK_TIMES)}`,
+//         features: getSetFromArrayItems(window.utilityData.FACILITIES),
+//         photos: getSetFromArrayItems(window.utilityData.PHOTOS),
+//       },
+//       location: {
+//         x: getRandomFromInterval(window.utilityData.INITIAL_X_CORD, window.utilityData.FINAL_X_CORD),
+//         y: getRandomFromInterval(window.utilityData.INITIAL_Y_CORD, window.utilityData.FINAL_Y_CORD),
+//       },
+//     });
+//   }
+//   console.log(advsArray);
+//   return advsArray;
+// };
+
+
 
 
 let similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
@@ -130,7 +189,7 @@ let similarListOfPins = document.querySelector(`.map__pins`);
 let fragmentWithPins = document.createDocumentFragment();
 
 // create mook data array
-let advertisementArray = getRandomAdvs(8);
+let advertisementArray = window.utilityGenerateMockup.getRandomAdvs(8);
 
 let renderPins = function (singleAdvertisement) {
   let pinElement = similarPinTemplate.cloneNode(true);
