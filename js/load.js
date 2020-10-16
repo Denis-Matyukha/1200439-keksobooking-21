@@ -21,15 +21,7 @@
       xhr.addEventListener(`load`, function () {
 
         let error;
-        // console.log(xhr.status + ` ` + xhr.statusText);
-
         switch (xhr.status) {
-        // code strings for test:
-        // switch (200) {
-        // switch (400) {
-        // switch (401) {
-        // switch (404) {
-        // switch (`ufo`) {
           case window.utilityLoad.STATUS_CODE.OK:
             onSuccess(xhr.response);
             break;
@@ -49,6 +41,7 @@
         if (error) {
           onError(error);
         }
+
       });
 
       xhr.addEventListener(`error`, function () {
