@@ -14,7 +14,7 @@ const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
 const similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const similarListOfPins = document.querySelector(`.map__pins`);
 
-// !!! mockup array here
+// mockup array here
 // let fragmentWithPins = window.utilityGenerateMockup.getRandomAdvsInFragment(8, similarPinTemplate);
 let activateFlag = false;
 
@@ -22,47 +22,21 @@ const checkForm = function () {
   window.utilityForm.checkValidity(priceElem, roomsQuantity, guestsQuantity);
 };
 
-// !!!
-// const activatePage = function (evt) {
-
-//   if (evt.button === window.utilityData.EVENT_CODE.MOUSE_LEFT_BTN ||
-//       evt.code === window.utilityData.EVENT_CODE.KEYBOARD_ENTER ||
-//       evt.code === window.utilityData.EVENT_CODE.KEYBOARD_NUMPAD_ENTER) {
-
-//     if (!activateFlag) {
-//       window.utilityMap.renderFragment(similarListOfPins, fragmentWithPins);
-//       window.utilityForm.toggleDisableAttr(mapSelects);
-//       window.utilityForm.toggleDisableAttr(formInputs);
-//       activateFlag = true;
-//     }
-
-//     mapBlock.classList.remove(`map--faded`);
-//     mainFormElement.classList.remove(`ad-form--disabled`);
-//     window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
-//   }
-// };
-// !!!
 const activatePage = function (evt) {
 
   if (evt.button === window.utilityData.EVENT_CODE.MOUSE_LEFT_BTN ||
       evt.code === window.utilityData.EVENT_CODE.KEYBOARD_ENTER ||
       evt.code === window.utilityData.EVENT_CODE.KEYBOARD_NUMPAD_ENTER) {
 
-    // if (!activateFlag) {
-
-    //   window.utilityMap.renderFragment(similarListOfPins, fragmentWithPins);
-
-    //   window.utilityForm.toggleDisableAttr(mapSelects);
-    //   window.utilityForm.toggleDisableAttr(formInputs);
-    //   activateFlag = true;
     if (!activateFlag) {
 
-      // MODULE load START
-      window.utilityLoad.getXHR(similarListOfPins, similarPinTemplate);
-      // MODULE load END
+      // function (onSuccess, onError)
+      window.utilityLoad.getXHRequest(function (advertisementArray) {
+        console.log(advertisementArray);
+        let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray, similarPinTemplate);
+        window.utilityMap.renderFragment(similarListOfPins, fragmentWithServerPins);
+      }, function () {});
 
-        // link fragmentWithServerPins with window utilyty
-      // window.utilityMap.renderFragment(similarListOfPins, fragmentWithServerPins);
       window.utilityForm.toggleDisableAttr(mapSelects);
       window.utilityForm.toggleDisableAttr(formInputs);
 
@@ -74,7 +48,6 @@ const activatePage = function (evt) {
     window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
   }
 };
-// !!!
 
 // initializing primary disabled condition
 window.utilityForm.toggleDisableAttr(mapSelects);
@@ -97,8 +70,8 @@ publishButton.addEventListener(`click`, checkForm);
 
 [*] Создайте новый модуль и опишите в нем функции взаимодействия удалённым сервером через XHR.
     В этом задании ограничимся получением данных с сервера при помощи объекта XMLHttpRequest.
-
-[ ] Доработайте модуль для отрисовки меток на карте так, чтобы в качестве данных
+[*] переписать load.js под функции onSuccess onFail в модуле main.js
+[*] Доработайте модуль для отрисовки меток на карте так, чтобы в качестве данных
 использовались не случайно сгенерированные объекты, а те данные, которые вы загрузите
 с сервера: https://21.javascript.pages.academy/keksobooking/data.
 

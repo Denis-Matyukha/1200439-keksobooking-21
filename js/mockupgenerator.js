@@ -16,27 +16,9 @@
     getSetFromArrayItems: function (arr) {
       let newArr = [];
       let quantityVar = window.utilityGenerateMockup.getRandomFromInterval(1, arr.length);
-
-      // в других местах кода по возможности использовал forEach (честно))
-
-      // перебор массива через forEach в этом месте
-      // не сможет реализовать случайность выборки из массива удобств квартиры [wifi, parking, etc...] и массив фото [window.utilityData.PHOTOS]
-      // quantityVar определяется рандомно в интервале от 1 до arr.length
-      // т.е. случайный набор удобств в объявлении (после forEach) станет невозможен
-      // и всегда будет возвращаться максимальный набор элементов массива удобств квартиры (и фотографий) для каждого объявления
-
       for (let i = 0; i < quantityVar; i++) {
         newArr.push(arr[i]);
       }
-
-      // arr.forEach(function(arrElement, index) {
-      //   index = window.utilityGenerateMockup.getRandomFromInterval(1, arr.length);
-      //   console.log(index + ` index`);
-      //   newArr.push(arrElement);
-      // })
-
-      // console.log({newArr});
-
       return newArr;
     },
 
@@ -84,7 +66,7 @@
     getRandomAdvsInFragment: function (numberOfAdvs, contentElem) {
       let targetTemplate = document.createDocumentFragment();
       let advsArray = window.utilityGenerateMockup.getRandomAdvs(numberOfAdvs);
-      advsArray.forEach(function(advsElement) {
+      advsArray.forEach(function (advsElement) {
         targetTemplate.appendChild(window.utilityGenerateMockup.renderPins(advsElement, contentElem));
       });
       return targetTemplate;
@@ -92,10 +74,10 @@
 
     getReceivedAdvsInFragment: function (receivedArr, contentElem) {
       let targetTemplate = document.createDocumentFragment();
-      receivedArr.forEach(function(advsElement) {
+      receivedArr.forEach(function (advsElement) {
         targetTemplate.appendChild(window.utilityGenerateMockup.renderPins(advsElement, contentElem));
       });
-    return targetTemplate;
+      return targetTemplate;
     },
 
   };
