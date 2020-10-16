@@ -90,6 +90,14 @@
       return targetTemplate;
     },
 
+    getReceivedAdvsInFragment: function (receivedArr, contentElem) {
+      let targetTemplate = document.createDocumentFragment();
+      receivedArr.forEach(function(advsElement) {
+        targetTemplate.appendChild(window.utilityGenerateMockup.renderPins(advsElement, contentElem));
+      });
+    return targetTemplate;
+    },
+
   };
 
 })();

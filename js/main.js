@@ -13,6 +13,7 @@ const guestsQuantity = mainFormElement.querySelector(`#capacity`);
 const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
 const similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const similarListOfPins = document.querySelector(`.map__pins`);
+
 // !!! mockup array here
 // let fragmentWithPins = window.utilityGenerateMockup.getRandomAdvsInFragment(8, similarPinTemplate);
 let activateFlag = false;
@@ -57,7 +58,7 @@ const activatePage = function (evt) {
     if (!activateFlag) {
 
       // MODULE load START
-      window.utilityLoad.getXHR();
+      window.utilityLoad.getXHR(similarListOfPins, similarPinTemplate);
       // MODULE load END
 
         // link fragmentWithServerPins with window utilyty
@@ -94,18 +95,16 @@ publishButton.addEventListener(`click`, checkForm);
 /*
 Задания модуля 6 и алгоритм действий:
 
-[ ] Создайте новый модуль и опишите в нем функции взаимодействия удалённым сервером через XHR.
+[*] Создайте новый модуль и опишите в нем функции взаимодействия удалённым сервером через XHR.
     В этом задании ограничимся получением данных с сервера при помощи объекта XMLHttpRequest.
 
-[ ] Подключите модуль в index.html и протестируйте решение.
-
 [ ] Доработайте модуль для отрисовки меток на карте так, чтобы в качестве данных
-    использовались не случайно сгенерированные объекты, а те данные, которые вы загрузите
-    с сервера: https://21.javascript.pages.academy/keksobooking/data.
+использовались не случайно сгенерированные объекты, а те данные, которые вы загрузите
+с сервера: https://21.javascript.pages.academy/keksobooking/data.
 
 [ ] Добавьте обработку возможных ошибок при загрузке: создайте DOM-элемент,
-    который будет показывать сообщения об ошибках, произошедших по ходу загрузки данных.
-    Дизайн DOM-элемента предлагается придумать самостоятельно.
+который будет показывать сообщения об ошибках, произошедших по ходу загрузки данных.
+Дизайн DOM-элемента предлагается придумать самостоятельно.
 
 [ ] Переписать модули через this и проверить работоспособность
 
@@ -119,7 +118,12 @@ publishButton.addEventListener(`click`, checkForm);
 
 [ ] В коде модуля 6 сделать const ответов сервера (см конспект курса js)
 
-[ ]
+[ ] Проверить (рефакторинг) можно ли из модуля убрать функци прорисовки?
+
+[ ] Подключите модуль в index.html и протестируйте решение.
+
+[ ] Подчистить код полностью от комментариев и отправить на проверку
+
  */
 
 /*

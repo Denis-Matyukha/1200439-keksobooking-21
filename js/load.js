@@ -1,29 +1,65 @@
+/* eslint-disable object-shorthand */
 "use strict";
 
-(function(){
+(function () {
   // window.utilityLoad.createXHR();
   window.utilityLoad = {
 
-    getXHR: function () {
+    getXHR: function(listOfPins, pinTemplate) {
 
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = 'json';
+      let xhr = new XMLHttpRequest();
+
+
+      xhr.responseType = `json`;
+
+
       xhr.addEventListener(`load`, function () {
+
+
         let advertisementArray = xhr.response;
-        // advertisementArray = JSON.parse(xhr.responseText);
-        // MIGHT BE CHANGED AFTER SETUP TYPE OF RESPONSE
-        console.log(xhr.status + ' ' + xhr.statusText);
+
+        console.log(xhr.status + ` ` + xhr.statusText);
         console.log(advertisementArray);
-        // MIGHT BE MOVED OUT FROM MODULE
+
         // продумать, как бы эта функция выглядела бы если её делать обособленной и передавать в неё аргументы.
         // продумать название функции и подходящий для неё модуль
-        let fragmentWithServerPins = document.createDocumentFragment();
 
-        for (let i = 0; i < advertisementArray.length; i++) {
+        // !!!
+        // let fragmentWithServerPins = document.createDocumentFragment();
+
+        // for (let i = 0; i < advertisementArray.length; i++) {
+          // !!!
+
           // fragmentWithServerPins.appendChild(window.renderPins(advertisementArray[i]));
           // window.utilityGenerateMockup.renderPins(advertisementArray[i],similarPinTemplate);
-          fragmentWithServerPins.appendChild(window.utilityGenerateMockup.renderPins(advertisementArray[i],similarPinTemplate));
-        };
+
+          // !!!
+          // fragmentWithServerPins.appendChild(window.utilityGenerateMockup.renderPins(advertisementArray[i], similarPinTemplate));
+        // }
+        // !!!
+
+        //
+        // getRandomAdvsInFragment: function (numberOfAdvs, contentElem) {
+        //   let targetTemplate = document.createDocumentFragment();
+        //   let advsArray = window.utilityGenerateMockup.getRandomAdvs(numberOfAdvs);
+        //   advsArray.forEach(function(advsElement) {
+        //     targetTemplate.appendChild(window.utilityGenerateMockup.renderPins(advsElement, contentElem));
+        //   });
+        // return targetTemplate;
+        // }
+        let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray, pinTemplate);
+
+
+        // getReceivedAdvsInFragment: function (receivedArr, contentElem) {
+        //   let targetTemplate = document.createDocumentFragment();
+        //   receivedArr.forEach(function(advsElement) {
+        //     targetTemplate.appendChild(window.utilityGenerateMockup.renderPins(advsElement, contentElem));
+        //   });
+        // return targetTemplate;
+        // }
+
+
+        //
         /*
         window.utilityGenerateMockup.renderPins(advertisementArray[i],similarPinTemplate);
 
@@ -41,10 +77,12 @@
         // let similarListOfPins = document.querySelector('.map__pins');
 
         // window.utilMapFunction = function () {
-          // return similarListOfPins.appendChild(fragmentWithServerPins);
+        // return similarListOfPins.appendChild(fragmentWithServerPins);
         // };
         // window.utilMapFunction();
-        window.utilityMap.renderFragment(similarListOfPins, fragmentWithServerPins);
+        // const similarListOfPins = document.querySelector(`.map__pins`);
+
+        window.utilityMap.renderFragment(listOfPins, fragmentWithServerPins);
         /*
         window.utilityMap = {
           renderFragment: function (listElem, fragmentElem) {
@@ -56,6 +94,7 @@
 
 
       });
+
       xhr.open(`GET`, `https://21.javascript.pages.academy/keksobooking/data`);
       xhr.send();
 
@@ -66,7 +105,6 @@
 
 
   };
-
 
 
 })();
