@@ -37,6 +37,33 @@ const activatePage = function (evt) {
         window.utilityMap.renderFragment(similarListOfPins, fragmentWithServerPins);
       }, function () {});
 
+      /*
+      var successHandler = function (wizards) {
+      var fragment = document.createDocumentFragment();
+
+      for (var i = 0; i < MAX_SIMILAR_WIZARD_COUNT; i++) {
+        fragment.appendChild(renderWizard(wizards[i]));
+      }
+      similarListElement.appendChild(fragment);
+
+      userDialog.querySelector('.setup-similar').classList.remove('hidden');
+      };
+
+      var errorHandler = function (errorMessage) {
+        var node = document.createElement('div');
+        node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+        node.style.position = 'absolute';
+        node.style.left = 0;
+        node.style.right = 0;
+        node.style.fontSize = '30px';
+
+        node.textContent = errorMessage;
+        document.body.insertAdjacentElement('afterbegin', node);
+      };
+
+      window.load(successHandler, errorHandler);
+      */
+
       window.utilityForm.toggleDisableAttr(mapSelects);
       window.utilityForm.toggleDisableAttr(formInputs);
 
@@ -122,7 +149,7 @@ publishButton.addEventListener(`click`, checkForm);
 
 _____________
   var URL = 'https://21.javascript.pages.academy/code-and-magick/data';
-  var StatusCode = {
+  var STATUS_CODE = {
     OK: 200
   };
   var TIMEOUT_IN_MS = 10000;
