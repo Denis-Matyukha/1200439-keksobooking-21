@@ -14,44 +14,41 @@
       NOT_FOUND: 404,
     },
 
-
     getXHRequest: function (onSuccess, onError) {
 
       let xhr = new XMLHttpRequest();
-
       xhr.responseType = `json`;
-
       xhr.addEventListener(`load`, function () {
 
         let error;
+        // console.log(xhr.status + ` ` + xhr.statusText);
 
-        console.log(xhr.status + ` ` + xhr.statusText);
         switch (xhr.status) {
+        // code strings for test:
+        // switch (200) {
+        // switch (400) {
+        // switch (401) {
+        // switch (404) {
+        // switch (`ufo`) {
           case window.utilityLoad.STATUS_CODE.OK:
             onSuccess(xhr.response);
             break;
           case window.utilityLoad.STATUS_CODE.WRONG_REQUEST:
-            error = `Неверный запрос`;
+            error = `ошибка: Неверный запрос`;
             break;
           case window.utilityLoad.STATUS_CODE.USER_NOT_REGISTERED:
-            error = `Пользователь не авторизован`;
+            error = `ошибка: Пользователь не авторизован`;
             break;
           case window.utilityLoad.STATUS_CODE.NOT_FOUND:
-            error = `Ничего не удалось найти =^_^=`;
+            error = `ошибка: Ничего не удалось найти =^⌒^=`;
             break;
           default:
-            error = `Cтатус ответа: ${xhr.status} ${xhr.statusText}`;
+            error = `ошибка: Cтатус ответа ${xhr.status} ${xhr.statusText}`;
         }
-
-        //
-        // test code string
-        // error = `Ничего не удалось найти =^_^=`;
-        //
 
         if (error) {
           onError(error);
         }
-
       });
 
       xhr.addEventListener(`error`, function () {
@@ -63,13 +60,10 @@
       });
 
       xhr.timeout = this.TIMEOUT_IN_MS;
-
       xhr.open(`GET`, this.URL);
-
       xhr.send();
 
     }
-
   };
 
 })();

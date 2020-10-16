@@ -32,7 +32,7 @@
           offer: {
             title: `Описание квартиры скоро будет здесь`,
             address: `${window.utilityGenerateMockup.getRandomFromInterval(0, window.utilityData.MAX_X_VALUE)}, ${window.utilityGenerateMockup.getRandomFromInterval(0, window.utilityData.MAX_Y_VALUE)}`,
-            prise: (() => {
+            prise: (function () {
               let rawPrice = window.utilityGenerateMockup.getRandomFromInterval(0, Math.floor(window.utilityData.MAX_PRICE_AVAILABLE));
               return rawPrice - (rawPrice % 100);
             })(),
