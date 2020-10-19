@@ -21,7 +21,7 @@ const checkForm = function () {
 };
 
 const successHandler = function (advertisementArray) {
-  console.log(advertisementArray);
+  // console.log(advertisementArray);
   let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray, similarPinTemplate);
   window.utilityMap.renderFragment(similarListOfPins, fragmentWithServerPins);
 };

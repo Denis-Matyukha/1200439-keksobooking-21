@@ -12,8 +12,8 @@
     },
 
     setTargetCords: function (elemPlaceholder, elemTarget, correctionValue = 0) {
-      elemPlaceholder.value = `${Math.floor(parseInt(elemTarget.style.left) + elemTarget.clientWidth * 0.5)} ,
- ${Math.floor(parseInt(elemTarget.style.top) + elemTarget.clientHeight + correctionValue)}`;
+      elemPlaceholder.value = `${Math.floor(parseInt(elemTarget.style.left, 10) + elemTarget.clientWidth * 0.5)} ,
+ ${Math.floor(parseInt(elemTarget.style.top, 10) + elemTarget.clientHeight + correctionValue)}`;
     },
 
     setBorderErrorStyle: function (elem) {
