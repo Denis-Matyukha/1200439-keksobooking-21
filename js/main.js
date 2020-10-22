@@ -20,9 +20,28 @@ const checkForm = function () {
   window.utilityForm.checkValidity(priceElem, roomsQuantity, guestsQuantity);
 };
 
+// !!!
+// console.log(document.querySelector('.map__filters').querySelector('.map__filter').value);
+// !!!
+
 const successHandler = function (advertisementArray) {
-  // console.log(advertisementArray);
-  let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray, similarPinTemplate);
+
+  console.log(`advertisementArray`);
+  console.log(advertisementArray);
+  console.log(`and`);
+  console.log(`advertisementArray[1]`);
+  console.log(advertisementArray[1]);
+  console.log(`and`);
+  // console.log(`advertisementArray.slice(0, 5)`);
+  // console.log(advertisementArray.slice(0, 5));
+  console.log(`advertisementArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY)`);
+  console.log(advertisementArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY));
+
+  // code for RENDER FULL ADV ARRAY
+  // let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray, similarPinTemplate);
+
+  // code for RENDER slice of FULL ADV ARRAY
+  let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
   window.utilityMap.renderFragment(similarListOfPins, fragmentWithServerPins);
 };
 
@@ -86,3 +105,36 @@ mainPin.addEventListener(`mousedown`, function (evt) {
 mainPin.addEventListener(`keydown`, activatePage);
 
 publishButton.addEventListener(`click`, checkForm);
+
+/*
+
+module7 task1
+
+[ ] для формы с фильтрами на карте сделать активацию
+    только при успешной загрузке объявлений.
+
+[ ] строго изучить всё ТЗ.
+
+[ ] сделать, чтобы вначале на карте не отображалось больше 5 меток.
+    Выводить на карту не более 5 меток. Установка фильтра по количеству
+    должна происходить сразу после получения данных с сервера;
+
+[ ] Установка фильтра по количеству должна происходить сразу после
+    получения данных с сервера.
+
+[ ] Запрограммировать фильтр «Тип жилья». Помните, независимо от того
+    сколько объявлений соответствует фильтру «Тип жилья» на карте не
+    должно отображаться больше 5 объявлений.
+
+[ ] После изменения фильтра заново перерисовывать все пины.
+    Удалить старые; Отфильтровать нужные; Отрисовать 5 из нужных.
+
+[ ] При изменении любого фильтра скрывать открытую карточку объявления.
+
+[ ] try catch применить в коде (кроме асинхронного кода)
+
+[ ] возможно вынести errorHandler и successHandler в отдельные модули
+
+[ ] посмотреть что ещё можно или следует вынести в другие модули и вынести
+
+ */
