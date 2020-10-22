@@ -14,36 +14,57 @@ const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
 const similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const similarListOfPins = document.querySelector(`.map__pins`);
 
+const housingTypeField = mapFilterForm.querySelector(`#housing-type`);
+// const housingPriceField = mapFilterForm.querySelector(`#housing-price`);
+// const housingRoomsField = mapFilterForm.querySelector(`#housing-rooms`);
+// const housingGuestsField = mapFilterForm.querySelector(`#housing-guests`);
+// const housingFeaturesField = mapFilterForm.querySelector(`#housing-features`);
+
 let activateFlag = false;
 
 const checkForm = function () {
   window.utilityForm.checkValidity(priceElem, roomsQuantity, guestsQuantity);
 };
 
-// !!!
-// console.log(document.querySelector('.map__filters').querySelector('.map__filter').value);
-// !!!
-
 const successHandler = function (advertisementArray) {
 
-  console.log(`advertisementArray`);
-  console.log(advertisementArray);
-  console.log(`and`);
-  console.log(`advertisementArray[1]`);
-  console.log(advertisementArray[1]);
-  console.log(`and`);
+  // console.log(`advertisementArray`);
+  // console.log(advertisementArray);
+  // console.log(`and`);
+  // console.log(`advertisementArray[1]`);
+  // console.log(advertisementArray[1]);
+  // console.log(`and`);
   // console.log(`advertisementArray.slice(0, 5)`);
   // console.log(advertisementArray.slice(0, 5));
-  console.log(`advertisementArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY)`);
-  console.log(advertisementArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY));
+  // console.log(`advertisementArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY)`);
+  // console.log(advertisementArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY));
 
   // code for RENDER FULL ADV ARRAY
   // let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray, similarPinTemplate);
 
-  // code for RENDER slice of FULL ADV ARRAY
+  // code for RENDER slice with 5 first elements of FULL ADV ARRAY
   let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
-  window.utilityMap.renderFragment(similarListOfPins, fragmentWithServerPins);
+
+  // window.utilityMap.renderFragment(similarListOfPins, fragmentWithServerPins);
+  renderPins(fragmentWithServerPins);
 };
+
+
+const renderPins = function(pinsFragment = document.createDocumentFragment()){
+  // cleaning Map from other Pins Except MainPin
+  let nextSibling = mainPin.nextElementSibling;
+  while(nextSibling) {
+    nextSibling.remove();
+    nextSibling = mainPin.nextElementSibling;
+  };
+  window.utilityMap.renderFragment(similarListOfPins, pinsFragment);
+};
+
+
+// supposed MODULE
+// (function(){
+// })();
+
 
 const errorHandler = function (errorMessage) {
   let node = document.createElement(`div`);
@@ -110,12 +131,14 @@ publishButton.addEventListener(`click`, checkForm);
 
 module7 task1
 
-[ ] для формы с фильтрами на карте сделать активацию
+[ ] при необходимости указать константы или перечисления из значений для сортировки
+
+[*] для формы с фильтрами на карте сделать активацию
     только при успешной загрузке объявлений.
 
 [ ] строго изучить всё ТЗ.
 
-[ ] сделать, чтобы вначале на карте не отображалось больше 5 меток.
+[*] сделать, чтобы вначале на карте не отображалось больше 5 меток.
     Выводить на карту не более 5 меток. Установка фильтра по количеству
     должна происходить сразу после получения данных с сервера;
 
