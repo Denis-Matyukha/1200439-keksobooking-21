@@ -52,14 +52,45 @@ const successHandler = function (advertisementArray) {
 
 const renderPins = function(pinsFragment = document.createDocumentFragment()){
   // cleaning Map from other Pins Except MainPin
-  let nextSibling = mainPin.nextElementSibling;
-  while(nextSibling) {
-    nextSibling.remove();
-    nextSibling = mainPin.nextElementSibling;
-  };
+  // version 1:
+  // let nextSibling = mainPin.nextElementSibling;
+  // while(nextSibling) {
+  //   nextSibling.remove();
+  //   nextSibling = mainPin.nextElementSibling;
+  // };
+
+  // version 2:
+  // let oldPins = document.querySelectorAll(`.map__pin`);
+  // (Array.from(oldPins).slice(1)).forEach(el => el.remove());
+
+    // version 2.1:
+  let oldPins = document.querySelectorAll(`.map__pin`);
+  let oldPinsExceptMain = (Array.from(oldPins)).slice(1);
+  // (Array.from(oldPins).slice(1)).forEach(el => el.remove());
+  oldPinsExceptMain.forEach(function(elem){
+    elem.remove();
+  });
+
+  // version 3:
+  // let oldPins = (Array.from(similarListOfPins.children)).slice(2);
+  // oldPins.forEach(function (elem) {
+  //   elem.remove();
+  // });
+
   window.utilityMap.renderFragment(similarListOfPins, pinsFragment);
 };
 
+// !!!
+// (Array.from(document.querySelectorAll(`.map__pin`)).slice(1)).forEach(el => el.style.display = 'none');
+// (Array.from(document.querySelectorAll(`.map__pin`)).slice(1)).forEach(el => el.remove());
+
+// (Array.from(similarListOfPins).slice(1)).forEach(el => el.remove());
+// similarListOfPins
+// ((Array.from(document.querySelector(`.map__pins`).children)).slice(2)).forEach( function(el) { el.remove(); } );
+// ((Array.from(similarListOfPins.children)).slice(2)).forEach( function(el) { el.remove(); } );
+// ((Array.from(similarListOfPins.children)).slice(2)).forEach( function(el) { el.remove(); } );
+
+// !!!
 
 // supposed MODULE
 // (function(){
