@@ -14,6 +14,7 @@ const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
 const similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const similarListOfPins = document.querySelector(`.map__pins`);
 
+//const housingTypeField = mapFilterForm.elements[`housing-type`]
 const housingTypeField = mapFilterForm.querySelector(`#housing-type`);
 // const housingPriceField = mapFilterForm.querySelector(`#housing-price`);
 // const housingRoomsField = mapFilterForm.querySelector(`#housing-rooms`);
@@ -28,6 +29,8 @@ const checkForm = function () {
 
 const successHandler = function (advertisementArray) {
 
+  // const fullAdvertisementArray = advertisementArray;
+  window.fullAdvertisementArray = advertisementArray;
   // console.log(`advertisementArray`);
   // console.log(advertisementArray);
   // console.log(`and`);
@@ -43,14 +46,75 @@ const successHandler = function (advertisementArray) {
   // let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray, similarPinTemplate);
 
   // code for RENDER slice with 5 first elements of FULL ADV ARRAY
-  let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
 
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
+  // renderPins(fragmentWithServerPins);
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // window.utilityMap.renderFragment(similarListOfPins, fragmentWithServerPins);
-  renderPins(fragmentWithServerPins);
+
+  renderPins(advertisementArray);
+
+
 };
+// ОБЯЗАТЕЛЬНО ДОБАВИТЬ АКТИВАЦИЮ ФОРМЫ ТОЛЬКО ПОСЛЕ ПОЛОЖИТЕЛЬНОГО ОТВЕТА С СЕРВЕРА
+
+// let x = document.forms[0];
+// console.log(mapFilterForm.elements[`housing-type`]);
+// console.log(x.elements['housing-type']);
+
+housingTypeField.addEventListener(`change`, function () {
+  let hosingType = housingTypeField.value;
+
+  let arrayForRender = (window.fullAdvertisementArray).filter(function (advertisement) {
+    return advertisement.offer.type === hosingType;
+  });
+
+  // console.log(`window.fullAdvertisementArray.length AFTER FILTER is ${window.fullAdvertisementArray.length}`);
+
+  arrayForRender = arrayForRender.concat(window.fullAdvertisementArray);
+  // !!! ОТСЕЯТЬ СОВПАДЕНИЯ
+  arrayForRender = arrayForRender.filter(function(advertisement, index) {
+    return arrayForRender.indexOf(advertisement) === index;
+  });
+
+  // console.log(arrayForRender.slice(0, 5));
+
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // let sortedServerPinsFragment = window.utilityGenerateMockup.getReceivedAdvsInFragment(arrayForRender.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
+  // renderPins(sortedServerPinsFragment);
+
+  // console.log(arrayForRender);
+
+  let arrForConsole = [];
+  for (let i = 0; i < arrayForRender.length; i++) {
+    arrForConsole.push(arrayForRender[i].offer.type);
+  }
+  console.log(arrForConsole);
+
+  renderPins(arrayForRender);
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+  // console.log(window.fullAdvertisementArray);
+  // console.log(`housingTypeField.value`);
+  // console.log(housingTypeField.value);
+
+  // const sameCoatWizards = wizards.filter(function(wizard) {
+  //   return wizard.colorCoat === coatColor;
+  // });
+});
+
+
 
 
 const renderPins = function(pinsFragment = document.createDocumentFragment()){
+
+  if(Array.isArray(pinsFragment)) {
+    pinsFragment = window.utilityGenerateMockup.getReceivedAdvsInFragment(pinsFragment.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
+  } else {
+    pinsFragment = document.createDocumentFragment();
+  }
+
   // cleaning Map from other Pins Except MainPin
   // version 1:
   // let nextSibling = mainPin.nextElementSibling;
@@ -190,5 +254,12 @@ module7 task1
 [ ] возможно вынести errorHandler и successHandler в отдельные модули
 
 [ ] посмотреть что ещё можно или следует вынести в другие модули и вынести
+
+[*] по событию фильтра onchange:
+[*] получаем значение фильтра квартир
+[*] сортируем массив по этому указателю
+[*] добавляем к массиву исходый массив
+[*] убираем совпадения with code indexOF
+[*] отдаём первые пять элементов массива на рендер
 
  */
