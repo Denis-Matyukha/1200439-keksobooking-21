@@ -13,6 +13,7 @@ const guestsQuantity = mainFormElement.querySelector(`#capacity`);
 const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
 const similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const similarListOfPins = document.querySelector(`.map__pins`);
+const housingTypeField = mapFilterForm.querySelector(`#housing-type`);
 
 let activateFlag = false;
 
@@ -21,30 +22,40 @@ const checkForm = function () {
 };
 
 const successHandler = function (advertisementArray) {
-  // console.log(advertisementArray);
-  let fragmentWithServerPins = window.utilityGenerateMockup.getReceivedAdvsInFragment(advertisementArray, similarPinTemplate);
-  window.utilityMap.renderFragment(similarListOfPins, fragmentWithServerPins);
+  window.fullAdvertisementArray = advertisementArray;
+  renderPins(advertisementArray);
+};
+
+housingTypeField.addEventListener(`change`, function () {
+
+  let hosingType = housingTypeField.value;
+  let arrayForRender = (window.fullAdvertisementArray).filter(function (advertisement) {
+    return advertisement.offer.type === hosingType;
+  });
+
+  arrayForRender = arrayForRender.concat(window.fullAdvertisementArray);
+  arrayForRender = arrayForRender.filter(function (advertisement, index) {
+    return arrayForRender.indexOf(advertisement) === index;
+  });
+
+  renderPins(arrayForRender);
+});
+
+const renderPins = function (pinsFragment) {
+
+  let oldPins = document.querySelectorAll(`.map__pin`);
+  let oldPinsExceptMain = (Array.from(oldPins)).slice(1);
+  oldPinsExceptMain.forEach(function (elem) {
+    elem.remove();
+  });
+  pinsFragment = window.utilityGenerateMockup.getReceivedAdvsInFragment(pinsFragment.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
+  window.utilityMap.renderFragment(similarListOfPins, pinsFragment);
 };
 
 const errorHandler = function (errorMessage) {
+
   let node = document.createElement(`div`);
-  node.style = `
-    z-index: 100;
-    margin: 0 auto;
-    text-align: center;
-    background-color: wheat;
-    position: absolute;
-    padding: 0.5em;
-    top: 40vh;
-    left: 20vw;
-    right: 20vw;
-    font-size: 20px;
-    font-family: Roboto", "Arial", sans-serif;
-    color: #353535;
-    border: 1px solid #ffaa99;
-    border-radius: 8px;
-    box-shadow: 0 0 2px 2px #ff6547;
-    `;
+  node.style = window.utilityLoad.ErrorWindowStyle;
   node.textContent = errorMessage;
   document.body.insertAdjacentElement(`afterbegin`, node);
 };
@@ -57,7 +68,6 @@ const activatePage = function (evt) {
 
     if (!activateFlag) {
 
-      // function (onSuccess, onError)
       window.utilityLoad.getXHRequest(successHandler, errorHandler);
 
       window.utilityForm.toggleDisableAttr(mapSelects);
@@ -79,6 +89,7 @@ window.utilityForm.toggleDisableAttr(formInputs);
 window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 
 mainPin.addEventListener(`mousedown`, function (evt) {
+
   activatePage(evt);
   window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 });
