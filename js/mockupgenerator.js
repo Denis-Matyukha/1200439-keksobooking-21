@@ -63,7 +63,6 @@
       return singleElement;
     },
 
-    // !!!module3-task2 begin
     createCard: function (advertisement, block) {
       let newCard = block.content.querySelector(`.map__card`).cloneNode(true);
       newCard.querySelector(`.popup__title`).innerText = `${advertisement.offer.title}`;
@@ -123,13 +122,8 @@
 
       newCard.querySelector(`.popup__avatar`).src = `${advertisement.author.avatar}`;
 
-      // Реализовать:
-      // Если данных для заполнения не хватает, соответствующий блок в карточке скрывается.
       return newCard;
     },
-    // !!!module3-task2 end
-    // createCard(arrElem, DOMblock);
-    // document.querySelector(`.map`).insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[0],document.querySelector(`#card`)));
 
     getRandomAdvsInFragment: function (numberOfAdvs, contentElem) {
       let targetTemplate = document.createDocumentFragment();

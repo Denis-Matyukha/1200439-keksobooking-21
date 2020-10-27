@@ -24,6 +24,12 @@ const checkForm = function () {
 const successHandler = function (advertisementArray) {
   window.fullAdvertisementArray = advertisementArray;
   renderPins(advertisementArray);
+
+  // ! ! !
+  // this line should exist only while module3-task1 is under checking
+  mapBlock.insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[0], document.querySelector(`#card`)));
+  //  delete this line after checking
+
 };
 
 housingTypeField.addEventListener(`change`, function () {
@@ -75,6 +81,8 @@ const activatePage = function (evt) {
 
       activateFlag = true;
     }
+
+
 
     mapBlock.classList.remove(`map--faded`);
     mainFormElement.classList.remove(`ad-form--disabled`);
