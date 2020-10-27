@@ -84,23 +84,42 @@
           newCard.querySelector(`.popup__type`).innerText = `Дворец`;
           break;
         default:
-          newCard.querySelector(`.popup__type`).innerText = `тип жилья не указан =^⌒^=`;
-          // newCard.querySelector(`.popup__type`).innerText = `${advertisement.offer.type}`;
+          newCard.querySelector(`.popup__type`).innerText = `${advertisement.offer.type}`;
       };
 
       newCard.querySelector(`.popup__text--capacity`).innerText = `${advertisement.offer.rooms} комнаты для ${advertisement.offer.guests} гостей.`;
       newCard.querySelector(`.popup__text--time`).innerText = `Заезд после ${advertisement.offer.checkin}, выезд до ${advertisement.offer.checkout}.`;
 
-      // В список .popup__features выведите все доступные удобства в объявлении.
-
-      //  advertisement.offer.features это массив, пройтись по нему forEach и отрисовать в li
+      if(Array.isArray(advertisement.offer.features) && advertisement.offer.features.length) {
+        let featuresArray = advertisement.offer.features;
+        let featuresFragment = document.createDocumentFragment();
+        featuresArray.forEach(function (element) {
+          let newListItem = document.createElement(`li`);
+          newListItem.classList.add(`popup__feature`);
+          newListItem.classList.add(`popup__feature--${element}`);
+          featuresFragment.appendChild(newListItem);
+        });
+        newCard.querySelector(`.popup__features`).innerHTML = ``;
+        newCard.querySelector(`.popup__features`).appendChild(featuresFragment);
+      } else {
+        newCard.querySelector(`.popup__features`).innerHTML = ``;
+      };
 
       newCard.querySelector(`.popup__description`).innerText = `${advertisement.offer.description}`;
 
-      // !!!
-      // В блок .popup__photos выведите все фотографии из списка offer.photos.
-      // Каждая из строк массива photos должна записываться как src соответствующего изображения.
-      // !!!
+      if(Array.isArray(advertisement.offer.photos) && advertisement.offer.photos.length) {
+        let photosArray = advertisement.offer.photos;
+        let photosFragment = document.createDocumentFragment();
+        photosArray.forEach(function (element) {
+          let newImage = newCard.querySelector(`.popup__photos`).children[0].cloneNode(true);
+          newImage.src = element;
+          photosFragment.appendChild(newImage);
+        });
+        newCard.querySelector(`.popup__photos`).removeChild(newCard.querySelector(`.popup__photos`).children[0]);
+        newCard.querySelector(`.popup__photos`).appendChild(photosFragment);
+      } else {
+        newCard.querySelector(`.popup__photos`).innerHTML = ``;
+      };
 
       newCard.querySelector(`.popup__avatar`).src = `${advertisement.author.avatar}`;
 
