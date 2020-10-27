@@ -41,14 +41,14 @@ housingTypeField.addEventListener(`change`, function () {
   renderPins(arrayForRender);
 });
 
-const renderPins = function (pinsFragment) {
+const renderPins = function (pinsArray) {
 
   let oldPins = document.querySelectorAll(`.map__pin`);
   let oldPinsExceptMain = (Array.from(oldPins)).slice(1);
   oldPinsExceptMain.forEach(function (elem) {
     elem.remove();
   });
-  pinsFragment = window.utilityGenerateMockup.getReceivedAdvsInFragment(pinsFragment.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
+  let pinsFragment = window.utilityGenerateMockup.getReceivedAdvsInFragment(pinsArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
   window.utilityMap.renderFragment(similarListOfPins, pinsFragment);
 };
 
