@@ -24,6 +24,12 @@ const checkForm = function () {
 const successHandler = function (advertisementArray) {
   window.fullAdvertisementArray = advertisementArray;
   renderPins(advertisementArray);
+
+  // ! ! !
+  // this line should exist only while module3-task1 is under checking
+  mapBlock.insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[0], document.querySelector(`#card`)));
+  //  delete this line after checking
+
 };
 
 housingTypeField.addEventListener(`change`, function () {
@@ -41,14 +47,14 @@ housingTypeField.addEventListener(`change`, function () {
   renderPins(arrayForRender);
 });
 
-const renderPins = function (pinsFragment) {
+const renderPins = function (pinsArray) {
 
   let oldPins = document.querySelectorAll(`.map__pin`);
   let oldPinsExceptMain = (Array.from(oldPins)).slice(1);
   oldPinsExceptMain.forEach(function (elem) {
     elem.remove();
   });
-  pinsFragment = window.utilityGenerateMockup.getReceivedAdvsInFragment(pinsFragment.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
+  let pinsFragment = window.utilityGenerateMockup.getReceivedAdvsInFragment(pinsArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
   window.utilityMap.renderFragment(similarListOfPins, pinsFragment);
 };
 
@@ -75,6 +81,8 @@ const activatePage = function (evt) {
 
       activateFlag = true;
     }
+
+
 
     mapBlock.classList.remove(`map--faded`);
     mainFormElement.classList.remove(`ad-form--disabled`);
