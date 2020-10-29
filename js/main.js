@@ -15,6 +15,10 @@ const similarPinTemplate = document.querySelector(`#pin`).content.querySelector(
 const similarListOfPins = document.querySelector(`.map__pins`);
 const housingTypeField = mapFilterForm.querySelector(`#housing-type`);
 
+
+// const oldPins = document.querySelectorAll(`.map__pin`);
+// const oldPinsExceptMain = (Array.from(oldPins)).slice(1);
+
 let activateFlag = false;
 
 const checkForm = function () {
@@ -30,7 +34,8 @@ const successHandler = function (advertisementArray) {
 
   // ! ! !
   // this line should exist only while module3-task1 is under checking
-  mapBlock.insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[0], document.querySelector(`#card`)));
+  // mapBlock.insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[0], document.querySelector(`#card`)));
+  //
   // let someIndex = 0;
   // (document.querySelectorAll(`.map__pin`)[someIndex]).insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[someIndex], document.querySelector(`#card`)));
   //  delete this line after checking
@@ -39,6 +44,7 @@ const successHandler = function (advertisementArray) {
 // ↑↑↑ should move to load.js ↑↑↑
 // ↑↑
 // ↑
+
 
 
 // ↓
@@ -68,17 +74,27 @@ housingTypeField.addEventListener(`change`, function () {
 // ↓↓
 // ↓↓↓ should move to map.js ↓↓↓
 const renderPins = function (pinsArray) {
+
   let oldPins = document.querySelectorAll(`.map__pin`);
   let oldPinsExceptMain = (Array.from(oldPins)).slice(1);
+
+  // bind with oldPinsExceptMain before moving to another module ↓
   oldPinsExceptMain.forEach(function (elem) {
     elem.remove();
   });
+
   let pinsFragment = window.utilityGenerateMockup.getReceivedAdvsInFragment(pinsArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
   window.utilityMap.renderFragment(similarListOfPins, pinsFragment);
+
+  // !!
+  onPinsClikHolder();
+  // !!
 };
 // ↑↑↑ should move to map.js ↑↑↑
 // ↑↑
 // ↑
+
+
 
 // ↓
 // ↓↓
@@ -125,12 +141,69 @@ const activatePage = function (evt) {
     }
 
 
-
     mapBlock.classList.remove(`map--faded`);
     mainFormElement.classList.remove(`ad-form--disabled`);
     window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
   }
 };
+
+// ↓
+// ↓↓
+// ↓↓↓
+// module4-task2 start here
+const renderCard = function () {};
+
+// for(let pin of oldPinsExceptMain){};
+
+
+const onPinsClikHolder = function () {
+
+  let oldPins = document.querySelectorAll(`.map__pin`);
+  let oldPinsExceptMain = (Array.from(oldPins)).slice(1);
+
+  for (let pin of oldPinsExceptMain) {
+    pin.addEventListener('click',function (evt) {
+
+      // ↓
+      // ↓↓
+      // might be at separate module
+      let getMatchedObjectByTitle = function (arrOfObjects, title) {
+        let matchedObj = arrOfObjects.filter(function (elem) {
+          return elem.offer.title === title;
+        });
+        return matchedObj[0];
+      };
+      // ↑↑
+      // ↑
+
+      if (evt.target.childNodes.length) {
+
+        let targetElemTitle = evt.target.childNodes[0].alt;
+        let matchedObj = getMatchedObjectByTitle(window.fullAdvertisementArray, targetElemTitle);
+
+        console.log(`/// start ///`);
+        console.log(`сработал клик по ${evt.target}, результат ниже:`);
+        console.log(matchedObj.offer.title);
+        console.log(`/// end ///`);
+        // далее вызывать метод отрисовки карточки по переданному объекту
+      } else {
+
+        let targetElemTitle = evt.target.alt;
+        let matchedObj = getMatchedObjectByTitle(window.fullAdvertisementArray, targetElemTitle);
+
+        console.log(`/// start ///`);
+        console.log(`сработал клик по ${evt.target}, результат ниже:`);
+        console.log(matchedObj.offer.title);
+        console.log(`/// end ///`);
+        // далее вызывать метод отрисовки карточки по переданному объекту
+      }
+
+    });
+  };
+};
+// ↑↑↑
+// ↑↑
+// ↑
 
 // initializing primary disabled condition
 window.utilityForm.toggleDisableAttr(mapSelects);
