@@ -21,6 +21,9 @@ const checkForm = function () {
   window.utilityForm.checkValidity(priceElem, roomsQuantity, guestsQuantity);
 };
 
+// ↓
+// ↓↓
+// ↓↓↓ should move to load.js ↓↓↓
 const successHandler = function (advertisementArray) {
   window.fullAdvertisementArray = advertisementArray;
   renderPins(advertisementArray);
@@ -28,10 +31,19 @@ const successHandler = function (advertisementArray) {
   // ! ! !
   // this line should exist only while module3-task1 is under checking
   mapBlock.insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[0], document.querySelector(`#card`)));
+  // let someIndex = 0;
+  // (document.querySelectorAll(`.map__pin`)[someIndex]).insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[someIndex], document.querySelector(`#card`)));
   //  delete this line after checking
 
 };
+// ↑↑↑ should move to load.js ↑↑↑
+// ↑↑
+// ↑
 
+
+// ↓
+// ↓↓
+// ↓↓↓ should move to NEW mathing.js ↓↓↓
 housingTypeField.addEventListener(`change`, function () {
 
   let hosingType = housingTypeField.value;
@@ -46,9 +58,16 @@ housingTypeField.addEventListener(`change`, function () {
 
   renderPins(arrayForRender);
 });
+// ↑↑↑ should move to NEW mathing.js ↑↑↑
+// ↑↑
+// ↑
 
+
+
+// ↓
+// ↓↓
+// ↓↓↓ should move to map.js ↓↓↓
 const renderPins = function (pinsArray) {
-
   let oldPins = document.querySelectorAll(`.map__pin`);
   let oldPinsExceptMain = (Array.from(oldPins)).slice(1);
   oldPinsExceptMain.forEach(function (elem) {
@@ -57,7 +76,26 @@ const renderPins = function (pinsArray) {
   let pinsFragment = window.utilityGenerateMockup.getReceivedAdvsInFragment(pinsArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
   window.utilityMap.renderFragment(similarListOfPins, pinsFragment);
 };
+// ↑↑↑ should move to map.js ↑↑↑
+// ↑↑
+// ↑
 
+// ↓
+// ↓↓
+// ↓↓↓ should move to map.js ↓↓↓
+// creating a new method render card based on command line ↓
+// mapBlock.insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[0], document.querySelector(`#card`)));
+
+// метод будет принимать елемент,по которому определяем объект в массиве. И похоже,что всё. проверяем возможность отрисовки рядом с пином.
+
+// ↑↑↑ should move to map.js ↑↑↑
+// ↑↑
+// ↑
+
+
+// ↓
+// ↓↓
+// ↓↓↓ should move to load.js ↓↓↓
 const errorHandler = function (errorMessage) {
 
   let node = document.createElement(`div`);
@@ -65,6 +103,10 @@ const errorHandler = function (errorMessage) {
   node.textContent = errorMessage;
   document.body.insertAdjacentElement(`afterbegin`, node);
 };
+// ↑↑↑ should move to load.js ↑↑↑
+// ↑↑
+// ↑
+
 
 const activatePage = function (evt) {
 
@@ -105,3 +147,48 @@ mainPin.addEventListener(`mousedown`, function (evt) {
 mainPin.addEventListener(`keydown`, activatePage);
 
 publishButton.addEventListener(`click`, checkForm);
+
+
+/*
+///////////////////////////////////////
+
+// передавать только Пины БЕЗ главного Пина
+let pins = document.querySelectorAll(`.map__pin`);
+
+for(let pin of pins){
+    pin.addEventListener('click',function(evt){
+
+    const getMatchingObjectByTitle = function(arrOfObjects, title){
+        let matchedObj = arrOfObjects.filter(function(elem){
+            return elem.offer.title === title;
+        });
+        return matchedObj[0];
+    };
+
+    if(evt.target.childNodes.length){
+
+        let targetElemTitle = evt.target.childNodes[0].alt;
+        let matchedObj = getMatchingObjectByTitle(window.fullAdvertisementArray, targetElemTitle);
+
+        console.log(`/// start ///`);
+        console.log(`сработал клик по баттон, результат ниже:`);
+        console.log(matchedObj);
+        console.log(`/// end ///`);
+        // далее вызывать метод отрисовки карточки по переданному объекту
+    } else {
+
+        let targetElemTitle = evt.target.alt;
+        let matchedObj = getMatchingObjectByTitle(window.fullAdvertisementArray, targetElemTitle);
+
+        console.log(`/// start ///`);
+        console.log(`сработал клик по img, результат ниже:`);
+        console.log(matchedObj);
+        console.log(`/// end ///`);
+        // далее вызывать метод отрисовки карточки по переданному объекту
+    }
+
+    });
+}
+
+///////////////////////////////////////
+ */
