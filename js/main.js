@@ -1,4 +1,5 @@
-"use strict";
+// eslint-disable-next-line strict
+`use strict`;
 
 const mapBlock = document.querySelector(`.map`);
 const mainPin = document.querySelector(`.map__pin--main`);
@@ -23,6 +24,27 @@ let activateFlag = false;
 
 const checkForm = function () {
   window.utilityForm.checkValidity(priceElem, roomsQuantity, guestsQuantity);
+};
+
+const removeExistedAdvCard = function () {
+  let existedCard = mapBlock.querySelector(`article.map__card`);
+  if (existedCard) {
+    existedCard.remove();
+  }
+  if(window.activePinElement){
+    window.activePinElement.classList.remove(`map__pin--active`);
+  }
+};
+
+const addEscHolder = function(element) {
+  return function () {
+  // return function () {
+    element.addEventListener(`click` , function (evt) {
+      console.log(`HERE I AM`);
+      console.log(element);
+      console.log(evt.target);
+    });
+  }
 };
 
 // ↓
@@ -63,6 +85,8 @@ housingTypeField.addEventListener(`change`, function () {
   });
 
   renderPins(arrayForRender);
+
+  removeExistedAdvCard();
 });
 // ↑↑↑ should move to NEW mathing.js ↑↑↑
 // ↑↑
@@ -87,7 +111,7 @@ const renderPins = function (pinsArray) {
   window.utilityMap.renderFragment(similarListOfPins, pinsFragment);
 
   // !!
-  onPinsClikHolder();
+  onPinsActivateHolder();
   // !!
 };
 // ↑↑↑ should move to map.js ↑↑↑
@@ -156,13 +180,45 @@ const renderCard = function () {};
 // for(let pin of oldPinsExceptMain){};
 
 
-const onPinsClikHolder = function () {
+const onPinsActivateHolder = function () {
+
+  // remove old card
+  // mapBlock.querySelectorAll(`article.map__card`).forEach(function(elem){elem.remove()});
+  // mapBlock.querySelector(`article.map__card`).remove();
+  // let existedCard = mapBlock.querySelector(`article.map__card`);
+  // if (existedCard) {
+  // existedCard.remove();
+  // };
 
   let oldPins = document.querySelectorAll(`.map__pin`);
   let oldPinsExceptMain = (Array.from(oldPins)).slice(1);
 
   for (let pin of oldPinsExceptMain) {
-    pin.addEventListener('click',function (evt) {
+
+    // ↓
+    // ↓↓
+    // ↓↓↓
+    // ↓↓↓↓ truing to write universal function with Enter button key code
+
+    // ↑↑↑
+    // ↑↑
+    // ↑
+
+    pin.addEventListener(`click`,function (evt) {
+
+      // ↓
+      // ↓↓
+      // ↓↓↓
+      // ↓↓↓↓ might be at separate module
+      // let existedCard = mapBlock.querySelector(`article.map__card`);
+      // if (existedCard) {
+      //   existedCard.remove();
+      // };
+      removeExistedAdvCard();
+      // ↑↑↑
+      // ↑↑
+      // ↑
+
 
       // ↓
       // ↓↓
@@ -176,29 +232,53 @@ const onPinsClikHolder = function () {
       // ↑↑
       // ↑
 
-      if (evt.target.childNodes.length) {
 
+      if (evt.target.childNodes.length) {
+        console.log(`Look:`);
+        console.log(evt.target);
+        console.log(`Here ↑`);
+        window.activePinElement = evt.target;
+        window.activePinElement.add(`map__pin--active`);
         let targetElemTitle = evt.target.childNodes[0].alt;
         let matchedObj = getMatchedObjectByTitle(window.fullAdvertisementArray, targetElemTitle);
 
-        console.log(`/// start ///`);
-        console.log(`сработал клик по ${evt.target}, результат ниже:`);
-        console.log(matchedObj.offer.title);
-        console.log(`/// end ///`);
+        // console.log(`/// start ///`);
+        // console.log(`сработал клик по ${evt.target}, результат ниже:`);
+        // console.log(matchedObj.offer.title);
+        // console.log(`/// end ///`);
         // далее вызывать метод отрисовки карточки по переданному объекту
+        mapBlock.insertAdjacentElement(`afterbegin`, window.utilityGenerateMockup.createCard(matchedObj, document.querySelector(`#card`)));
+        // и вешаем обработчики события для срабатывания Esc и [x]
+        // let existedCard = mapBlock.querySelector(`article.map__card`);
+        // test with return function
+        addEscHolder(mapBlock.querySelector(`article.map__card`).querySelector(`button.popup__close`))();
+        // (i) [x] is ↓
+        // document.querySelector(`article.map__card`).querySelector(`button.popup__close`)
       } else {
-
+        console.log(`Look:`);
+        console.log(evt.target.parentNode);
+        console.log(`Here ↑`);
+        window.activePinElement = evt.target.parentNode;
+        window.activePinElement.classList.add(`map__pin--active`);
         let targetElemTitle = evt.target.alt;
         let matchedObj = getMatchedObjectByTitle(window.fullAdvertisementArray, targetElemTitle);
 
-        console.log(`/// start ///`);
-        console.log(`сработал клик по ${evt.target}, результат ниже:`);
-        console.log(matchedObj.offer.title);
-        console.log(`/// end ///`);
+        // console.log(`/// start ///`);
+        // console.log(`сработал клик по ${evt.target}, результат ниже:`);
+        // console.log(matchedObj.offer.title);
+        // console.log(`/// end ///`);
         // далее вызывать метод отрисовки карточки по переданному объекту
+        mapBlock.insertAdjacentElement(`afterbegin`, window.utilityGenerateMockup.createCard(matchedObj, document.querySelector(`#card`)));
+        // и вешаем обработчики события для срабатывания Esc и [x]
+        // let existedCard = mapBlock.querySelector(`article.map__card`);
+        // test with return function
+        addEscHolder(mapBlock.querySelector(`article.map__card`).querySelector(`button.popup__close`))();
+        // (i) [x] is ↓
+        // document.querySelector(`article.map__card`).querySelector(`button.popup__close`)
       }
 
     });
+
   };
 };
 // ↑↑↑
