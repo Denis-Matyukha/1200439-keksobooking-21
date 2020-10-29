@@ -1,5 +1,6 @@
 /* eslint-disable object-shorthand */
-"use strict";
+// eslint-disable-next-line strict
+`use strict`;
 
 (function () {
 
@@ -140,6 +141,13 @@
         targetTemplate.appendChild(window.utilityGenerateMockup.createPin(advsElement, contentElem));
       });
       return targetTemplate;
+    },
+
+    getMatchedObjectByTitle: function (arrOfObjects, title) {
+      let matchedObj = arrOfObjects.filter(function (elem) {
+        return elem.offer.title === title;
+      });
+      return matchedObj[0];
     },
 
   };

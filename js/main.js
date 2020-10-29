@@ -16,10 +16,6 @@ const similarPinTemplate = document.querySelector(`#pin`).content.querySelector(
 const similarListOfPins = document.querySelector(`.map__pins`);
 const housingTypeField = mapFilterForm.querySelector(`#housing-type`);
 
-
-// const oldPins = document.querySelectorAll(`.map__pin`);
-// const oldPinsExceptMain = (Array.from(oldPins)).slice(1);
-
 let activateFlag = false;
 
 const checkForm = function () {
@@ -31,20 +27,17 @@ const removeExistedAdvCard = function () {
   if (existedCard) {
     existedCard.remove();
   }
-  if(window.activePinElement){
+  if(window.activePinElement) {
     window.activePinElement.classList.remove(`map__pin--active`);
   }
 };
 
 const addEscHolder = function(element) {
   return function () {
-  // return function () {
     element.addEventListener(`click` , function (evt) {
-      console.log(`HERE I AM`);
-      console.log(element);
-      console.log(evt.target);
+      evt.target.parentNode.remove();
     });
-  }
+  };
 };
 
 // ↓
@@ -53,15 +46,6 @@ const addEscHolder = function(element) {
 const successHandler = function (advertisementArray) {
   window.fullAdvertisementArray = advertisementArray;
   renderPins(advertisementArray);
-
-  // ! ! !
-  // this line should exist only while module3-task1 is under checking
-  // mapBlock.insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[0], document.querySelector(`#card`)));
-  //
-  // let someIndex = 0;
-  // (document.querySelectorAll(`.map__pin`)[someIndex]).insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[someIndex], document.querySelector(`#card`)));
-  //  delete this line after checking
-
 };
 // ↑↑↑ should move to load.js ↑↑↑
 // ↑↑
@@ -111,7 +95,7 @@ const renderPins = function (pinsArray) {
   window.utilityMap.renderFragment(similarListOfPins, pinsFragment);
 
   // !!
-  onPinsActivateHolder();
+  refreshPinActiveListener();
   // !!
 };
 // ↑↑↑ should move to map.js ↑↑↑
@@ -150,25 +134,25 @@ const errorHandler = function (errorMessage) {
 
 const activatePage = function (evt) {
 
-  if (evt.button === window.utilityData.EVENT_CODE.MOUSE_LEFT_BTN ||
-      evt.code === window.utilityData.EVENT_CODE.KEYBOARD_ENTER ||
-      evt.code === window.utilityData.EVENT_CODE.KEYBOARD_NUMPAD_ENTER) {
+  // if (evt.button === window.utilityData.EVENT_CODE.MOUSE_LEFT_BTN ||
+  //     evt.code === window.utilityData.EVENT_CODE.KEYBOARD_ENTER ||
+  //     evt.code === window.utilityData.EVENT_CODE.KEYBOARD_NUMPAD_ENTER) {
 
-    if (!activateFlag) {
+  if (!activateFlag) {
 
-      window.utilityLoad.getXHRequest(successHandler, errorHandler);
+    window.utilityLoad.getXHRequest(successHandler, errorHandler);
 
-      window.utilityForm.toggleDisableAttr(mapSelects);
-      window.utilityForm.toggleDisableAttr(formInputs);
+    window.utilityForm.toggleDisableAttr(mapSelects);
+    window.utilityForm.toggleDisableAttr(formInputs);
 
-      activateFlag = true;
-    }
-
-
-    mapBlock.classList.remove(`map--faded`);
-    mainFormElement.classList.remove(`ad-form--disabled`);
-    window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
+    activateFlag = true;
   }
+
+
+  mapBlock.classList.remove(`map--faded`);
+  mainFormElement.classList.remove(`ad-form--disabled`);
+  window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
+  // }
 };
 
 // ↓
@@ -180,7 +164,7 @@ const renderCard = function () {};
 // for(let pin of oldPinsExceptMain){};
 
 
-const onPinsActivateHolder = function () {
+const refreshPinActiveListener = function () {
 
   // remove old card
   // mapBlock.querySelectorAll(`article.map__card`).forEach(function(elem){elem.remove()});
@@ -199,85 +183,93 @@ const onPinsActivateHolder = function () {
     // ↓↓
     // ↓↓↓
     // ↓↓↓↓ truing to write universal function with Enter button key code
+    let activatedPinHolder = function (evt) {
+      if (evt.button === window.utilityData.EVENT_CODE.MOUSE_LEFT_BTN ||
+        evt.code === window.utilityData.EVENT_CODE.KEYBOARD_ENTER ||
+        evt.code === window.utilityData.EVENT_CODE.KEYBOARD_NUMPAD_ENTER) {
+        // start ↓
 
-    // ↑↑↑
-    // ↑↑
-    // ↑
-
-    pin.addEventListener(`click`,function (evt) {
-
-      // ↓
-      // ↓↓
-      // ↓↓↓
-      // ↓↓↓↓ might be at separate module
-      // let existedCard = mapBlock.querySelector(`article.map__card`);
-      // if (existedCard) {
-      //   existedCard.remove();
-      // };
-      removeExistedAdvCard();
-      // ↑↑↑
-      // ↑↑
-      // ↑
-
-
-      // ↓
-      // ↓↓
-      // might be at separate module
-      let getMatchedObjectByTitle = function (arrOfObjects, title) {
-        let matchedObj = arrOfObjects.filter(function (elem) {
-          return elem.offer.title === title;
-        });
-        return matchedObj[0];
-      };
-      // ↑↑
-      // ↑
-
-
-      if (evt.target.childNodes.length) {
-        console.log(`Look:`);
-        console.log(evt.target);
-        console.log(`Here ↑`);
-        window.activePinElement = evt.target;
-        window.activePinElement.add(`map__pin--active`);
-        let targetElemTitle = evt.target.childNodes[0].alt;
-        let matchedObj = getMatchedObjectByTitle(window.fullAdvertisementArray, targetElemTitle);
-
-        // console.log(`/// start ///`);
-        // console.log(`сработал клик по ${evt.target}, результат ниже:`);
-        // console.log(matchedObj.offer.title);
-        // console.log(`/// end ///`);
-        // далее вызывать метод отрисовки карточки по переданному объекту
-        mapBlock.insertAdjacentElement(`afterbegin`, window.utilityGenerateMockup.createCard(matchedObj, document.querySelector(`#card`)));
-        // и вешаем обработчики события для срабатывания Esc и [x]
+        // ↓
+        // ↓↓
+        // ↓↓↓
+        // ↓↓↓↓ might be at separate module
         // let existedCard = mapBlock.querySelector(`article.map__card`);
-        // test with return function
-        addEscHolder(mapBlock.querySelector(`article.map__card`).querySelector(`button.popup__close`))();
-        // (i) [x] is ↓
-        // document.querySelector(`article.map__card`).querySelector(`button.popup__close`)
-      } else {
-        console.log(`Look:`);
-        console.log(evt.target.parentNode);
-        console.log(`Here ↑`);
-        window.activePinElement = evt.target.parentNode;
-        window.activePinElement.classList.add(`map__pin--active`);
-        let targetElemTitle = evt.target.alt;
-        let matchedObj = getMatchedObjectByTitle(window.fullAdvertisementArray, targetElemTitle);
+        // if (existedCard) {
+        //   existedCard.remove();
+        // };
+        removeExistedAdvCard();
+        // ↑↑↑
+        // ↑↑
+        // ↑
 
-        // console.log(`/// start ///`);
-        // console.log(`сработал клик по ${evt.target}, результат ниже:`);
-        // console.log(matchedObj.offer.title);
-        // console.log(`/// end ///`);
-        // далее вызывать метод отрисовки карточки по переданному объекту
-        mapBlock.insertAdjacentElement(`afterbegin`, window.utilityGenerateMockup.createCard(matchedObj, document.querySelector(`#card`)));
-        // и вешаем обработчики события для срабатывания Esc и [x]
-        // let existedCard = mapBlock.querySelector(`article.map__card`);
-        // test with return function
-        addEscHolder(mapBlock.querySelector(`article.map__card`).querySelector(`button.popup__close`))();
-        // (i) [x] is ↓
-        // document.querySelector(`article.map__card`).querySelector(`button.popup__close`)
+
+        // ↓
+        // ↓↓
+        // might be at separate module
+        // let window.utilityGenerateMockup.getMatchedObjectByTitle = function (arrOfObjects, title) {
+        //   let matchedObj = arrOfObjects.filter(function (elem) {
+        //     return elem.offer.title === title;
+        //   });
+        //   return matchedObj[0];
+        // };
+        // ↑↑
+        // ↑
+
+
+        if (evt.target.childNodes.length) {
+          console.log(`Look:`);
+          console.log(evt.target);
+          console.log(`Here ↑`);
+          window.activePinElement = evt.target;
+          window.activePinElement.classList.add(`map__pin--active`);
+          let targetElemTitle = evt.target.childNodes[0].alt;
+          let matchedObj = window.utilityGenerateMockup.getMatchedObjectByTitle(window.fullAdvertisementArray, targetElemTitle);
+
+          // console.log(`/// start ///`);
+          // console.log(`сработал клик по ${evt.target}, результат ниже:`);
+          // console.log(matchedObj.offer.title);
+          // console.log(`/// end ///`);
+          // далее вызывать метод отрисовки карточки по переданному объекту
+          mapBlock.insertAdjacentElement(`afterbegin`, window.utilityGenerateMockup.createCard(matchedObj, document.querySelector(`#card`)));
+          // и вешаем обработчики события для срабатывания Esc и [x]
+          // let existedCard = mapBlock.querySelector(`article.map__card`);
+          // test with return function
+          let existedCard = mapBlock.querySelector(`article.map__card`);
+          addEscHolder(existedCard.querySelector(`button.popup__close`))();
+          // Возможно стоит переписать функцию для дальнейшего снятия обработчика событий
+
+          // (i) [x] is ↓
+          // document.querySelector(`article.map__card`).querySelector(`button.popup__close`)
+        } else {
+          console.log(`Look:`);
+          console.log(evt.target.parentNode);
+          console.log(`Here ↑`);
+          window.activePinElement = evt.target.parentNode;
+          window.activePinElement.classList.add(`map__pin--active`);
+          let targetElemTitle = evt.target.alt;
+          let matchedObj = window.utilityGenerateMockup.getMatchedObjectByTitle(window.fullAdvertisementArray, targetElemTitle);
+
+          // console.log(`/// start ///`);
+          // console.log(`сработал клик по ${evt.target}, результат ниже:`);
+          // console.log(matchedObj.offer.title);
+          // console.log(`/// end ///`);
+          // далее вызывать метод отрисовки карточки по переданному объекту
+          mapBlock.insertAdjacentElement(`afterbegin`, window.utilityGenerateMockup.createCard(matchedObj, document.querySelector(`#card`)));
+          // и вешаем обработчики события для срабатывания Esc и [x]
+          // let existedCard = mapBlock.querySelector(`article.map__card`);
+          // test with return function
+          let existedCard = mapBlock.querySelector(`article.map__card`);
+          addEscHolder(existedCard.querySelector(`button.popup__close`))();
+          // Возможно стоит переписать функцию для дальнейшего снятия обработчика событий
+
+          // (i) [x] is ↓
+          // document.querySelector(`article.map__card`).querySelector(`button.popup__close`)
+        }
       }
+    };
 
-    });
+    pin.addEventListener(`click`, activatedPinHolder);
+    // pin.addEventListener(`keydown`, activatedPinHolder);
 
   };
 };
@@ -291,14 +283,7 @@ window.utilityForm.toggleDisableAttr(formInputs);
 
 window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 
-mainPin.addEventListener(`mousedown`, function (evt) {
-
-  activatePage(evt);
-  window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
-});
-
-mainPin.addEventListener(`keydown`, activatePage);
-
+mainPin.addEventListener(`click`, activatePage);
 publishButton.addEventListener(`click`, checkForm);
 
 
