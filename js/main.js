@@ -27,16 +27,27 @@ const removeExistedAdvCard = function () {
   if (existedCard) {
     existedCard.remove();
   }
-  if(window.activePinElement) {
+  if (window.activePinElement) {
     window.activePinElement.classList.remove(`map__pin--active`);
   }
 };
 
-const addEscHolder = function(element) {
+let bodyKeydownEscHolder = function (evt) {
+  if (evt.code === window.utilityData.EVENT_CODE.KEYBOARD_ESCAPE) {
+    removeExistedAdvCard();
+    document.body.removeEventListener(`keydown`, bodyKeydownEscHolder);
+  }
+};
+
+let elemCrossClickHolder = function (evt) {
+  evt.target.parentNode.remove();
+  document.body.removeEventListener(`keydown`, bodyKeydownEscHolder);
+};
+
+const addEscHolder = function (element) {
   return function () {
-    element.addEventListener(`click` , function (evt) {
-      evt.target.parentNode.remove();
-    });
+    element.addEventListener(`click`, elemCrossClickHolder);
+    document.body.addEventListener(`keydown`, bodyKeydownEscHolder);
   };
 };
 
@@ -50,7 +61,6 @@ const successHandler = function (advertisementArray) {
 // ↑↑↑ should move to load.js ↑↑↑
 // ↑↑
 // ↑
-
 
 
 // ↓
@@ -77,7 +87,6 @@ housingTypeField.addEventListener(`change`, function () {
 // ↑
 
 
-
 // ↓
 // ↓↓
 // ↓↓↓ should move to map.js ↓↓↓
@@ -101,7 +110,6 @@ const renderPins = function (pinsArray) {
 // ↑↑↑ should move to map.js ↑↑↑
 // ↑↑
 // ↑
-
 
 
 // ↓
@@ -217,9 +225,6 @@ const refreshPinActiveListener = function () {
 
 
         if (evt.target.childNodes.length) {
-          console.log(`Look:`);
-          console.log(evt.target);
-          console.log(`Here ↑`);
           window.activePinElement = evt.target;
           window.activePinElement.classList.add(`map__pin--active`);
           let targetElemTitle = evt.target.childNodes[0].alt;
@@ -241,9 +246,6 @@ const refreshPinActiveListener = function () {
           // (i) [x] is ↓
           // document.querySelector(`article.map__card`).querySelector(`button.popup__close`)
         } else {
-          console.log(`Look:`);
-          console.log(evt.target.parentNode);
-          console.log(`Here ↑`);
           window.activePinElement = evt.target.parentNode;
           window.activePinElement.classList.add(`map__pin--active`);
           let targetElemTitle = evt.target.alt;
@@ -271,7 +273,7 @@ const refreshPinActiveListener = function () {
     pin.addEventListener(`click`, activatedPinHolder);
     // pin.addEventListener(`keydown`, activatedPinHolder);
 
-  };
+  }
 };
 // ↑↑↑
 // ↑↑
