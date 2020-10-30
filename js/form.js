@@ -27,35 +27,28 @@
       }, 3500);
     },
 
-    // checkValidity: function (priceArea, roomsArea, guestsArea) {
-    //   if (priceArea.value < window.utilityData.MIN_PRICE_AVAILABLE || priceArea.value > window.utilityData.MAX_PRICE_AVAILABLE) {
-    //     window.utilityForm.setBorderErrorStyle(priceArea);
-    //     priceArea.setCustomValidity(`  Пожалуйста, укажите сумму от 1000 до миллиона =^_^=  `);
-    //   } else {
-    //     priceArea.setCustomValidity(``);
-    //   }
-    //   if (roomsArea.value !== guestsArea.value) {
-    //     window.utilityForm.setBorderErrorStyle(roomsArea);
-    //     window.utilityForm.setBorderErrorStyle(guestsArea);
-    //     roomsArea.setCustomValidity(`  Количество комнат и количество мест должны совпадать =^_^=  `);
-    //   } else {
-    //     roomsArea.setCustomValidity(``);
-    //   }
-    // },
-    checkValidity: function (priceArea, roomsArea, guestsArea) {
-      if (priceArea.value < window.utilityData.MIN_PRICE_AVAILABLE || priceArea.value > window.utilityData.MAX_PRICE_AVAILABLE) {
-        window.utilityForm.setBorderErrorStyle(priceArea);
-        priceArea.setCustomValidity(`  Пожалуйста, укажите сумму от 1000 до миллиона =^_^=  `);
+    checkValidity: function (price, rooms, guests, houseType, timeIn, timeOut, avatar, housePhoto) {
+
+      let minPrice = window.utilityData.MIN_PRICE[houseType.value];
+      let maxPrice = window.utilityData.MAX_PRICE_AVAILABLE;
+
+      if (price.value < minPrice || price.value > maxPrice) {
+        window.utilityForm.setBorderErrorStyle(price);
+        price.setCustomValidity(`  Пожалуйста, укажите сумму от ${minPrice} до ${maxPrice} для этого типа жилья =^_^=  `);
       } else {
-        priceArea.setCustomValidity(``);
-      }
-      if (roomsArea.value !== guestsArea.value) {
-        window.utilityForm.setBorderErrorStyle(roomsArea);
-        window.utilityForm.setBorderErrorStyle(guestsArea);
-        roomsArea.setCustomValidity(`  Количество комнат и количество мест должны совпадать =^_^=  `);
+        price.setCustomValidity(``);
+      };
+
+      if (rooms.value !== guests.value) {
+        window.utilityForm.setBorderErrorStyle(rooms);
+        window.utilityForm.setBorderErrorStyle(guests);
+        rooms.setCustomValidity(`  Количество комнат и количество мест должны совпадать =^_^=  `);
       } else {
-        roomsArea.setCustomValidity(``);
-      }
+        rooms.setCustomValidity(``);
+      };
+
+
+
     },
 
   };

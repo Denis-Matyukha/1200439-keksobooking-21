@@ -3,7 +3,7 @@
 
 const mapBlock = document.querySelector(`.map`);
 const mainPin = document.querySelector(`.map__pin--main`);
-const mainFormElement = document.querySelector(`.ad-form`);
+const mainFormElement = document.querySelector(`form.ad-form`);
 const formInputs = mainFormElement.querySelectorAll(`fieldset`);
 const mapFilterForm = document.querySelector(`.map__filters`);
 const mapFilters = mapFilterForm.querySelectorAll(`select`);
@@ -14,7 +14,13 @@ const roomsQuantity = mainFormElement.querySelector(`#room_number`);
 const priceElem = mainFormElement.querySelector(`#price`);
 const guestsQuantity = mainFormElement.querySelector(`#capacity`);
 
-const housingType = mainFormElement.querySelector(`#housing-type`);
+const housingType = mainFormElement.querySelector(`#type`);
+
+const timeIn = mainFormElement.querySelector(`#timein`);
+const timeOut = mainFormElement.querySelector(`#timeout`);
+
+const avatarInput = mainFormElement.querySelector(`#avatar`);
+const appartmentPhoto = mainFormElement.querySelector(`#images`);
 // ↑↑↑ module4-task2 ↑↑↑
 
 const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
@@ -27,7 +33,16 @@ const filterHousingType = mapFilterForm.querySelector(`#housing-type`);
 let activateFlag = false;
 
 const checkForm = function () {
-  window.utilityForm.checkValidity(priceElem, roomsQuantity, guestsQuantity);
+  window.utilityForm.checkValidity(
+    priceElem,
+    roomsQuantity,
+    guestsQuantity,
+    housingType,
+    timeIn,
+    timeOut,
+    avatarInput,
+    appartmentPhoto
+  );
 };
 
 const removeExistedAdvCard = function () {
@@ -157,3 +172,18 @@ window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BO
 
 mainPin.addEventListener(`click`, activatePage);
 publishButton.addEventListener(`click`, checkForm);
+
+
+
+const onChangeTypeHolder = function (evt) {
+  priceElem.placeholder = window.utilityData.MIN_PRICE[evt.target.value];
+};
+const conformityTimeHolder = function (evt) {
+  let time = evt.target.value;
+  timeIn.value = time;
+  timeOut.value = time;
+};
+
+housingType.addEventListener(`change`, onChangeTypeHolder);
+timeIn.addEventListener(`change`, conformityTimeHolder);
+timeOut.addEventListener(`change`, conformityTimeHolder);

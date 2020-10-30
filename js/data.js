@@ -20,7 +20,14 @@
     ADV_PIN_WIDTH: 50,
     ADV_PIN_HEIGHT: 70,
     MAX_PRICE_AVAILABLE: 1000000,
-    MIN_PRICE_AVAILABLE: 1000,
+    // MIN_PRICE_AVAILABLE: 0,
+    MIN_PRICE: {
+      any: 0,
+      palace: 10000,
+      flat: 1000,
+      house: 5000,
+      bungalow: 0,
+    },
     PIN_BOTTOM_HEIGHT: 22,
     RENDERING_PINS_QUANTITY: 5,
     EVENT_CODE: {
