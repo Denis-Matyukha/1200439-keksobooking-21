@@ -43,6 +43,15 @@ const checkForm = function () {
     avatarInput,
     appartmentPhoto
   );
+
+  // ↓
+  // ↓↓
+  // ↓↓↓
+  // might be refactored to window.utilityForm.checkValidity()
+  onChangeRoomsHolder();
+  // ↑↑↑
+  // ↑↑
+  // ↑
 };
 
 const removeExistedAdvCard = function () {
@@ -165,14 +174,6 @@ const refreshPinsCardsListener = function () {
   }
 };
 
-window.utilityForm.toggleDisableAttr(mapFilters);
-window.utilityForm.toggleDisableAttr(formInputs);
-
-window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
-
-mainPin.addEventListener(`click`, activatePage);
-publishButton.addEventListener(`click`, checkForm);
-
 
 //
 // ↓
@@ -200,23 +201,6 @@ const onChangeRoomsHolder = function () {
     element.removeAttribute(`disabled`);
   });
 
-  // guestsQuantity.setCustomValidity(``);
-
-  // подправить поведение для rooms value 100 и guests capacity 0 так как 0 != 100
-
-  // 1 room <-> 1 guest
-
-  //  2 rooms <-> 2 guests ; 1 guest
-
-  //  3 rooms <-> 3 guests ; 2 guests ; 1 guest
-
-  //  100 rooms <-> 0 guests ;
-
-  // if ( roomsQuantity.value !== guestsQuantity.value) {
-  //   window.utilityForm.setBorderErrorStyle(guestsQuantity);
-  //   guestsQuantity.setCustomValidity(` Укажите другое доступное количетво гостей для ${roomsQuantity.value} комнат`);
-  // }
-
   let validedGuestsQuantity;
 
   if (roomsQuantity.value === `1`) {
@@ -243,7 +227,7 @@ const onChangeRoomsHolder = function () {
 
   } else if (roomsQuantity.value === `100`) {
 
-    validedGuestsQuantity = [`100`];
+    validedGuestsQuantity = [`0`];
 
     guestsOptions.forEach(function (element) {
       element.setAttribute(`disabled`, `disabled`);
@@ -252,27 +236,12 @@ const onChangeRoomsHolder = function () {
 
   }
 
-  // if ( roomsQuantity.value !== guestsQuantity.value) {
-  //   window.utilityForm.setBorderErrorStyle(guestsQuantity);
-  //   guestsQuantity.setCustomValidity(` Укажите другое доступное количетво гостей для ${roomsQuantity.value} комнат`);
-  // }
-  // console.log(`roomsQuantity.value -> ${roomsQuantity.value}`);
-  // console.log(`guestsQuantity.value -> ${guestsQuantity.value}`);
-  // console.log(`validedGuestsQuantity -> ${validedGuestsQuantity}`);
-  // console.log(`contain guestsQuantity in validArray? -> ${validedGuestsQuantity.indexOf(guestsQuantity.value)}`);
-
   if (validedGuestsQuantity.indexOf(guestsQuantity.value) !== -1) {
     guestsQuantity.setCustomValidity(``);
   } else {
     window.utilityForm.setBorderErrorStyle(guestsQuantity);
     guestsQuantity.setCustomValidity(` Укажите другое доступное количетво гостей для ${roomsQuantity.value} комнат`);
   }
-
-  // if (validedGuestsQuantity.indexOf(guestsQuantity.value)) {
-    // console.log(`guestsQuantity.value = ${guestsQuantity.value} и его тип ${typeof guestsQuantity.value} содержится ли в массиве ${validedGuestsQuantity} тип которого ${typeof validedGuestsQuantity[0]} -> ` + validedGuestsQuantity.indexOf(roomsQuantity.value));
-  // } else {
-    // console.log(`guestsQuantity.value = ${guestsQuantity.value} и его тип ${typeof guestsQuantity.value} содержится ли в массиве ${validedGuestsQuantity} тип которого ${typeof validedGuestsQuantity[0]} -> ` + validedGuestsQuantity.indexOf(roomsQuantity.value));
-  // }
 
 };
 // move to form js module and make test (end)
@@ -281,6 +250,13 @@ const onChangeRoomsHolder = function () {
 // ↑
 //
 
+window.utilityForm.toggleDisableAttr(mapFilters);
+window.utilityForm.toggleDisableAttr(formInputs);
+
+window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
+
+mainPin.addEventListener(`click`, activatePage);
+publishButton.addEventListener(`click`, checkForm);
 
 // housingType.addEventListener(`change`, onChangeTypeHolder);
 housingType.addEventListener(`change`, window.utilityForm.onChangeTypeHolder);
@@ -294,3 +270,4 @@ roomsQuantity.addEventListener(`change`, onChangeRoomsHolder);
 guestsQuantity.addEventListener(`change`, onChangeRoomsHolder);
 
 
+// сделать валидацию полей input type file
