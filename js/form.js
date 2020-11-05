@@ -39,16 +39,18 @@
         price.setCustomValidity(``);
       };
 
-      if (rooms.value !== guests.value) {
-        window.utilityForm.setBorderErrorStyle(rooms);
-        window.utilityForm.setBorderErrorStyle(guests);
-        rooms.setCustomValidity(`  Количество комнат и количество мест должны совпадать =^_^=  `);
-      } else {
-        rooms.setCustomValidity(``);
-      };
+      // if (rooms.value !== guests.value) {
+      //   window.utilityForm.setBorderErrorStyle(rooms);
+      //   window.utilityForm.setBorderErrorStyle(guests);
+      //   rooms.setCustomValidity(`  Количество комнат и количество мест должны совпадать =^_^=  `);
+      // } else {
+      //   rooms.setCustomValidity(``);
+      // };
 
+    },
 
-
+    onChangeTypeHolder: function (evt) {
+      priceElem.placeholder = window.utilityData.MIN_PRICE[evt.target.value];
     },
 
   };

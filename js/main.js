@@ -174,16 +174,123 @@ mainPin.addEventListener(`click`, activatePage);
 publishButton.addEventListener(`click`, checkForm);
 
 
+//
+// ↓
+// ↓↓↓
+// ↓↓↓↓↓
+// move to form js module and make test (start)
 
-const onChangeTypeHolder = function (evt) {
-  priceElem.placeholder = window.utilityData.MIN_PRICE[evt.target.value];
-};
+// const onChangeTypeHolder = function (evt) {
+//   priceElem.placeholder = window.utilityData.MIN_PRICE[evt.target.value];
+// };
+
+
 const conformityTimeHolder = function (evt) {
   let time = evt.target.value;
   timeIn.value = time;
   timeOut.value = time;
 };
 
-housingType.addEventListener(`change`, onChangeTypeHolder);
+
+const onChangeRoomsHolder = function () {
+
+  let guestsOptions = guestsQuantity.querySelectorAll(`option`);
+
+  guestsOptions.forEach(function (element) {
+    element.removeAttribute(`disabled`);
+  });
+
+  // guestsQuantity.setCustomValidity(``);
+
+  // подправить поведение для rooms value 100 и guests capacity 0 так как 0 != 100
+
+  // 1 room <-> 1 guest
+
+  //  2 rooms <-> 2 guests ; 1 guest
+
+  //  3 rooms <-> 3 guests ; 2 guests ; 1 guest
+
+  //  100 rooms <-> 0 guests ;
+
+  // if ( roomsQuantity.value !== guestsQuantity.value) {
+  //   window.utilityForm.setBorderErrorStyle(guestsQuantity);
+  //   guestsQuantity.setCustomValidity(` Укажите другое доступное количетво гостей для ${roomsQuantity.value} комнат`);
+  // }
+
+  let validedGuestsQuantity;
+
+  if (roomsQuantity.value === `1`) {
+
+    validedGuestsQuantity = [`1`];
+
+    guestsOptions.forEach(function (element) {
+      element.setAttribute(`disabled`, `disabled`);
+    });
+    guestsOptions[2].removeAttribute(`disabled`);
+
+  } else if (roomsQuantity.value === `2`) {
+
+    validedGuestsQuantity = [`1`, `2`];
+
+    guestsOptions[0].setAttribute(`disabled`, `disabled`);
+    guestsOptions[3].setAttribute(`disabled`, `disabled`);
+
+  } else if (roomsQuantity.value === `3`) {
+
+    validedGuestsQuantity = [`1`, `2`, `3`];
+
+    guestsOptions[3].setAttribute(`disabled`, `disabled`);
+
+  } else if (roomsQuantity.value === `100`) {
+
+    validedGuestsQuantity = [`100`];
+
+    guestsOptions.forEach(function (element) {
+      element.setAttribute(`disabled`, `disabled`);
+    });
+    guestsOptions[3].removeAttribute(`disabled`);
+
+  }
+
+  // if ( roomsQuantity.value !== guestsQuantity.value) {
+  //   window.utilityForm.setBorderErrorStyle(guestsQuantity);
+  //   guestsQuantity.setCustomValidity(` Укажите другое доступное количетво гостей для ${roomsQuantity.value} комнат`);
+  // }
+  // console.log(`roomsQuantity.value -> ${roomsQuantity.value}`);
+  // console.log(`guestsQuantity.value -> ${guestsQuantity.value}`);
+  // console.log(`validedGuestsQuantity -> ${validedGuestsQuantity}`);
+  // console.log(`contain guestsQuantity in validArray? -> ${validedGuestsQuantity.indexOf(guestsQuantity.value)}`);
+
+  if (validedGuestsQuantity.indexOf(guestsQuantity.value) !== -1) {
+    guestsQuantity.setCustomValidity(``);
+  } else {
+    window.utilityForm.setBorderErrorStyle(guestsQuantity);
+    guestsQuantity.setCustomValidity(` Укажите другое доступное количетво гостей для ${roomsQuantity.value} комнат`);
+  }
+
+  // if (validedGuestsQuantity.indexOf(guestsQuantity.value)) {
+    // console.log(`guestsQuantity.value = ${guestsQuantity.value} и его тип ${typeof guestsQuantity.value} содержится ли в массиве ${validedGuestsQuantity} тип которого ${typeof validedGuestsQuantity[0]} -> ` + validedGuestsQuantity.indexOf(roomsQuantity.value));
+  // } else {
+    // console.log(`guestsQuantity.value = ${guestsQuantity.value} и его тип ${typeof guestsQuantity.value} содержится ли в массиве ${validedGuestsQuantity} тип которого ${typeof validedGuestsQuantity[0]} -> ` + validedGuestsQuantity.indexOf(roomsQuantity.value));
+  // }
+
+};
+// move to form js module and make test (end)
+// ↑↑↑↑↑
+// ↑↑↑
+// ↑
+//
+
+
+// housingType.addEventListener(`change`, onChangeTypeHolder);
+housingType.addEventListener(`change`, window.utilityForm.onChangeTypeHolder);
+
+
 timeIn.addEventListener(`change`, conformityTimeHolder);
 timeOut.addEventListener(`change`, conformityTimeHolder);
+
+
+roomsQuantity.addEventListener(`change`, onChangeRoomsHolder);
+guestsQuantity.addEventListener(`change`, onChangeRoomsHolder);
+
+
