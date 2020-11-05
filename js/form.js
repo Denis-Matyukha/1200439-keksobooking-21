@@ -1,6 +1,5 @@
 /* eslint-disable object-shorthand */
-// eslint-disable-next-line strict
-`use strict`;
+'use strict';
 
 (function () {
 
@@ -24,12 +23,12 @@
       setTimeout(function () {
         elem.style.border = ``;
         elem.style.boxShadow = ``;
-      }, 3500);
+      }, 3200);
     },
 
-    checkValidity: function (price, rooms, guests, houseType, timeIn, timeOut, avatar, housePhoto) {
+    checkHouseTypePrice: function (price, type) {
 
-      let minPrice = window.utilityData.MIN_PRICE[houseType.value];
+      let minPrice = window.utilityData.MIN_PRICE[type.value];
       let maxPrice = window.utilityData.MAX_PRICE_AVAILABLE;
 
       if (price.value < minPrice || price.value > maxPrice) {
@@ -37,20 +36,75 @@
         price.setCustomValidity(`  Пожалуйста, укажите сумму от ${minPrice} до ${maxPrice} для этого типа жилья =^_^=  `);
       } else {
         price.setCustomValidity(``);
-      };
-
-      // if (rooms.value !== guests.value) {
-      //   window.utilityForm.setBorderErrorStyle(rooms);
-      //   window.utilityForm.setBorderErrorStyle(guests);
-      //   rooms.setCustomValidity(`  Количество комнат и количество мест должны совпадать =^_^=  `);
-      // } else {
-      //   rooms.setCustomValidity(``);
-      // };
+      }
 
     },
 
-    onChangeTypeHolder: function (evt) {
-      priceElem.placeholder = window.utilityData.MIN_PRICE[evt.target.value];
+    onChangeTypeHolder: function (price) {
+
+      return function (evt) {
+        price.placeholder = window.utilityData.MIN_PRICE[evt.target.value];
+      };
+    },
+
+    conformityTimeHolder: function (timeIn, timeOut) {
+
+      return function (evt) {
+        let time = evt.target.value;
+        timeIn.value = time;
+        timeOut.value = time;
+      };
+    },
+
+    onChangeRoomsHolder: function (rooms, guests) {
+
+      return function () {
+
+        let guestsOptions = guests.querySelectorAll(`option`);
+
+        guestsOptions.forEach(function (element) {
+          element.removeAttribute(`disabled`);
+        });
+
+        let validedGuestsQuantity;
+
+        if (rooms.value === `1`) {
+
+          validedGuestsQuantity = [`1`];
+          guestsOptions.forEach(function (element) {
+            element.setAttribute(`disabled`, `disabled`);
+          });
+          guestsOptions[2].removeAttribute(`disabled`);
+
+        } else if (rooms.value === `2`) {
+
+          validedGuestsQuantity = [`1`, `2`];
+          guestsOptions[0].setAttribute(`disabled`, `disabled`);
+          guestsOptions[3].setAttribute(`disabled`, `disabled`);
+
+        } else if (rooms.value === `3`) {
+
+          validedGuestsQuantity = [`1`, `2`, `3`];
+          guestsOptions[3].setAttribute(`disabled`, `disabled`);
+
+        } else if (rooms.value === `100`) {
+
+          validedGuestsQuantity = [`0`];
+          guestsOptions.forEach(function (element) {
+            element.setAttribute(`disabled`, `disabled`);
+          });
+          guestsOptions[3].removeAttribute(`disabled`);
+        }
+
+        if (validedGuestsQuantity.indexOf(guests.value) !== -1) {
+          guests.setCustomValidity(``);
+        } else {
+          window.utilityForm.setBorderErrorStyle(guests);
+          guests.setCustomValidity(` Укажите другое доступное количетво гостей для ${rooms.value} комнат`);
+        }
+
+      };
+
     },
 
   };

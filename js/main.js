@@ -1,57 +1,34 @@
-// eslint-disable-next-line strict
-`use strict`;
+'use strict';
 
 const mapBlock = document.querySelector(`.map`);
 const mainPin = document.querySelector(`.map__pin--main`);
+
 const mainFormElement = document.querySelector(`form.ad-form`);
 const formInputs = mainFormElement.querySelectorAll(`fieldset`);
 const mapFilterForm = document.querySelector(`.map__filters`);
 const mapFilters = mapFilterForm.querySelectorAll(`select`);
 const adressArea = mainFormElement.querySelector(`#address`);
 
-// ↓↓↓ module4-task2 ↓↓↓
 const roomsQuantity = mainFormElement.querySelector(`#room_number`);
 const priceElem = mainFormElement.querySelector(`#price`);
 const guestsQuantity = mainFormElement.querySelector(`#capacity`);
-
 const housingType = mainFormElement.querySelector(`#type`);
-
 const timeIn = mainFormElement.querySelector(`#timein`);
 const timeOut = mainFormElement.querySelector(`#timeout`);
-
-const avatarInput = mainFormElement.querySelector(`#avatar`);
-const appartmentPhoto = mainFormElement.querySelector(`#images`);
-// ↑↑↑ module4-task2 ↑↑↑
+// const avatarInput = mainFormElement.querySelector(`#avatar`);
+// const appartmentPhoto = mainFormElement.querySelector(`#images`);
 
 const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
 const similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const similarListOfPins = document.querySelector(`.map__pins`);
-
 
 const filterHousingType = mapFilterForm.querySelector(`#housing-type`);
 
 let activateFlag = false;
 
 const checkForm = function () {
-  window.utilityForm.checkValidity(
-    priceElem,
-    roomsQuantity,
-    guestsQuantity,
-    housingType,
-    timeIn,
-    timeOut,
-    avatarInput,
-    appartmentPhoto
-  );
-
-  // ↓
-  // ↓↓
-  // ↓↓↓
-  // might be refactored to window.utilityForm.checkValidity()
-  onChangeRoomsHolder();
-  // ↑↑↑
-  // ↑↑
-  // ↑
+  window.utilityForm.checkHouseTypePrice(priceElem, housingType);
+  window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity)();
 };
 
 const removeExistedAdvCard = function () {
@@ -133,6 +110,8 @@ const activatePage = function () {
 
     window.utilityForm.toggleDisableAttr(mapFilters);
     window.utilityForm.toggleDisableAttr(formInputs);
+
+    window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity)();
     activateFlag = true;
   }
   mapBlock.classList.remove(`map--faded`);
@@ -155,10 +134,8 @@ const activatePinsCard = function (evt) {
     let targetElemTitle = evt.target.childNodes[0].alt;
     renderMatchedObjectCard(targetElemTitle);
   } else {
-    // different code line ↓
     window.activePinElement = evt.target.parentNode;
     window.activePinElement.classList.add(`map__pin--active`);
-    // different code line ↓
     let targetElemTitle = evt.target.alt;
     renderMatchedObjectCard(targetElemTitle);
   }
@@ -174,82 +151,6 @@ const refreshPinsCardsListener = function () {
   }
 };
 
-
-//
-// ↓
-// ↓↓↓
-// ↓↓↓↓↓
-// move to form js module and make test (start)
-
-// const onChangeTypeHolder = function (evt) {
-//   priceElem.placeholder = window.utilityData.MIN_PRICE[evt.target.value];
-// };
-
-
-const conformityTimeHolder = function (evt) {
-  let time = evt.target.value;
-  timeIn.value = time;
-  timeOut.value = time;
-};
-
-
-const onChangeRoomsHolder = function () {
-
-  let guestsOptions = guestsQuantity.querySelectorAll(`option`);
-
-  guestsOptions.forEach(function (element) {
-    element.removeAttribute(`disabled`);
-  });
-
-  let validedGuestsQuantity;
-
-  if (roomsQuantity.value === `1`) {
-
-    validedGuestsQuantity = [`1`];
-
-    guestsOptions.forEach(function (element) {
-      element.setAttribute(`disabled`, `disabled`);
-    });
-    guestsOptions[2].removeAttribute(`disabled`);
-
-  } else if (roomsQuantity.value === `2`) {
-
-    validedGuestsQuantity = [`1`, `2`];
-
-    guestsOptions[0].setAttribute(`disabled`, `disabled`);
-    guestsOptions[3].setAttribute(`disabled`, `disabled`);
-
-  } else if (roomsQuantity.value === `3`) {
-
-    validedGuestsQuantity = [`1`, `2`, `3`];
-
-    guestsOptions[3].setAttribute(`disabled`, `disabled`);
-
-  } else if (roomsQuantity.value === `100`) {
-
-    validedGuestsQuantity = [`0`];
-
-    guestsOptions.forEach(function (element) {
-      element.setAttribute(`disabled`, `disabled`);
-    });
-    guestsOptions[3].removeAttribute(`disabled`);
-
-  }
-
-  if (validedGuestsQuantity.indexOf(guestsQuantity.value) !== -1) {
-    guestsQuantity.setCustomValidity(``);
-  } else {
-    window.utilityForm.setBorderErrorStyle(guestsQuantity);
-    guestsQuantity.setCustomValidity(` Укажите другое доступное количетво гостей для ${roomsQuantity.value} комнат`);
-  }
-
-};
-// move to form js module and make test (end)
-// ↑↑↑↑↑
-// ↑↑↑
-// ↑
-//
-
 window.utilityForm.toggleDisableAttr(mapFilters);
 window.utilityForm.toggleDisableAttr(formInputs);
 
@@ -258,16 +159,10 @@ window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BO
 mainPin.addEventListener(`click`, activatePage);
 publishButton.addEventListener(`click`, checkForm);
 
-// housingType.addEventListener(`change`, onChangeTypeHolder);
-housingType.addEventListener(`change`, window.utilityForm.onChangeTypeHolder);
+housingType.addEventListener(`change`, window.utilityForm.onChangeTypeHolder(priceElem));
 
+timeIn.addEventListener(`change`, window.utilityForm.conformityTimeHolder(timeIn, timeOut));
+timeOut.addEventListener(`change`, window.utilityForm.conformityTimeHolder(timeIn, timeOut));
 
-timeIn.addEventListener(`change`, conformityTimeHolder);
-timeOut.addEventListener(`change`, conformityTimeHolder);
-
-
-roomsQuantity.addEventListener(`change`, onChangeRoomsHolder);
-guestsQuantity.addEventListener(`change`, onChangeRoomsHolder);
-
-
-// сделать валидацию полей input type file
+roomsQuantity.addEventListener(`change`, window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity));
+guestsQuantity.addEventListener(`change`, window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity));

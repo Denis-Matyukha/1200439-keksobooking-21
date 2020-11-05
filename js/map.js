@@ -1,6 +1,5 @@
 /* eslint-disable object-shorthand */
-// eslint-disable-next-line strict
-`use strict`;
+'use strict';
 
 (function () {
 
