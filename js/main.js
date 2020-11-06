@@ -156,8 +156,6 @@ window.utilityForm.toggleDisableAttr(formInputs);
 
 window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 
-// mainPin.addEventListener(`click`, activatePage);
-mainPin.addEventListener(`click`, activatePage, {once: true});
 
 publishButton.addEventListener(`click`, checkForm);
 
@@ -169,96 +167,5 @@ timeOut.addEventListener(`change`, window.utilityForm.conformityTimeHolder(timeI
 roomsQuantity.addEventListener(`change`, window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity));
 guestsQuantity.addEventListener(`change`, window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity));
 
-// ↓
-// ↓↓
-// ↓↓↓
-// module5-task2
+mainPin.addEventListener(`mousedown`, window.utilityMove.mainPinMoveHolder(mainPin, adressArea, activatePage));
 
-// mainPin.addEventListener(`mousedown`, someFunction);
-mainPin.addEventListener(`mousedown`, function(evt) {
-  evt.preventDefault();
-
-  let startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
-  };
-
-  // console.log(`startCoords  X ${startCoords.x}  Y ${startCoords.y}`);
-
-  let onMouseMove = function(moveEvt) {
-    moveEvt.preventDefault();
-
-    let shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
-    };
-
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
-
-    /*
-    Y 130 <-> 630
-    X 0 <-> 1200
-     */
-
-    // let mainPinTop = Math.floor(parseInt(mainPin.style.top, 10));
-    console.log(`^^^^^^^^^^`);
-    let pinHeightShift = mainPin.clientHeight + window.utilityData.PIN_BOTTOM_HEIGHT;
-    // console.log(`pinHeightShift -> ${pinHeightShift}`);
-    let mainPinTop = Math.floor(parseInt(mainPin.style.top, 10) + pinHeightShift);
-    // console.log(`mainPin.clientHeight -> ${mainPin.clientHeight}`);
-    // console.log(`window.utilityData.PIN_BOTTOM_HEIGHT -> ${window.utilityData.PIN_BOTTOM_HEIGHT}`);
-    // let mainPinTop = Math.floor(parseInt(mainPin.style.top, 10) + mainPin.clientHeight + window.utilityData.PIN_BOTTOM_HEIGHT);
-    let mainPinLeft = Math.floor(parseInt(mainPin.style.left, 10) + mainPin.clientWidth * 0.5);
-
-    // if ((mainPinTop >= 130 || mainPinTop <= 630) || (mainPinLeft >= 0 || mainPinLeft <= 1200)) {
-    // if (((mainPinTop >= 130) || (mainPinTop <= 630)) && ((mainPinLeft >= 0) || (mainPinLeft <= 1200))) {
-      // if(mainPinTop <= (630 - pinHeightShift) && mainPinTop >= (130 - pinHeightShift) && mainPinLeft <= 1200 && mainPinLeft >= 0) {
-
-
-        console.log(`______________`);
-        console.log(`mainPinTop(${mainPinTop}) mainPinLeft(${mainPinLeft})`);
-        console.log(mainPinTop <= 630 && mainPinTop >= 130 && mainPinLeft <= 1200 && mainPinLeft >= 0);
-        console.log(`______________`);
-        mainPin.style.top = (mainPin.offsetTop - shift.y) + `px`;
-        console.log(`mainPinTop -> ${mainPinTop}`);
-        console.log(`mainPin.style.top -> Y -> ${mainPin.style.top}`);
-        mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
-        console.log(`mainPinLeft -> ${mainPinLeft}`);
-        console.log(`mainPin.style.left -> X -> ${mainPin.style.left}`);
-
-
-      // } else if (mainPinTop > 630) {
-      //   mainPin.style.top = 630 + `px`;
-      // } else if (mainPinTop < 130) {
-      //   mainPin.style.top = 130 + `px`;
-      // };
-    // };
-
-    // console.log(`______________`);
-    // mainPin.style.top = (mainPin.offsetTop - shift.y) + `px`;
-    // console.log(`Y -> ${mainPin.style.top}`);
-    // mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
-    // console.log(`X -> ${mainPin.style.left}`);
-
-    window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
-  };
-
-  let onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-
-    window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
-    document.removeEventListener(`mousemove`, onMouseMove);
-    document.removeEventListener(`mouseup`, onMouseUp);
-  };
-
-  document.addEventListener(`mousemove`, onMouseMove);
-  document.addEventListener(`mouseup`, onMouseUp);
-
-});
-
-// ↑↑↑
-// ↑↑
-// ↑
