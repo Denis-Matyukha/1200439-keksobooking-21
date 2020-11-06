@@ -156,7 +156,9 @@ window.utilityForm.toggleDisableAttr(formInputs);
 
 window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 
-mainPin.addEventListener(`click`, activatePage);
+// mainPin.addEventListener(`click`, activatePage);
+mainPin.addEventListener(`click`, activatePage, {once: true});
+
 publishButton.addEventListener(`click`, checkForm);
 
 housingType.addEventListener(`change`, window.utilityForm.onChangeTypeHolder(priceElem));
@@ -166,3 +168,53 @@ timeOut.addEventListener(`change`, window.utilityForm.conformityTimeHolder(timeI
 
 roomsQuantity.addEventListener(`change`, window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity));
 guestsQuantity.addEventListener(`change`, window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity));
+
+// ↓
+// ↓↓
+// ↓↓↓
+// module5-task2
+
+// mainPin.addEventListener(`mousedown`, someFunction);
+mainPin.addEventListener(`mousedown`, function(evt) {
+  // evt.preventDefault();
+
+  let startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  // console.log(`startCoords  X ${startCoords.x}  Y ${startCoords.y}`);
+
+  let onMouseMove = function(moveEvt) {
+    // moveEvt.preventDefault();
+
+    let shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    mainPin.style.top = (mainPin.offsetTop - shift.y) + `px`;
+    mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
+  };
+
+  let onMouseUp = function (upEvt) {
+    // upEvt.preventDefault();
+
+    window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
+    document.removeEventListener(`mousemove`, onMouseMove);
+    document.removeEventListener(`mouseup`, onMouseUp);
+  };
+
+  document.addEventListener(`mousemove`, onMouseMove);
+  document.addEventListener(`mouseup`, onMouseUp);
+
+});
+
+// ↑↑↑
+// ↑↑
+// ↑
