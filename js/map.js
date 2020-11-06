@@ -1,5 +1,5 @@
 /* eslint-disable object-shorthand */
-"use strict";
+'use strict';
 
 (function () {
 

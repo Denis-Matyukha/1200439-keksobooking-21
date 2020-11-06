@@ -1,40 +1,73 @@
-"use strict";
+'use strict';
 
 const mapBlock = document.querySelector(`.map`);
 const mainPin = document.querySelector(`.map__pin--main`);
-const mainFormElement = document.querySelector(`.ad-form`);
+
+const mainFormElement = document.querySelector(`form.ad-form`);
 const formInputs = mainFormElement.querySelectorAll(`fieldset`);
 const mapFilterForm = document.querySelector(`.map__filters`);
-const mapSelects = mapFilterForm.querySelectorAll(`select`);
-const adressInput = mainFormElement.querySelector(`#address`);
+const mapFilters = mapFilterForm.querySelectorAll(`select`);
+const adressArea = mainFormElement.querySelector(`#address`);
+
 const roomsQuantity = mainFormElement.querySelector(`#room_number`);
 const priceElem = mainFormElement.querySelector(`#price`);
 const guestsQuantity = mainFormElement.querySelector(`#capacity`);
+const housingType = mainFormElement.querySelector(`#type`);
+const timeIn = mainFormElement.querySelector(`#timein`);
+const timeOut = mainFormElement.querySelector(`#timeout`);
+// const avatarInput = mainFormElement.querySelector(`#avatar`);
+// const appartmentPhoto = mainFormElement.querySelector(`#images`);
+
 const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
 const similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const similarListOfPins = document.querySelector(`.map__pins`);
-const housingTypeField = mapFilterForm.querySelector(`#housing-type`);
+
+const filterHousingType = mapFilterForm.querySelector(`#housing-type`);
 
 let activateFlag = false;
 
 const checkForm = function () {
-  window.utilityForm.checkValidity(priceElem, roomsQuantity, guestsQuantity);
+  window.utilityForm.checkHouseTypePrice(priceElem, housingType);
+  window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity)();
+};
+
+const removeExistedAdvCard = function () {
+  let existedCard = mapBlock.querySelector(`article.map__card`);
+  if (existedCard) {
+    existedCard.remove();
+  }
+  if (window.activePinElement) {
+    window.activePinElement.classList.remove(`map__pin--active`);
+  }
+};
+
+let bodyKeydownEscHolder = function (evt) {
+  if (evt.code === window.utilityData.EVENT_CODE.KEYBOARD_ESCAPE) {
+    removeExistedAdvCard();
+    document.body.removeEventListener(`keydown`, bodyKeydownEscHolder);
+  }
+};
+
+let elemCrossClickHolder = function (evt) {
+  evt.target.parentNode.remove();
+  document.body.removeEventListener(`keydown`, bodyKeydownEscHolder);
+};
+
+const addEscHolder = function (element) {
+  return function () {
+    element.addEventListener(`click`, elemCrossClickHolder);
+    document.body.addEventListener(`keydown`, bodyKeydownEscHolder);
+  };
 };
 
 const successHandler = function (advertisementArray) {
   window.fullAdvertisementArray = advertisementArray;
   renderPins(advertisementArray);
-
-  // ! ! !
-  // this line should exist only while module3-task1 is under checking
-  mapBlock.insertAdjacentElement(`beforeend`,window.utilityGenerateMockup.createCard(window.fullAdvertisementArray[0], document.querySelector(`#card`)));
-  //  delete this line after checking
-
 };
 
-housingTypeField.addEventListener(`change`, function () {
+filterHousingType.addEventListener(`change`, function () {
 
-  let hosingType = housingTypeField.value;
+  let hosingType = filterHousingType.value;
   let arrayForRender = (window.fullAdvertisementArray).filter(function (advertisement) {
     return advertisement.offer.type === hosingType;
   });
@@ -45,6 +78,7 @@ housingTypeField.addEventListener(`change`, function () {
   });
 
   renderPins(arrayForRender);
+  removeExistedAdvCard();
 });
 
 const renderPins = function (pinsArray) {
@@ -54,8 +88,11 @@ const renderPins = function (pinsArray) {
   oldPinsExceptMain.forEach(function (elem) {
     elem.remove();
   });
+
   let pinsFragment = window.utilityGenerateMockup.getReceivedAdvsInFragment(pinsArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
   window.utilityMap.renderFragment(similarListOfPins, pinsFragment);
+
+  refreshPinsCardsListener();
 };
 
 const errorHandler = function (errorMessage) {
@@ -66,42 +103,66 @@ const errorHandler = function (errorMessage) {
   document.body.insertAdjacentElement(`afterbegin`, node);
 };
 
-const activatePage = function (evt) {
+const activatePage = function () {
+  if (!activateFlag) {
 
-  if (evt.button === window.utilityData.EVENT_CODE.MOUSE_LEFT_BTN ||
-      evt.code === window.utilityData.EVENT_CODE.KEYBOARD_ENTER ||
-      evt.code === window.utilityData.EVENT_CODE.KEYBOARD_NUMPAD_ENTER) {
+    window.utilityLoad.getXHRequest(successHandler, errorHandler);
 
-    if (!activateFlag) {
+    window.utilityForm.toggleDisableAttr(mapFilters);
+    window.utilityForm.toggleDisableAttr(formInputs);
 
-      window.utilityLoad.getXHRequest(successHandler, errorHandler);
+    window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity)();
+    activateFlag = true;
+  }
+  mapBlock.classList.remove(`map--faded`);
+  mainFormElement.classList.remove(`ad-form--disabled`);
+  window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
+};
 
-      window.utilityForm.toggleDisableAttr(mapSelects);
-      window.utilityForm.toggleDisableAttr(formInputs);
+const renderMatchedObjectCard = function (pinTitle) {
+  let matchedObj = window.utilityGenerateMockup.getMatchedObjectByTitle(window.fullAdvertisementArray, pinTitle);
+  mapBlock.insertAdjacentElement(`afterbegin`, window.utilityGenerateMockup.createCard(matchedObj, document.querySelector(`#card`)));
+  let existedCard = mapBlock.querySelector(`article.map__card`);
+  addEscHolder(existedCard.querySelector(`button.popup__close`))();
+};
 
-      activateFlag = true;
-    }
-
-
-
-    mapBlock.classList.remove(`map--faded`);
-    mainFormElement.classList.remove(`ad-form--disabled`);
-    window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
+const activatePinsCard = function (evt) {
+  removeExistedAdvCard();
+  if (evt.target.childNodes.length) {
+    window.activePinElement = evt.target;
+    window.activePinElement.classList.add(`map__pin--active`);
+    let targetElemTitle = evt.target.childNodes[0].alt;
+    renderMatchedObjectCard(targetElemTitle);
+  } else {
+    window.activePinElement = evt.target.parentNode;
+    window.activePinElement.classList.add(`map__pin--active`);
+    let targetElemTitle = evt.target.alt;
+    renderMatchedObjectCard(targetElemTitle);
   }
 };
 
-// initializing primary disabled condition
-window.utilityForm.toggleDisableAttr(mapSelects);
+const refreshPinsCardsListener = function () {
+
+  let currentPins = document.querySelectorAll(`.map__pin`);
+  let currentPinsExceptMain = (Array.from(currentPins)).slice(1);
+
+  for (let currentPin of currentPinsExceptMain) {
+    currentPin.addEventListener(`click`, activatePinsCard);
+  }
+};
+
+window.utilityForm.toggleDisableAttr(mapFilters);
 window.utilityForm.toggleDisableAttr(formInputs);
 
-window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
+window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 
-mainPin.addEventListener(`mousedown`, function (evt) {
-
-  activatePage(evt);
-  window.utilityForm.setTargetCords(adressInput, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
-});
-
-mainPin.addEventListener(`keydown`, activatePage);
-
+mainPin.addEventListener(`click`, activatePage);
 publishButton.addEventListener(`click`, checkForm);
+
+housingType.addEventListener(`change`, window.utilityForm.onChangeTypeHolder(priceElem));
+
+timeIn.addEventListener(`change`, window.utilityForm.conformityTimeHolder(timeIn, timeOut));
+timeOut.addEventListener(`change`, window.utilityForm.conformityTimeHolder(timeIn, timeOut));
+
+roomsQuantity.addEventListener(`change`, window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity));
+guestsQuantity.addEventListener(`change`, window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity));

@@ -1,5 +1,5 @@
 /* eslint-disable object-shorthand */
-"use strict";
+'use strict';
 
 (function () {
 
@@ -84,12 +84,12 @@
           break;
         default:
           newCard.querySelector(`.popup__type`).innerText = `${advertisement.offer.type}`;
-      };
+      }
 
       newCard.querySelector(`.popup__text--capacity`).innerText = `${advertisement.offer.rooms} комнаты для ${advertisement.offer.guests} гостей.`;
       newCard.querySelector(`.popup__text--time`).innerText = `Заезд после ${advertisement.offer.checkin}, выезд до ${advertisement.offer.checkout}.`;
 
-      if(Array.isArray(advertisement.offer.features) && advertisement.offer.features.length) {
+      if (Array.isArray(advertisement.offer.features) && advertisement.offer.features.length) {
         let featuresArray = advertisement.offer.features;
         let featuresFragment = document.createDocumentFragment();
         featuresArray.forEach(function (element) {
@@ -102,11 +102,11 @@
         newCard.querySelector(`.popup__features`).appendChild(featuresFragment);
       } else {
         newCard.querySelector(`.popup__features`).innerHTML = ``;
-      };
+      }
 
       newCard.querySelector(`.popup__description`).innerText = `${advertisement.offer.description}`;
 
-      if(Array.isArray(advertisement.offer.photos) && advertisement.offer.photos.length) {
+      if (Array.isArray(advertisement.offer.photos) && advertisement.offer.photos.length) {
         let photosArray = advertisement.offer.photos;
         let photosFragment = document.createDocumentFragment();
         photosArray.forEach(function (element) {
@@ -118,7 +118,7 @@
         newCard.querySelector(`.popup__photos`).appendChild(photosFragment);
       } else {
         newCard.querySelector(`.popup__photos`).innerHTML = ``;
-      };
+      }
 
       newCard.querySelector(`.popup__avatar`).src = `${advertisement.author.avatar}`;
 
@@ -140,6 +140,13 @@
         targetTemplate.appendChild(window.utilityGenerateMockup.createPin(advsElement, contentElem));
       });
       return targetTemplate;
+    },
+
+    getMatchedObjectByTitle: function (arrOfObjects, title) {
+      let matchedObj = arrOfObjects.filter(function (elem) {
+        return elem.offer.title === title;
+      });
+      return matchedObj[0];
     },
 
   };
