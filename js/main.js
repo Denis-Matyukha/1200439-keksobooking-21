@@ -27,6 +27,61 @@ const checkForm = function () {
   window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity)();
 };
 
+
+//
+//
+const sendForm = function () {
+  // let URL = `https://21.javascript.pages.academy/keksobooking`;
+
+
+};
+
+
+// 'use strict';
+
+// (function () {
+  let URL = `https://21.javascript.pages.academy/keksobooking`;
+
+  window.utilityUpload = function (data, onSuccess) {
+
+    console.log(`вот сейчас сработала функция window.utilityUpload(data, onSuccess)`);
+    console.log(`в которой data это ↓ `);
+    console.log(data);
+
+    let xhr = new XMLHttpRequest();
+
+    console.log(`вот сформировался не такой уж и пустой XMLHttpRequest - xhr ↓`);
+    console.log(xhr);
+
+    xhr.responseType = `json`;
+
+    console.log(`после команды xhr.responseType = json; объект примет видxhr ↓`);
+    console.log(xhr);
+
+    xhr.addEventListener(`load`, function (){
+      console.log(`а сейчас сработало событие xhr load и отрабтает функция onSuccess задействовав xhr.response`);
+      console.log(`xhr.statusText -> ${xhr.statusText}`);
+      console.log(`xhr.status -> ${xhr.status}`);
+      onSuccess(xhr.response);
+    });
+
+    xhr.open(`POST`, URL);
+    xhr.send(data);
+    console.log(`в этот момент произошла отправка data через xhr по адресу URL ↓`);
+    console.log(URL);
+
+  };
+// })();
+
+
+//
+//
+
+const checkAndSendForm = function () {
+  checkForm();
+  sendForm();
+};
+
 const successHandler = function (advertisementArray) {
   window.fullAdvertisementArray = advertisementArray;
   window.utilityCard.renderPins(advertisementArray);
@@ -62,7 +117,29 @@ window.utilityForm.toggleDisableAttr(formInputs);
 
 window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 
-publishButton.addEventListener(`click`, checkForm);
+// publishButton.addEventListener(`click`, checkForm);
+// publishButton.addEventListener(`click`, checkAndSendForm);
+// mainFormElement.addEventListener(`submit`, checkAndSendForm);
+mainFormElement.addEventListener(`submit`, function (evt) {
+  window.utilityUpload(new FormData(mainFormElement), function (response) {
+
+    console.log(response);
+    console.log(document.querySelector(`#success`).content);
+    // сбросить форму
+    // перевести страницу в неактивное состояние
+    // вывести сообщение success
+    // document.body.insertAdjacentHTML(`afterbegin`, document.querySelector(`#success`).content);
+    let messageElement = document.querySelector(`#success`).content.querySelector(`.success`);
+
+    document.body.insertAdjacentElement(`afterbegin`, messageElement);
+
+    // setTimeout(function(){
+    //   messageElement.remove();
+    // },1500);
+
+  });
+  evt.preventDefault();
+});
 
 housingType.addEventListener(`change`, window.utilityForm.onChangeTypeHolder(priceElem));
 
