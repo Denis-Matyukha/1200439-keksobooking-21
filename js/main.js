@@ -42,40 +42,40 @@ const checkForm = function () {
 // (function () {
 
 // let URL = `https://21.javascript.pages.academy/keksobooking`;
-let URL = `https://21.javascript.pages.academy/keksobookingXXX`;
+// let URL = `https://21.javascript.pages.academy/keksobookingXXX`;
 
-window.utilityUpload = function (data, onSuccess) {
+// window.utilityUpload = function (data, onSuccess) {
 
-  console.log(`вот сейчас сработала функция window.utilityUpload(data, onSuccess)`);
-  console.log(`в которой data это ↓ `);
-  console.log(data);
+//   console.log(`вот сейчас сработала функция window.utilityUpload(data, onSuccess)`);
+//   console.log(`в которой data это ↓ `);
+//   console.log(data);
 
-  let xhr = new XMLHttpRequest();
+//   let xhr = new XMLHttpRequest();
 
-  console.log(`вот сформировался не такой уж и пустой XMLHttpRequest - xhr ↓`);
-  console.log(xhr);
+//   console.log(`вот сформировался не такой уж и пустой XMLHttpRequest - xhr ↓`);
+//   console.log(xhr);
 
-  xhr.responseType = `json`;
+//   xhr.responseType = `json`;
 
-  console.log(`после команды xhr.responseType = json; объект примет видxhr ↓`);
-  console.log(xhr);
+//   console.log(`после команды xhr.responseType = json; объект примет видxhr ↓`);
+//   console.log(xhr);
 
-  xhr.addEventListener(`load`, function (){
-    console.log(`а сейчас сработало событие xhr load и отрабтает функция onSuccess задействовав xhr.response`);
-    console.log(`xhr.statusText -> ${xhr.statusText}`);
-    console.log(`xhr.status -> ${xhr.status}`);
-    console.log(`==================`);
-    console.log(`↓↓↓ xhr ↓↓↓`);
-    console.log(xhr);
-    onSuccess(xhr);
-  });
+//   xhr.addEventListener(`load`, function (){
+//     console.log(`а сейчас сработало событие xhr load и отрабтает функция onSuccess задействовав xhr.response`);
+//     console.log(`xhr.statusText -> ${xhr.statusText}`);
+//     console.log(`xhr.status -> ${xhr.status}`);
+//     console.log(`==================`);
+//     console.log(`↓↓↓ xhr ↓↓↓`);
+//     console.log(xhr);
+//     onSuccess(xhr);
+//   });
 
-  xhr.open(`POST`, URL);
-  xhr.send(data);
-  console.log(`в этот момент произошла отправка data через xhr по адресу URL ↓`);
-  console.log(URL);
+//   xhr.open(`POST`, URL);
+//   xhr.send(data);
+//   console.log(`в этот момент произошла отправка data через xhr по адресу URL ↓`);
+//   console.log(URL);
 
-};
+// };
 // })();
 
 // const checkAndSendForm = function () {
@@ -139,14 +139,17 @@ mainFormElement.addEventListener(`submit`, function (evt) {
       deActivatePage();
       let successMessageElement = document.querySelector(`#success`).content.querySelector(`.success`).cloneNode(true);
       document.body.insertAdjacentElement(`afterbegin`, successMessageElement);
-      document.body.addEventListener(`keydown`, function(evt) {
-        if (evt.key === window.utilityData.EVENT_CODE.KEYBOARD_ESCAPE) {
-          successMessageElement.remove();
-        }
-      }, {once: true});
-      document.body.addEventListener(`click`, function() {
-        successMessageElement.remove();
-      }, {once: true});
+
+      // document.body.addEventListener(`keydown`, function(evt) {
+      //   if (evt.key === window.utilityData.EVENT_CODE.KEYBOARD_ESCAPE) {
+      //     successMessageElement.remove();
+      //   }
+      // }, {once: true});
+      // document.body.addEventListener(`click`, function() {
+      //   successMessageElement.remove();
+      // }, {once: true});
+      window.utilityForm.addRemoveListeners(successMessageElement);
+
     } else {
       console.warn(`response.status -> ${response.status}`);
       console.warn(`response.statusText -> ${response.statusText}`);
@@ -157,14 +160,17 @@ mainFormElement.addEventListener(`submit`, function (evt) {
       errorButton.addEventListener(`click`, function() {
         errorMessageElement.remove();
       });
-      document.body.addEventListener(`keydown`, function(evt) {
-        if (evt.key === window.utilityData.EVENT_CODE.KEYBOARD_ESCAPE) {
-          errorMessageElement.remove();
-        }
-      }, {once: true});
-      document.body.addEventListener(`click`, function() {
-        errorMessageElement.remove();
-      }, {once: true});
+
+      // document.body.addEventListener(`keydown`, function(evt) {
+      //   if (evt.key === window.utilityData.EVENT_CODE.KEYBOARD_ESCAPE) {
+      //     errorMessageElement.remove();
+      //   }
+      // }, {once: true});
+      // document.body.addEventListener(`click`, function() {
+      //   errorMessageElement.remove();
+      // }, {once: true});
+      window.utilityForm.addRemoveListeners(errorMessageElement);
+
     }
 
     // mainFormElement.reset();
