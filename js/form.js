@@ -88,13 +88,13 @@
 
     },
 
-    addRemoveListeners: function(element) {
-      document.body.addEventListener(`keydown`, function(evt) {
+    addRemoveListeners: function (element) {
+      document.body.addEventListener(`keydown`, function (evt) {
         if (evt.key === window.utilityData.EVENT_CODE.KEYBOARD_ESCAPE) {
           element.remove();
         }
       }, {once: true});
-      document.body.addEventListener(`click`, function() {
+      document.body.addEventListener(`click`, function () {
         element.remove();
       }, {once: true});
     },
