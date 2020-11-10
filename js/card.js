@@ -66,14 +66,18 @@
       }
     },
 
-    renderPins: function (pinsArray) {
+    removeExistedPins: function () {
       let oldPins = document.querySelectorAll(`.map__pin`);
       let oldPinsExceptMain = (Array.from(oldPins)).slice(1);
-      let similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-      let similarListOfPins = document.querySelector(`.map__pins`);
       oldPinsExceptMain.forEach(function (elem) {
         elem.remove();
       });
+    },
+
+    renderPins: function (pinsArray) {
+      let similarPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
+      let similarListOfPins = document.querySelector(`.map__pins`);
+      window.utilityCard.removeExistedPins();
       let pinsFragment = window.utilityGenerateMockup.getReceivedAdvsInFragment(pinsArray.slice(0, window.utilityData.RENDERING_PINS_QUANTITY), similarPinTemplate);
       window.utilityMap.renderFragment(similarListOfPins, pinsFragment);
       window.utilityCard.refreshPinsCardsListener();

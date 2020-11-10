@@ -42,12 +42,9 @@ const errorHandler = function (errorMessage) {
 
 const activatePage = function () {
   if (!activateFlag) {
-
     window.utilityLoad.getXHRequest(successHandler, errorHandler);
-
     window.utilityForm.toggleDisableAttr(mapFilters);
     window.utilityForm.toggleDisableAttr(formInputs);
-
     window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity)();
     activateFlag = true;
   }
@@ -56,6 +53,15 @@ const activatePage = function () {
   window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 };
 
+const deActivatePage = function () {
+  window.utilityForm.toggleDisableAttr(mapFilters);
+  window.utilityForm.toggleDisableAttr(formInputs);
+  activateFlag = false;
+  mapBlock.classList.add(`map--faded`);
+  mainFormElement.classList.add(`ad-form--disabled`);
+  window.utilityCard.removeExistedAdvCard();
+  window.utilityCard.removeExistedPins();
+};
 
 window.utilityForm.toggleDisableAttr(mapFilters);
 window.utilityForm.toggleDisableAttr(formInputs);
@@ -63,6 +69,27 @@ window.utilityForm.toggleDisableAttr(formInputs);
 window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 
 publishButton.addEventListener(`click`, checkForm);
+
+mainFormElement.addEventListener(`submit`, function (evt) {
+  window.utilityUpload(new FormData(mainFormElement), function (response) {
+    if (response.status === window.utilityLoad.StatusCode.Ok) {
+      mainFormElement.reset();
+      deActivatePage();
+      let successMessageElement = document.querySelector(`#success`).content.querySelector(`.success`).cloneNode(true);
+      document.body.insertAdjacentElement(`afterbegin`, successMessageElement);
+      window.utilityForm.addRemoveListeners(successMessageElement);
+    } else {
+      let errorMessageElement = document.querySelector(`#error`).content.querySelector(`.error`).cloneNode(true);
+      let errorButton = errorMessageElement.querySelector(`.error__button`);
+      document.querySelector(`main`).insertAdjacentElement(`beforeend`, errorMessageElement);
+      errorButton.addEventListener(`click`, function () {
+        errorMessageElement.remove();
+      });
+      window.utilityForm.addRemoveListeners(errorMessageElement);
+    }
+  });
+  evt.preventDefault();
+});
 
 housingType.addEventListener(`change`, window.utilityForm.onChangeTypeHolder(priceElem));
 
@@ -73,4 +100,3 @@ roomsQuantity.addEventListener(`change`, window.utilityForm.onChangeRoomsHolder(
 guestsQuantity.addEventListener(`change`, window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity));
 
 mainPin.addEventListener(`mousedown`, window.utilityMove.mainPinMoveHolder(mainPin, adressArea, activatePage));
-
