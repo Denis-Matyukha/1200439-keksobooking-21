@@ -18,7 +18,11 @@ const timeOut = mainFormElement.querySelector(`#timeout`);
 
 const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
 
-const filterHousingType = mapFilterForm.querySelector(`#housing-type`);
+// ↓
+// ↓↓
+// const filterHousingType = mapFilterForm.querySelector(`#housing-type`);
+// ↑↑
+// ↑
 
 let activateFlag = false;
 
@@ -30,7 +34,8 @@ const checkForm = function () {
 const successHandler = function (advertisementArray) {
   window.fullAdvertisementArray = advertisementArray;
   window.utilityCard.renderPins(advertisementArray);
-  filterHousingType.addEventListener(`change`, window.utilityCard.renderPinsHolder(filterHousingType, window.fullAdvertisementArray));
+  // filterHousingType.addEventListener(`change`, window.utilityCard.renderPinsHolder(filterHousingType, window.fullAdvertisementArray));
+  mapFilterForm.addEventListener(`change`, window.utilityMap.renderFilteredPins(mapFilterForm, window.fullAdvertisementArray));
 };
 
 const errorHandler = function (errorMessage) {
