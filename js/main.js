@@ -18,12 +18,6 @@ const timeOut = mainFormElement.querySelector(`#timeout`);
 
 const publishButton = mainFormElement.querySelector(`.ad-form__submit`);
 
-// ↓
-// ↓↓
-// const filterHousingType = mapFilterForm.querySelector(`#housing-type`);
-// ↑↑
-// ↑
-
 let activateFlag = false;
 
 const checkForm = function () {
@@ -31,11 +25,20 @@ const checkForm = function () {
   window.utilityForm.onChangeRoomsHolder(roomsQuantity, guestsQuantity)();
 };
 
+let lastTimeout;
+
 const successHandler = function (advertisementArray) {
   window.fullAdvertisementArray = advertisementArray;
   window.utilityCard.renderPins(advertisementArray);
-  // filterHousingType.addEventListener(`change`, window.utilityCard.renderPinsHolder(filterHousingType, window.fullAdvertisementArray));
-  mapFilterForm.addEventListener(`change`, window.utilityMap.renderFilteredPins(mapFilterForm, window.fullAdvertisementArray));
+
+  mapFilterForm.addEventListener(`change`, function () {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(function () {
+      window.utilityMap.renderFilteredPins(mapFilterForm, window.fullAdvertisementArray);
+    }, window.utilityMap.DEBOUNCE_TIMEOUT);
+  });
 };
 
 const errorHandler = function (errorMessage) {

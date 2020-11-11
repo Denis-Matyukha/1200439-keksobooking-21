@@ -83,22 +83,22 @@
       window.utilityCard.refreshPinsCardsListener();
     },
 
-    renderPinsHolder: function (filterHousingType, currentArr) {
-      return function () {
-        // filtering start
-        let hosingType = filterHousingType.value;
-        let arrayForRender = currentArr.filter(function (advertisement) {
-          return advertisement.offer.type === hosingType;
-        });
-        arrayForRender = arrayForRender.concat(currentArr);
-        arrayForRender = arrayForRender.filter(function (advertisement, index) {
-          return arrayForRender.indexOf(advertisement) === index;
-        });
-        // filtering end
-        window.utilityCard.renderPins(arrayForRender);
-        window.utilityCard.removeExistedAdvCard();
-      };
-    },
+    // renderPinsHolder: function (filterHousingType, currentArr) {
+    //   return function () {
+    //     // filtering start
+    //     let hosingType = filterHousingType.value;
+    //     let arrayForRender = currentArr.filter(function (advertisement) {
+    //       return advertisement.offer.type === hosingType;
+    //     });
+    //     arrayForRender = arrayForRender.concat(currentArr);
+    //     arrayForRender = arrayForRender.filter(function (advertisement, index) {
+    //       return arrayForRender.indexOf(advertisement) === index;
+    //     });
+    //     // filtering end
+    //     window.utilityCard.renderPins(arrayForRender);
+    //     window.utilityCard.removeExistedAdvCard();
+    //   };
+    // },
 
   };
 

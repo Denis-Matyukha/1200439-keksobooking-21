@@ -5,39 +5,72 @@
 
   window.utilityMap = {
 
+    DEBOUNCE_TIMEOUT: 500,
     PRICE_FILTER: {
-      Low: 10000,
-      Hight: 50000
+      any: {
+        Min: 0,
+        Max: 10 * window.utilityData.MAX_PRICE_AVAILABLE,
+      },
+      low: {
+        Min: 0,
+        Max: 10000,
+      },
+      middle: {
+        Min: 10000,
+        Max: 50000,
+      },
+      high: {
+        Min: 50000,
+        Max: 10 * window.utilityData.MAX_PRICE_AVAILABLE,
+      }
     },
 
     renderFragment: function (listElem, fragmentElem) {
       return listElem.appendChild(fragmentElem);
     },
 
-    // getFeaturesArray: function (filterElement) {
-    //   let arrOfFilters = Array.from(filterElement.elements).slice(0,4);
-    //   let resultArr = [];
-    //   arrOfFilters.forEach(function(element){
-    //     if (element.value !== `any`) {
-    //       resultArr.push(`${element.name}=${element.value}`);
-    //     }
-    //   });
-    //   console.log(`step_1`);
-    //   console.log(resultArr);
-    //   let arrOfFeatures = Array.from(filterElement.querySelector(`.map__features`).elements);
-    //   arrOfFeatures.forEach(function(element){
-    //       if (element.checked) {
-    //           resultArr.push(element.value);
-    //       }
-    //   });
-    //   console.log(`step_2`);
-    //   console.log(resultArr);
-    //   return resultArr;
-    // },
+    getRank: function(resultObj, advertisement) {
+      let rank = 0;
+      let featuresArray = advertisement.offer.features;
+      let filtersArray = resultObj.features;
+      let resultArray = [];
+
+      featuresArray.forEach(function(feature) {
+        if (filtersArray.includes(feature)) {
+          resultArray.push(feature);
+        }
+      });
+      rank += resultArray.length;
+
+      if (advertisement.offer.type === resultObj.type) {
+        rank += 1;
+      }
+      if (resultObj.rooms !== `any` && advertisement.offer.rooms === +resultObj.rooms) {
+        rank += 1;
+      }
+      if (advertisement.offer.price >= window.utilityMap.PRICE_FILTER[resultObj.price].Min && advertisement.offer.price <= window.utilityMap.PRICE_FILTER[resultObj.price].Max) {
+        rank += 1;
+      }
+      if (resultObj.guests !== `any` && advertisement.offer.guests === +resultObj.guests) {
+        rank += 1;
+      }
+
+      return rank;
+    },
+
+    getFilteredAdvertisements: function (featuresObj, advertisementArray) {
+      let resultArray = advertisementArray.sort(function (left, right) {
+        let rankDiff = window.utilityMap.getRank(featuresObj, right) - window.utilityMap.getRank(featuresObj, left);
+        if (rankDiff === 0) {
+          rankDiff = right.offer.features.length - left.offer.features.length;
+        }
+        return rankDiff;
+      });
+      return resultArray;
+    },
 
     getFeaturesObject: function (filterElement) {
       let resultObj = {};
-      // collect features
       let arrOfFeatures = Array.from(filterElement.querySelector(`.map__features`).elements);
       let resultArr = [];
       arrOfFeatures.forEach(function (element) {
@@ -46,83 +79,21 @@
         }
       });
       resultObj.features = resultArr;
-      // collect guests
       resultObj.guests = filterElement.querySelector(`#housing-guests`).value;
-      // collect price
       resultObj.price = filterElement.querySelector(`#housing-price`).value;
-      // collect rooms
       resultObj.rooms = filterElement.querySelector(`#housing-rooms`).value;
-      // collect type
       resultObj.type = filterElement.querySelector(`#housing-type`).value;
-
       return resultObj;
     },
 
     renderFilteredPins: function (filterElement, advertisementsArray) {
-      return function () {
-
-        let featuresObj = window.utilityMap.getFeaturesObject(filterElement);
-
-        console.log(featuresObj);
-
-        // filtering start
-        // type filtering
-        let arrayForRender = advertisementsArray.filter(function (advertisement) {
-          return advertisement.offer.type === featuresObj.type;
-        });
-
-        arrayForRender = arrayForRender.concat(advertisementsArray);
-        window.utilityCard.renderPins(arrayForRender);
-        window.utilityCard.removeExistedAdvCard();
-        // let hosingType = filterHousingType.value;
-        // let arrayForRender = currentArr.filter(function (advertisement) {
-        //   return advertisement.offer.type === hosingType;
-        // });
-        // arrayForRender = arrayForRender.concat(currentArr);
-        // arrayForRender = arrayForRender.filter(function (advertisement, index) {
-        //   return arrayForRender.indexOf(advertisement) === index;
-        // });
-        // filtering end
-
-      };
+      let featuresObj = window.utilityMap.getFeaturesObject(filterElement);
+      console.log(`featuresObj`);
+      console.log(featuresObj);
+      let arrayForRender = window.utilityMap.getFilteredAdvertisements(featuresObj,advertisementsArray);
+      window.utilityCard.renderPins(arrayForRender);
+      window.utilityCard.removeExistedAdvCard();
     },
+
   };
-
 })();
-
-
-/**
- let mapFilers = document.querySelector(`.map__filters`);
-mapFilers.addEventListener(`change`, function(evt) {
-    let arrOfFilters = Array.from(mapFilers.elements).slice(0,4);
-    let resultArr = [];
-    arrOfFilters.forEach(function(element){
-        resultArr.push(element.value);
-    });
-    console.log(`step_1`);
-    console.log(resultArr);
-    let arrOfFeatures = Array.from(mapFilers.querySelector(`.map__features`).elements);
-    arrOfFeatures.forEach(function(element){
-        if (element.checked) {
-            resultArr.push(element.value);
-        }
-    });
-    console.log(`step_2`);
-    console.log(resultArr);
-});
- */
-
-/**
-  adv.offer
-
-  features: (6) ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"]
-
-  guests: 6
-
-  price: 42000
-
-  rooms: 3
-
-  type: "house"
-
-  */
