@@ -6,6 +6,10 @@
   window.utilityMap = {
 
     DEBOUNCE_TIMEOUT: 500,
+    INITIAL_CORD: {
+      X: 570,
+      Y: 375,
+    },
     PRICE_FILTER: {
       any: {
         Min: 0,
@@ -29,13 +33,18 @@
       return listElem.appendChild(fragmentElem);
     },
 
-    getRank: function(resultObj, advertisement) {
+    returnInitialLocation: function (element) {
+      element.style.left = `${window.utilityMap.INITIAL_CORD.X}px`;
+      element.style.top = `${window.utilityMap.INITIAL_CORD.Y}px`;
+    },
+
+    getRank: function (resultObj, advertisement) {
       let rank = 0;
       let featuresArray = advertisement.offer.features;
       let filtersArray = resultObj.features;
       let resultArray = [];
 
-      featuresArray.forEach(function(feature) {
+      featuresArray.forEach(function (feature) {
         if (filtersArray.includes(feature)) {
           resultArray.push(feature);
         }
@@ -88,9 +97,7 @@
 
     renderFilteredPins: function (filterElement, advertisementsArray) {
       let featuresObj = window.utilityMap.getFeaturesObject(filterElement);
-      console.log(`featuresObj`);
-      console.log(featuresObj);
-      let arrayForRender = window.utilityMap.getFilteredAdvertisements(featuresObj,advertisementsArray);
+      let arrayForRender = window.utilityMap.getFilteredAdvertisements(featuresObj, advertisementsArray);
       window.utilityCard.renderPins(arrayForRender);
       window.utilityCard.removeExistedAdvCard();
     },

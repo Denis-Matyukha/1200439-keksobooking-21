@@ -69,6 +69,8 @@ const deActivatePage = function () {
   mainFormElement.classList.add(`ad-form--disabled`);
   window.utilityCard.removeExistedAdvCard();
   window.utilityCard.removeExistedPins();
+  window.utilityMap.returnInitialLocation(mainPin);
+  window.utilityForm.setTargetCords(adressArea, mainPin, window.utilityData.PIN_BOTTOM_HEIGHT);
 };
 
 window.utilityForm.toggleDisableAttr(mapFilters);
