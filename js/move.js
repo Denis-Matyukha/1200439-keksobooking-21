@@ -31,7 +31,6 @@
               y: moveEvt.clientY
             };
 
-
             let pinHeightShift = mainPin.clientHeight + window.utilityData.PIN_BOTTOM_HEIGHT;
             let pinWidthShift = Math.floor(mainPin.clientWidth * 0.5);
 
