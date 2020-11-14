@@ -34,8 +34,8 @@
     },
 
     returnInitialLocation: function (element) {
-      element.style.left = `${window.utilityMap.INITIAL_CORD.X}px`;
-      element.style.top = `${window.utilityMap.INITIAL_CORD.Y}px`;
+      element.style.left = `${this.INITIAL_CORD.X}px`;
+      element.style.top = `${this.INITIAL_CORD.Y}px`;
     },
 
     getRank: function (resultObj, advertisement) {
@@ -96,8 +96,8 @@
     },
 
     renderFilteredPins: function (filterElement, advertisementsArray) {
-      let featuresObj = window.utilityMap.getFeaturesObject(filterElement);
-      let arrayForRender = window.utilityMap.getFilteredAdvertisements(featuresObj, advertisementsArray);
+      let featuresObj = this.getFeaturesObject(filterElement);
+      let arrayForRender = this.getFilteredAdvertisements(featuresObj, advertisementsArray);
       window.utilityCard.renderPins(arrayForRender);
       window.utilityCard.removeExistedAdvCard();
     },

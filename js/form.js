@@ -30,7 +30,7 @@
       let minPrice = window.utilityData.MIN_PRICE[type.value];
       let maxPrice = window.utilityData.MAX_PRICE_AVAILABLE;
       if (price.value < minPrice || price.value > maxPrice) {
-        window.utilityForm.setBorderErrorStyle(price);
+        this.setBorderErrorStyle(price);
         price.setCustomValidity(`  Пожалуйста, укажите сумму от ${minPrice} до ${maxPrice} для этого типа жилья =^_^=  `);
       } else {
         price.setCustomValidity(``);
